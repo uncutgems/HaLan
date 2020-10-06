@@ -1,4 +1,6 @@
+import 'package:avwidget/avwidget.dart';
 import 'package:flutter/material.dart';
+import 'package:halan/base/size.dart';
 import 'package:intl/intl.dart';
 
 import 'date_helper.dart';
@@ -92,9 +94,15 @@ class DateWidget extends StatelessWidget {
                     );
                     break;
                   case LabelType.month:
+                    String  monthText = DateFormat(monthFormat ?? defaultMonthFormat,'vi').format(date);
+                     monthText = monthText.substring(1,monthText.length);
+                     monthText = 'T'+monthText;
                     text = Text(
-                      DateFormat(monthFormat ?? defaultMonthFormat,'vi').format(date),
-                      style: monthStyle,
+                      monthText, style: date.month<DateTime.now().month||date.year<DateTime.now().year?Theme
+                        .of(context)
+                        .textTheme
+                        .bodyText2
+                        .copyWith(color: AVColor.gray100,fontSize: AppSize.getFontSize(context, 20)) :monthStyle,
                     );
                     break;
 

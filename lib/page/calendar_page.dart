@@ -49,7 +49,8 @@ class _CalendarPageState extends State<CalendarPage> {
         labelOrder: const <LabelType>[LabelType.month],
         weekDayFormat: 'EEEE',
         dateFormat: 'MM',
-        monthFormat: 'MMMM',
+        monthFormat: 'MMMM (yyyy)',
+
         dateTextStyle: Theme
             .of(context)
             .textTheme
@@ -64,7 +65,7 @@ class _CalendarPageState extends State<CalendarPage> {
             .of(context)
             .textTheme
             .bodyText2
-            .copyWith(color: AVColor.gray100,fontSize: AppSize.getFontSize(context, 20)),
+            .copyWith(color: AVColor.orange100,fontSize: AppSize.getFontSize(context, 20)),
         firstDate: DateTime.utc(2020,DateTime.september,1),
         lastDate: DateTime.now().add(const Duration(days: 365)),
       ),
