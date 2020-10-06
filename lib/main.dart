@@ -52,3 +52,4 @@ MaterialPageRoute<dynamic> routeSettings(
       );
   }
 }
+
