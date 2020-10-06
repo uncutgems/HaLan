@@ -23,14 +23,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  flutter_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.0
   shared_preferences: ^0.5.12
+  google_fonts: ^1.1.0
   json_serializable: ^3.5.0
   http: ^0.12.2
+  flutter_bloc: ^6.0.6
   avwidget:
     git: https://github.com/anvui/AVWidget.git
 
