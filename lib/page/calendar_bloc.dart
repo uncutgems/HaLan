@@ -7,12 +7,17 @@ part 'calendar_event.dart';
 part 'calendar_state.dart';
 
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState> {
-  CalendarBloc() : super(CalendarInitial());
+  CalendarBloc() : super(CalendarInitial(DateTime.now()));
 
   @override
   Stream<CalendarState> mapEventToState(
     CalendarEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if(event is CalendarEventClickMonth){
+      yield CalendarInitial(event.date);
+    }
+    else if (event is CalendarEventClickDay){
+      yield CalendarStateShowPickedDate(event.pickedDate);
+    }
   }
 }
