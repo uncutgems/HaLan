@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-class AppColor {
+class HaLanColor {
   static const Color primaryColor = Color(0xffF7941E);
   static const Color primaryLightColor = Color(0xffF9A94B);
   static const Color bannerColor = Color(0xffFDEAD2);
