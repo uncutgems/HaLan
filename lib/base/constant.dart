@@ -297,4 +297,7 @@ class Constant {
   static const String sortedTrips = 'sortedTrips';
   static const String regionIds = 'regionIds';
   static const String tripIds = 'tripIds';
+  static const String haLanCompanyId = 'TC0FR1szrRt37fiR';
+  static const String startTimeLimit = 'startTimeLimit';
+  static const String endTimeLimit = 'endTimeLimit';
 }

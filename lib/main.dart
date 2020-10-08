@@ -5,6 +5,9 @@ import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/pages/buses_list/bus_list_view.dart';
 import 'package:halan/pages/default_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+SharedPreferences prefs;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,6 +15,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  prefs = await SharedPreferences.getInstance();
 
   runApp(MyApp());
 }
@@ -49,7 +53,7 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     default:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) =>  DefaultPage(),
+        builder: (BuildContext context) => DefaultPage(),
         settings: const RouteSettings(name: RoutesName.defaultPage),
       );
   }

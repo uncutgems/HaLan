@@ -101,7 +101,7 @@ Future<AVResponse> callPOST({
     body[Constant.timeZone] = 7;
     body[Constant.platform] = 1;
     body[Constant.deviceType] = 1;
-    body[Constant.companyId] = prefs.getString(Constant.companyId);
+    body[Constant.companyId] = Constant.haLanCompanyId;
     body[Constant.fcmToken] = prefs.getString(Constant.firebaseKey);
     body[Constant.deviceId] = prefs.getString(Constant.deviceId);
   }

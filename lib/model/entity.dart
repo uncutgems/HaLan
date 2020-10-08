@@ -198,6 +198,8 @@ List<User> parseListUser(String key, Map<String, dynamic> data) {
   return result;
 }
 
+
+
 // parse list telecom
 List<TelecomCompany> parseListTelecom(String key, Map<String, dynamic> data) {
   final List<TelecomCompany> result = <TelecomCompany>[];
@@ -1206,7 +1208,7 @@ class Trip {
     this.tripStatus,
     this.vehicleTypeId,
     this.vehicleTypeName,
-    this.additionPriceForUserType,
+//    this.additionPriceForUserType,
     this.vehicle,
     this.contractRepresentation,
     this.pointUp,
@@ -1228,7 +1230,7 @@ class Trip {
       planId: getString(Constant.planId, data),
       route: data[Constant.route] == null
           ? RouteEntity.fromMap(
-              data[Constant.routeInfo] as Map<String, dynamic>)
+          data[Constant.routeInfo] as Map<String, dynamic>)
           : RouteEntity.fromMap(data[Constant.route] as Map<String, dynamic>),
       runTime: getInt(Constant.runTime, data),
       seatMap: SeatMap.fromMap(data[Constant.seatMap] as Map<String, dynamic>),
@@ -1242,14 +1244,14 @@ class Trip {
       tripStatus: getInt(Constant.tripStatus, data),
       vehicleTypeId: getString(Constant.vehicleTypeId, data),
       vehicleTypeName: getString(Constant.vehicleTypeName, data),
-      additionPriceForUserType: AdditionPrice.fromJson(
-          data[Constant.additionPriceForUserType] as Map<String, dynamic>),
+//      additionPriceForUserType: AdditionPrice.fromJson(
+//          data[Constant.additionPriceForUserType] as Map<String, dynamic>),
       vehicle: Vehicle.fromMap(data[Constant.vehicle] as Map<String, dynamic>),
       contractRepresentation: ContractRepresentation.fromMap(
           data[Constant.contractRepresentation] as Map<String, dynamic>),
       pointUp: Point.fromMap(data[Constant.pointUp] as Map<String, dynamic>),
       pointDown:
-          Point.fromMap(data[Constant.pointDown] as Map<String, dynamic>),
+      Point.fromMap(data[Constant.pointDown] as Map<String, dynamic>),
       price: getDouble(Constant.price, data),
       listLockTrip: getListInt(Constant.listLockTrip, data),
       drivers: parseListUser(Constant.drivers, data),
@@ -1273,7 +1275,7 @@ class Trip {
   final int tripStatus;
   final String vehicleTypeId;
   final String vehicleTypeName;
-  final AdditionPrice additionPriceForUserType;
+//  final AdditionPrice additionPriceForUserType;
   final Vehicle vehicle;
   final ContractRepresentation contractRepresentation;
   final Point pointDown;
@@ -1301,7 +1303,7 @@ class Trip {
       Constant.tripStatus: tripStatus,
       Constant.vehicleTypeId: vehicleTypeId,
       Constant.vehicleTypeName: vehicleTypeName,
-      Constant.additionPriceForUserType: additionPriceForUserType,
+//      Constant.additionPriceForUserType: additionPriceForUserType,
       Constant.vehicle: vehicle,
       Constant.contractRepresentation: contractRepresentation,
       Constant.pointUp: pointUp,
@@ -1330,7 +1332,7 @@ class Trip {
     int tripStatus,
     String vehicleTypeId,
     String vehicleTypeName,
-    AdditionPrice additionPriceForUserType,
+//    AdditionPrice additionPriceForUserType,
     Vehicle vehicle,
     ContractRepresentation contractRepresentation,
     Point pointDown,
@@ -1361,9 +1363,9 @@ class Trip {
             identical(vehicleTypeId, this.vehicleTypeId)) &&
         (vehicleTypeName == null ||
             identical(vehicleTypeName, this.vehicleTypeName)) &&
-        (additionPriceForUserType == null ||
-            identical(
-                additionPriceForUserType, this.additionPriceForUserType)) &&
+//        (additionPriceForUserType == null ||
+//            identical(
+//                additionPriceForUserType, this.additionPriceForUserType)) &&
         (vehicle == null || identical(vehicle, this.vehicle)) &&
         (contractRepresentation == null ||
             identical(contractRepresentation, this.contractRepresentation)) &&
@@ -1393,11 +1395,11 @@ class Trip {
       tripStatus: tripStatus ?? this.tripStatus,
       vehicleTypeId: vehicleTypeId ?? this.vehicleTypeId,
       vehicleTypeName: vehicleTypeName ?? this.vehicleTypeName,
-      additionPriceForUserType:
-          additionPriceForUserType ?? this.additionPriceForUserType,
+//      additionPriceForUserType:
+//      additionPriceForUserType ?? this.additionPriceForUserType,
       vehicle: vehicle ?? this.vehicle,
       contractRepresentation:
-          contractRepresentation ?? this.contractRepresentation,
+      contractRepresentation ?? this.contractRepresentation,
       pointDown: pointDown ?? this.pointDown,
       pointUp: pointUp ?? this.pointUp,
       price: price ?? this.price,
