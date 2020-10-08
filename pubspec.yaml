@@ -23,14 +23,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
   cupertino_icons: ^1.0.0
   shared_preferences: ^0.5.12
   google_fonts: ^1.1.0
   json_serializable: ^3.5.0
   http: ^0.12.2
   flutter_bloc: ^6.0.6
+  carousel_slider: ^2.2.1
+  date_util: ^0.1.4
   avwidget:
     git: https://github.com/anvui/AVWidget.git
 
