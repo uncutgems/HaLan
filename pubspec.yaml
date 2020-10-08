@@ -37,6 +37,7 @@ dependencies:
   avwidget:
     git: https://github.com/anvui/AVWidget.git
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
