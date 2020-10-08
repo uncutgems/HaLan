@@ -98,11 +98,11 @@ class DateWidget extends StatelessWidget {
                      monthText = monthText.substring(1,monthText.length);
                      monthText = 'T'+monthText;
                     text = Text(
-                      monthText, style: date.month<DateTime.now().month||date.year<DateTime.now().year?Theme
+                      monthText, style: date.month<DateTime.now().month&&date.millisecondsSinceEpoch<DateTime.now().millisecondsSinceEpoch?Theme
                         .of(context)
                         .textTheme
                         .bodyText2
-                        .copyWith(color: AVColor.gray100,fontSize: AppSize.getFontSize(context, 20)) :monthStyle,
+                        .copyWith(color: AVColor.gray100,fontSize: AppSize.getFontSize(context, 16)) :monthStyle,
                     );
                     break;
 

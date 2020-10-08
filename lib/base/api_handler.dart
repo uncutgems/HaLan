@@ -21,7 +21,7 @@ bool _statusOk(int statusCode) {
 /// [headers]  Không bắt buộc phải truyền vào trừ trường hợp muốn custom hoặc truyền thêm
 ///
 Future<AVResponse> callGET(String url, {Map<String, String> headers}) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   final Map<String, String> _headers = <String, String>{};
   _headers[Constant.contentType] = 'application/json';
   _headers[Constant.headerDOBODY6969] = prefs.getString(Constant.token).toString();
@@ -76,7 +76,7 @@ Future<AVResponse> callPOST({
   @required dynamic body,
   Map<String, String> header,
 }) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String _url = path;
   final Map<String, String> _headers = <String, String>{};
   _headers.addAll(header ?? <String, String>{});
@@ -92,14 +92,14 @@ Future<AVResponse> callPOST({
       item[Constant.timeZone] = 7;
       item[Constant.platform] = 1;
       item[Constant.deviceType] = 1;
-      item[Constant.companyId] = prefs.getString(Constant.companyId);
+      item[Constant.companyId] = 'TC0FR1szrRt37fiR';
       item[Constant.fcmToken] = prefs.getString(Constant.firebaseKey);
       item[Constant.deviceId] = prefs.getString(Constant.deviceId);
     }
   } else {
     body[Constant.packageName] = 'vn.anvui.driver';
     body[Constant.timeZone] = 7;
-    body[Constant.platform] = 1;
+    body[Constant.platform] = 3;
     body[Constant.deviceType] = 1;
     body[Constant.companyId] = Constant.haLanCompanyId;
     body[Constant.fcmToken] = prefs.getString(Constant.firebaseKey);
@@ -199,7 +199,7 @@ class APIParse {
 }
 
 Future<StreamedResponse> uploadImage(File file) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   const String _url = URL.uploadImage;
   final Map<String, String> headers = <String, String>{};
   headers[Constant.contentType] = 'multipart/form-data';

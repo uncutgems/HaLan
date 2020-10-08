@@ -2945,3 +2945,55 @@ class RegionPageObject{
   final List<bool> provinceValues;
   final List<RegionInfo> chosenRegions;
 }
+class PopUp{
+  PopUp({this.id, this.link, this.startDate, this.endDate, this.priority});
+  factory PopUp.fromJson(Map<String, dynamic> data) {
+    return PopUp(
+      id: getString(Constant.id, data),
+      link: getString(Constant.link, data),
+      startDate: getInt(Constant.startDate, data),
+      endDate: getInt(Constant.endDate, data),
+      priority: getInt(Constant.priority, data)
+    );
+  }
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      Constant.id: id,
+      Constant.link: link,
+      Constant.startDate: startDate,
+      Constant.endDate: endDate,
+      Constant.priority: priority
+    };
+  }
+
+  PopUp copyWith({
+    String id,
+    String link,
+    int startDate,
+    int endDate,
+    int priority,
+  }) {
+    if ((id == null || identical(id, this.id)) &&
+        (link == null || identical(link, this.link)) &&
+        (startDate == null || identical(startDate, this.startDate)) &&
+        (endDate == null || identical(endDate, this.endDate)) &&
+        (priority == null || identical(priority, this.priority))) {
+      return this;
+    }
+
+    return  PopUp(
+      id: id ?? this.id,
+      link: link ?? this.link,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      priority: priority ?? this.priority,
+    );
+  }
+
+  final String id;
+  final String link;
+  final int startDate;
+  final int endDate;
+  final int priority;
+
+}
