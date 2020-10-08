@@ -23,8 +23,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_local_notifications: ^1.5.0
   cupertino_icons: ^1.0.0
   shared_preferences: ^0.5.12
+  flutter_localizations:
+    sdk: flutter
   google_fonts: ^1.1.0
   json_serializable: ^3.5.0
   http: ^0.12.2
