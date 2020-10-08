@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
-import 'package:halan/pages/buses_list/bus_list_view.dart';
 import 'package:halan/pages/default_page.dart';
 
 Future<void> main() async {
