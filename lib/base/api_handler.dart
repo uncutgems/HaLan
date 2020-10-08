@@ -92,16 +92,16 @@ Future<AVResponse> callPOST({
       item[Constant.timeZone] = 7;
       item[Constant.platform] = 1;
       item[Constant.deviceType] = 1;
-      item[Constant.companyId] = prefs.getString(Constant.companyId);
+      item[Constant.companyId] = 'TC0FR1szrRt37fiR';
       item[Constant.fcmToken] = prefs.getString(Constant.firebaseKey);
       item[Constant.deviceId] = prefs.getString(Constant.deviceId);
     }
   } else {
     body[Constant.packageName] = 'vn.anvui.driver';
     body[Constant.timeZone] = 7;
-    body[Constant.platform] = 1;
+    body[Constant.platform] = 3;
     body[Constant.deviceType] = 1;
-    body[Constant.companyId] = prefs.getString(Constant.companyId);
+    body[Constant.companyId] = 'TC0FR1szrRt37fiR';
     body[Constant.fcmToken] = prefs.getString(Constant.firebaseKey);
     body[Constant.deviceId] = prefs.getString(Constant.deviceId);
   }

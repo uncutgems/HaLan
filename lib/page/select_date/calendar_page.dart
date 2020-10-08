@@ -5,9 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tool.dart';
-import 'package:halan/page/calendar_bloc.dart';
+import 'package:halan/page/select_date/calendar_bloc.dart';
 import 'package:halan/page/select_date/date_helper.dart';
 import 'package:halan/page/select_date/horizontal_calendar.dart';
+import 'package:halan/widget/common_bottom_navigation_bar.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -104,6 +105,7 @@ class _CalendarPageState extends State<CalendarPage> {
           Expanded(child: calendar(context)),
         ],
       ),
+//      bottomNavigationBar:const CommonBottomNavigationBar(),
     );
   }
 

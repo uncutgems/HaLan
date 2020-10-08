@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:halan/model/entity.dart';
 import 'package:intl/intl.dart';
 import 'package:halan/base/constant.dart';
 
@@ -131,3 +132,20 @@ String convertTime(String format, int time, bool isUTC) {
   return DateFormat(format,'vi')
       .format(DateTime.fromMillisecondsSinceEpoch(time, isUtc: isUTC));
 }
+
+List<Point> getStartingPoints(List<RouteEntity> routes){
+  final List<Point> result = <Point>[];
+  final List<RouteEntity> routesList = List<RouteEntity>.from(routes);
+  for (final RouteEntity routeEntity in routesList){
+    routeEntity.listPoint.removeLast();
+    result.addAll(routeEntity.listPoint);
+  }
+  return result;
+}
+//List<Point> getDropOffPoints(List<RouteEntity> routes){
+//  final List<Point> result = <Point>[];
+//  for (final RouteEntity routeEntity in routes){
+//    result.add(routeEntity.listPoint.last);
+//  }
+//  return result;
+//}
