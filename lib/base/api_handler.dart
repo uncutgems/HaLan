@@ -21,7 +21,7 @@ bool _statusOk(int statusCode) {
 /// [headers]  Không bắt buộc phải truyền vào trừ trường hợp muốn custom hoặc truyền thêm
 ///
 Future<AVResponse> callGET(String url, {Map<String, String> headers}) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   final Map<String, String> _headers = <String, String>{};
   _headers[Constant.contentType] = 'application/json';
   _headers[Constant.headerDOBODY6969] = prefs.getString(Constant.token).toString();
@@ -76,7 +76,7 @@ Future<AVResponse> callPOST({
   @required dynamic body,
   Map<String, String> header,
 }) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   final String _url = path;
   final Map<String, String> _headers = <String, String>{};
   _headers.addAll(header ?? <String, String>{});
@@ -199,7 +199,7 @@ class APIParse {
 }
 
 Future<StreamedResponse> uploadImage(File file) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
   const String _url = URL.uploadImage;
   final Map<String, String> headers = <String, String>{};
   headers[Constant.contentType] = 'multipart/form-data';

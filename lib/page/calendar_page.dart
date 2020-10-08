@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/size.dart';
+import 'package:halan/base/tool.dart';
 import 'package:halan/page/calendar_bloc.dart';
 import 'package:halan/page/select_date/date_helper.dart';
 import 'package:halan/page/select_date/horizontal_calendar.dart';
@@ -40,12 +41,13 @@ class _CalendarPageState extends State<CalendarPage> {
   }
 
   Widget mainScreen(BuildContext context) {
+    print('sssss ${convertSolar2Lunar(7, 10, 2020, 7).day}');
     return Scaffold(
       backgroundColor: AVColor.halanBackground,
       appBar: AppBar(
         centerTitle: true,
         title: Text('Chọn ngày khởi hành', style: TextStyle(
-            fontSize: AppSize.getFontSize(context, 16),
+            fontSize: AppSize.getFontSize(context, 18),
             color: AVColor.gray100),),
         elevation: 0,
         leading: IconButton(
@@ -108,6 +110,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget calendar(BuildContext context) {
     return GridView.count(
       crossAxisCount: 7, children: dateWidget(context, dateOfMonth),
+      mainAxisSpacing: AppSize.getWidth(context, 4),
     );
   }
 
@@ -120,6 +123,7 @@ class _CalendarPageState extends State<CalendarPage> {
           Column(
             children: <Widget>[
               Container(height: AppSize.getWidth(context, 1),width: MediaQuery.of(context).size.width,color: HaLanColor.borderColor,),
+              Container(height: AppSize.getWidth(context, 10),),
               GestureDetector(
                 onTap: () {
                   bloc.add(CalendarEventClickDay(
