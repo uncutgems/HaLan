@@ -4,3 +4,11 @@ part of 'home_bloc.dart';
 abstract class HomeState {}
 
 class HomeInitial extends HomeState {}
+
+class DisplayDataHomeState extends HomeState {
+
+}
+
+class LoadingHomeState extends HomeState {}
+
+class DismissLoadingHomeState extends HomeState {}

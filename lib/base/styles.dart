@@ -7,38 +7,38 @@ class AppPadding {
 }
 
 final ThemeData themeData = ThemeData(
-    primaryColor: AppColor.primaryColor,
+    primaryColor: HaLanColor.primaryColor,
     primaryColorBrightness: Brightness.dark,
     accentColorBrightness: Brightness.light,
-    primaryColorLight: AppColor.primaryLightColor,
-    backgroundColor: AppColor.backgroundColor,
+    primaryColorLight: HaLanColor.primaryLightColor,
+    backgroundColor: HaLanColor.backgroundColor,
     iconTheme: iconThemeData,
     appBarTheme: appBarTheme,
     buttonTheme: buttonThemeData,
-    buttonColor: AppColor.primaryColor,
-    disabledColor: AppColor.disableColor,
-    scaffoldBackgroundColor: AppColor.backgroundColor,
+    buttonColor: HaLanColor.primaryColor,
+    disabledColor: HaLanColor.disableColor,
+    scaffoldBackgroundColor: HaLanColor.backgroundColor,
     dialogTheme: dialogTheme,
     textTheme: textTheme
 //  primarySwatch: MaterialColor(AppColor.primaryColor.value, AppColor.colorCodes),
     );
 
 final DialogTheme dialogTheme = DialogTheme(
-  backgroundColor: AppColor.white,
+  backgroundColor: HaLanColor.white,
   titleTextStyle: textTheme.headline6,
   contentTextStyle: textTheme.bodyText1,
   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
 );
 const ButtonThemeData buttonThemeData = ButtonThemeData(
-  disabledColor: AppColor.disableColor,
-  buttonColor: AppColor.primaryColor,
+  disabledColor: HaLanColor.disableColor,
+  buttonColor: HaLanColor.primaryColor,
   textTheme: ButtonTextTheme.primary,
 );
 
 final AppBarTheme appBarTheme = AppBarTheme(
   elevation: 0,
-  iconTheme: iconThemeData.copyWith(color: AppColor.textColor),
-  color: AppColor.backgroundColor,
+  iconTheme: iconThemeData.copyWith(color: HaLanColor.textColor),
+  color: HaLanColor.backgroundColor,
   brightness: Brightness.light,
   actionsIconTheme: iconThemeData,
   textTheme: textTheme.copyWith(
@@ -46,7 +46,7 @@ final AppBarTheme appBarTheme = AppBarTheme(
 );
 
 const IconThemeData iconThemeData = IconThemeData(
-  color: AppColor.iconColor,
+  color: HaLanColor.iconColor,
 );
 
 final TextTheme textTheme = TextTheme(
@@ -62,41 +62,46 @@ final TextTheme textTheme = TextTheme(
       fontSize: 20,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.15,
-      color: AppColor.textColor),
+      color: HaLanColor.textColor),
   subtitle1: GoogleFonts.montserrat(
       fontSize: 16,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.15,
-      color: AppColor.textColor),
+      color: HaLanColor.textColor),
   subtitle2: GoogleFonts.montserrat(
       fontSize: 14,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.1,
-      color: AppColor.textColor),
+      color: HaLanColor.textColor),
   bodyText1: GoogleFonts.openSans(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     letterSpacing: 0.5,
-    color: AppColor.textColor,
+    color: HaLanColor.textColor,
   ),
   bodyText2: GoogleFonts.openSans(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.25,
-      color: AppColor.textColor),
+      color: HaLanColor.textColor),
   button: GoogleFonts.openSans(
       fontSize: 14,
       fontWeight: FontWeight.w500,
       letterSpacing: 1.25,
-      color: AppColor.textColor),
+      color: HaLanColor.textColor),
   caption: GoogleFonts.openSans(
       fontSize: 12,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.4,
-      color: AppColor.textColor),
+      color: HaLanColor.textColor),
   overline: GoogleFonts.openSans(
       fontSize: 10,
       fontWeight: FontWeight.w400,
       letterSpacing: 1.5,
-      color: AppColor.textColor),
+      color: HaLanColor.textColor),
+);
+
+final BoxDecoration popUpBoxDecoration = BoxDecoration(
+  borderRadius: BorderRadius.circular(12),
+
 );
