@@ -53,12 +53,12 @@ class _CalendarPageState extends State<CalendarPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AVColor.gray100,),
           onPressed: () {
-            if(datePickedComparable!=null) {
-              Navigator.pop(context,datePickedComparable);
-            }
-            else{
+//            if(datePickedComparable!=null) {
+//              Navigator.pop(context,datePickedComparable);
+//            }
+//            else{
               Navigator.pop(context,DateTime.now());
-            }
+//            }
           },),
         backgroundColor: AVColor.halanBackground,
       ),
@@ -156,8 +156,8 @@ class _CalendarPageState extends State<CalendarPage> {
                         ),
                         Align(
                           alignment: Alignment.bottomRight,
-                          child: Text(
-                            '$i', style: Theme
+                          child:  Text(
+                            i==1?convertTime('dd/MM',convertSolar2Lunar(i,date.month,date.year, 7).millisecondsSinceEpoch,false):'${convertSolar2Lunar(i,date.month,date.year, 7).day}', style: Theme
                               .of(context)
                               .textTheme
                               .bodyText2

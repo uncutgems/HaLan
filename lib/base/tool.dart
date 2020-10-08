@@ -1,4 +1,8 @@
 import 'dart:math';
+import 'package:intl/intl.dart';
+import 'package:halan/base/constant.dart';
+
+import '../main.dart';
 int jdFromDate(int dd,int mm,int yy){
   final int a = (14 - mm) ~/ 12 ;
   final int y = yy+4800-a;
@@ -122,4 +126,8 @@ DateTime convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
     lunarYear -= 1;
   }
   return DateTime.utc(lunarYear,lunarMonth,lunarDay);
+}
+String convertTime(String format, int time, bool isUTC) {
+  return DateFormat(format,'vi')
+      .format(DateTime.fromMillisecondsSinceEpoch(time, isUtc: isUTC));
 }
