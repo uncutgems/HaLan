@@ -3,9 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/splash/splash.dart';
+import 'package:halan/base/styles.dart';
+
 import 'package:halan/pages/default_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       initialRoute: RoutesName.splashPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
-//      theme: themeData,
+      theme: themeData,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -55,9 +56,8 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     default:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) =>  DefaultPage(),
+        builder: (BuildContext context) => DefaultPage(),
         settings: const RouteSettings(name: RoutesName.defaultPage),
       );
   }
 }
-
