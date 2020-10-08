@@ -19,6 +19,7 @@ class PopUpRepository {
     }
   }
 
+
   Future<List<PopUp>> getPromotionsDummy() async {
     final List<PopUp> promotionList = <PopUp>[];
     final Map<String, dynamic> body = <String, dynamic>{};
