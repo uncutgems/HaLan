@@ -297,4 +297,6 @@ class Constant {
   static const String sortedTrips = 'sortedTrips';
   static const String regionIds = 'regionIds';
   static const String tripIds = 'tripIds';
+  static const String distance = 'distance';
+  static const String newRoute = 'newRoute';
 }

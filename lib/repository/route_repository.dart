@@ -20,7 +20,21 @@ class RouteRepository {
   }
 
 
+  Future<List<RouteEntity>> getPopularRoutes() async {
+    final List<RouteEntity> popularRouteList = <RouteEntity>[];
 
+    final AVResponse response = await callGET(URL.getPopularRouteList);
+    if (response.isOK) {
+      response.response[Constant.result].forEach((final dynamic itemJson) {
+        popularRouteList
+            .add(RouteEntity.fromMap(itemJson as Map<String, dynamic>));
+      });
+      print(popularRouteList.length);
+      return popularRouteList;
+    } else {
+      throw APIException(response);
+    }
+  }
 
 
 }
