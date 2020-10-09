@@ -1,4 +1,3 @@
-import 'package:avwidget/popup_loading_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,49 +54,54 @@ class _PopUpWidgetState extends State<PopUpWidget> {
 
   Widget popUpPromotion(BuildContext context, DisplayPopUpState state) {
     print('${state.promotionList.length}');
-
     return Padding(
       padding: EdgeInsets.only(
-        top: AppSize.getWidth(context, 8),
-        bottom: AppSize.getHeight(context, 16),
+        top: AppSize.getWidth(context, 0),
+        bottom: AppSize.getHeight(context, 32),
       ),
-      child: CarouselSlider.builder(
-        itemCount: state.promotionList.length,
-        options: CarouselOptions(
-            scrollDirection: Axis.horizontal,
-            enableInfiniteScroll: true,
-            enlargeCenterPage: true,
-            viewportFraction: 0.9,
-            aspectRatio: 16 / 9,
-            autoPlay: true,
-            height: AppSize.getWidth(context, 193),
-            autoPlayAnimationDuration: const Duration(seconds: 2),
-            onPageChanged: (int index, CarouselPageChangedReason reason) {
+      child: Column(
+        children: <Widget>[
+          CarouselSlider.builder(
+            itemCount: state.promotionList.length,
+            options: CarouselOptions(
+                scrollDirection: Axis.horizontal,
+                enableInfiniteScroll: true,
+                enlargeCenterPage: true,
+                viewportFraction: 0.9,
+                aspectRatio: 16 / 9,
+                autoPlay: true,
+                height: AppSize.getWidth(context, 193),
+                autoPlayAnimationDuration: const Duration(seconds: 2),
+                onPageChanged: (int index, CarouselPageChangedReason reason) {
 //                    bloc.add(ChangedPagePopularFilmEvent(index, filmList));
-            }),
-        itemBuilder: (BuildContext context, int index) {
-          final PopUp popUp = state.promotionList[index];
-          return GestureDetector(
-            onTap: () {
+                }),
+            itemBuilder: (BuildContext context, int index) {
+              final PopUp popUp = state.promotionList[index];
+              return GestureDetector(
+                onTap: () {
 //              popUp.id == null ? print('not yet') : null;
-              print('${state.promotionList.length}');
+                  print('${state.promotionList.length}');
+                },
+                child: Container(
+                  height: AppSize.getWidth(context, 193),
+                  decoration: popUpBoxDecoration.copyWith(
+                    image: popUp.link != null
+                        ? DecorationImage(
+                            image: NetworkImage(
+                              popUp.link,
+                            ),
+                            fit: BoxFit.fitWidth,
+                          )
+                        : null,
+                  ),
+                  child: popUp.id == null
+                      ? const Center(child: CircularProgressIndicator())
+                      : null,
+                ),
+              );
             },
-            child: Container(
-              height: AppSize.getWidth(context, 193),
-              decoration: popUpBoxDecoration.copyWith(
-                image: popUp.link != null
-                    ? DecorationImage(
-                        image: NetworkImage(popUp.link),
-                        fit: BoxFit.fitWidth,
-                      )
-                    : null,
-              ),
-              child: popUp.id == null
-                  ? const Center(child: CircularProgressIndicator())
-                  : null,
-            ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

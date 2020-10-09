@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/page/bus_booking/bus_booking_page.dart';
 
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/splash/splash.dart';
@@ -69,6 +70,11 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => PromotionPage(),
         settings: const RouteSettings(name: RoutesName.promotionPage),
+      );
+    case RoutesName.busBookingPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => BusBookingPage(),
+        settings: const RouteSettings(name: RoutesName.busBookingPage),
       );
     default:
       return MaterialPageRoute<dynamic>(

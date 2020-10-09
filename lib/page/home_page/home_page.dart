@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/home_page/home_bloc.dart';
 import 'package:halan/widget/pop_up_widget/pop_up.dart';
+import 'package:halan/widget/popular_route_widget/popular_route.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -83,16 +85,23 @@ class _HomePageState extends State<HomePage> {
         ),
         centerTitle: true,
         actions: <Widget>[
-          IconButton(
-              icon: SvgPicture.asset(
-                'assets/bell.svg',
-                height: AppSize.getWidth(context, 19),
-                width: AppSize.getWidth(context, 16),
+          Row(
+            children: <Widget>[
+              IconButton(
+                  icon: SvgPicture.asset(
+                    'assets/bell.svg',
+                    height: AppSize.getWidth(context, 19),
+                    width: AppSize.getWidth(context, 16),
+                  ),
+                  onPressed: () {}),
+              Container(
+                width: AppSize.getWidth(context, 8),
               ),
-              onPressed: () {}),
+            ],
+          ) ,
         ],
       ),
-      body: Column(
+      body: ListView(
         children: <Widget>[
           Padding(
             padding: EdgeInsets.all(AppSize.getHeight(context, 16)),
@@ -106,12 +115,15 @@ class _HomePageState extends State<HomePage> {
                           height: AppSize.getWidth(context, 16),
                           width: AppSize.getWidth(context, 30),
                         ),
-                        onPressed: () {}),
+                        ),
                     title: 'Đặt xe',
                     width: AppSize.getWidth(context, 163),
                     height: AppSize.getWidth(context, 64),
                     color: AVColor.orange100,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(
+                          context, RoutesName.busBookingPage);
+                    },
                   ),
                 ),
                 Container(
@@ -137,6 +149,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           PopUpWidget(),
+          PopularRoute(),
         ],
       ),
     );
