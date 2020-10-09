@@ -100,3 +100,8 @@ final TextTheme textTheme = TextTheme(
       letterSpacing: 1.5,
       color: HaLanColor.textColor),
 );
+
+final BoxDecoration popUpBoxDecoration = BoxDecoration(
+  borderRadius: BorderRadius.circular(12),
+
+);
