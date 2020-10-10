@@ -300,4 +300,6 @@ class Constant {
   static const String haLanCompanyId = 'TC0FR1szrRt37fiR';
   static const String startTimeLimit = 'startTimeLimit';
   static const String endTimeLimit = 'endTimeLimit';
+  static const String distance = 'distance';
+  static const String newRoute = 'newRoute';
 }
