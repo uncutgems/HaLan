@@ -20,7 +20,7 @@ final ThemeData themeData = ThemeData(
     scaffoldBackgroundColor: HaLanColor.backgroundColor,
     dialogTheme: dialogTheme,
     textTheme: textTheme
-//  primarySwatch: MaterialColor(AppColor.primaryColor.value, AppColor.colorCodes),
+//  primarySwatch: MaterialColor(HalanColor.primaryColor.value, HalanColor.colorCodes),
     );
 
 final DialogTheme dialogTheme = DialogTheme(

@@ -67,8 +67,8 @@ class DateWidget extends StatelessWidget {
     final TextStyle dayStyle =
         isSelected ? selectedWeekDayTextStyle ?? weekDayTextStyle ?? subtextStyle : weekDayTextStyle ?? subtextStyle;
 //    if(date.day>DateTime.now().day+2){
-//      dateStyle=dateTextStyle.copyWith(color: AppColor.disableColor);
-//      dayStyle=weekDayTextStyle.copyWith(color: AppColor.disableColor);
+//      dateStyle=dateTextStyle.copyWith(color: HalanColor.disableColor);
+//      dayStyle=weekDayTextStyle.copyWith(color: HalanColor.disableColor);
 //    }
     bool today = false;
     if (date.day == DateTime.now().day) {

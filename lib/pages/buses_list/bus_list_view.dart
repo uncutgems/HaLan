@@ -29,9 +29,9 @@ class _BusesListPageState extends State<BusesListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('abc'),
+        title: const Text('abc'),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -50,7 +50,7 @@ class _BusesListPageState extends State<BusesListPage> {
                       style: textTheme.bodyText2
                           .copyWith(fontSize: 12, fontWeight: FontWeight.w400),
                     ),
-                    Icon(Icons.arrow_upward, size: 16,)
+                    const Icon(Icons.arrow_upward, size: 16,)
                   ],
                 ),
                 onPressed: () {
@@ -63,7 +63,7 @@ class _BusesListPageState extends State<BusesListPage> {
                     Text('Giá vé',
                         style: textTheme.bodyText2.copyWith(
                             fontSize: 12, fontWeight: FontWeight.w400)),
-                    Icon(
+                    const Icon(
                       Icons.arrow_upward, size: 16,
                     )
                   ],
@@ -74,7 +74,7 @@ class _BusesListPageState extends State<BusesListPage> {
               ),
               Expanded(child: Container()),
               IconButton(
-                icon: Icon(Icons.filter_list),
+                icon: const Icon(Icons.filter_list),
                 onPressed: () {
                   print('filter page');
                 },
@@ -123,7 +123,7 @@ class _BusesListPageState extends State<BusesListPage> {
       child: Container(
 //      padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: AppColor.white,
+          color: HaLanColor.white,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Column(
@@ -132,7 +132,7 @@ class _BusesListPageState extends State<BusesListPage> {
               padding: const EdgeInsets.only(
                   top: 8.0, left: 16, right: 16, bottom: 4),
               child: Column(
-                children: [
+                children: <Widget>[
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
@@ -146,10 +146,10 @@ class _BusesListPageState extends State<BusesListPage> {
                               height: 1.5),
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_upward,
                         size: 16,
-                        color: AppColor.blue,
+                        color: HaLanColor.blue,
                       ),
                       Text(
                         trip.pointUp.name,
@@ -172,10 +172,10 @@ class _BusesListPageState extends State<BusesListPage> {
                               height: 1.5),
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_downward,
                         size: 16,
-                        color: AppColor.red100,
+                        color: HaLanColor.red100,
                       ),
                       Text(
                         trip.pointDown.name,
@@ -189,7 +189,7 @@ class _BusesListPageState extends State<BusesListPage> {
             ),
             Container(
               height: 1,
-              color: AppColor.gray30,
+              color: HaLanColor.gray30,
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -217,7 +217,7 @@ class _BusesListPageState extends State<BusesListPage> {
                     style: textTheme.headline6.copyWith(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        color: AppColor.primaryColor,
+                        color: HaLanColor.primaryColor,
                         height: 11 / 9),
                   )
                 ],

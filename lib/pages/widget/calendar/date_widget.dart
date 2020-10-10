@@ -65,8 +65,8 @@ class DateWidget extends StatelessWidget {
 //    final TextStyle dayStyle =
 //        isSelected ? selectedWeekDayTextStyle ?? weekDayTextStyle ?? subtextStyle : weekDayTextStyle ?? subtextStyle;
 //    if(date.day>DateTime.now().day+2){
-//      dateStyle=dateTextStyle.copyWith(color: AppColor.disableColor);
-//      dayStyle=weekDayTextStyle.copyWith(color: AppColor.disableColor);
+//      dateStyle=dateTextStyle.copyWith(color: HalanColor.disableColor);
+//      dayStyle=weekDayTextStyle.copyWith(color: HaLanColor.disableColor);
 //    }
     bool today = false;
     if (date.day == DateTime.now().day) {
@@ -90,7 +90,7 @@ class DateWidget extends StatelessWidget {
                     style: dateStyle,
                   );
                 } else
-                  text = Text('', style: TextStyle(fontSize: 1),);
+                  text = const Text('', style: TextStyle(fontSize: 1),);
 //                switch (type) {
 //                  case LabelType.date:
 //                    text = Text(
