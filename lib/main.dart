@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/base/styles.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/splash/splash.dart';
+import 'package:halan/pages/buses_list/buses_list_home_view.dart';
 import 'package:halan/pages/default_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -31,7 +33,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: RoutesName.splashPage,
+      theme: themeData,
+      initialRoute: RoutesName.busesListPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -76,6 +79,11 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BusBookingPage(),
         settings: const RouteSettings(name: RoutesName.busBookingPage),
+      );
+      case RoutesName.busesListPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => BusesListPage(),
+        settings: const RouteSettings(name: RoutesName.busesListPage),
       );
     default:
       return MaterialPageRoute<dynamic>(

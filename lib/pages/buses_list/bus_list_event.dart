@@ -4,9 +4,24 @@ part of 'bus_list_bloc.dart';
 abstract class BusListEvent {}
 
 class GetDataBusListEvent extends BusListEvent {
-  GetDataBusListEvent(this.startPoint, this.endPoint, this.date);
+  GetDataBusListEvent(this.startPoint, this.endPoint, this.date, this.page);
 
   final String startPoint;
   final String endPoint;
-  final int date;
+  final DateTime date;
+  final int page;
+}
+
+class ChangeDateBusListEvent extends BusListEvent {
+  ChangeDateBusListEvent(this.date);
+
+  final DateTime date;
+}
+
+class LoadMoreBusListEvent extends BusListEvent {}
+
+class SortListGetDataBusListEvent extends BusListEvent{
+  SortListGetDataBusListEvent(this.key);
+  final Key key;
+
 }

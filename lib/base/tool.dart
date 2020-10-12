@@ -1,9 +1,7 @@
 import 'dart:math';
 import 'package:halan/model/entity.dart';
 import 'package:intl/intl.dart';
-import 'package:halan/base/constant.dart';
 
-import '../main.dart';
 
 int jdFromDate(int dd, int mm, int yy) {
   final int a = (14 - mm) ~/ 12;
