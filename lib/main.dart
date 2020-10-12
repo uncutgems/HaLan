@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/page/select_date/calendar_page.dart';
+import 'package:halan/page/select_place/select_place_page.dart';
 import 'package:halan/pages/default_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       initialRoute: RoutesName.promotionPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
@@ -58,6 +60,11 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) =>PromotionPage(),
         settings: const RouteSettings(name: RoutesName.promotionPage),
+      );
+    case RoutesName.selectPlacePage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) =>SelectPlacePage(),
+        settings: const RouteSettings(name: RoutesName.selectPlacePage),
       );
     default:
       return MaterialPageRoute<dynamic>(

@@ -2993,5 +2993,12 @@ class PopUp{
   final int startDate;
   final int endDate;
   final int priority;
+}
+
+class ProvincePoints{
+  ProvincePoints(this.points, this.name);
+  final List<Point> points;
+  final String name;
+
 
 }
