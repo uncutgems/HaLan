@@ -1,9 +1,7 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:halan/model/entity.dart';
 import 'package:intl/intl.dart';
-import 'package:halan/base/constant.dart';
-
-import '../main.dart';
 
 int jdFromDate(int dd, int mm, int yy) {
   final int a = (14 - mm) ~/ 12;
@@ -148,22 +146,90 @@ List<Point> getStartingPoints(List<RouteEntity> routes) {
   final List<Point> result = <Point>[];
   final List<RouteEntity> routesList = List<RouteEntity>.from(routes);
   for (final RouteEntity routeEntity in routesList) {
-    routeEntity.listPoint.removeLast();
     result.addAll(routeEntity.listPoint);
   }
   return result;
 }
 
+Map<String, List<Point>> categorizePoints(List<Point> points) {
+  final Map<String, List<Point>> result = <String, List<Point>>{};
+//  final Map<String, List<String>> temp = <String, List<String>>{};
+  for (final Point point in points) {
+    result[point.province] = <Point>[];
+//    temp[point.province] = <String>[];
+  }
+  for (final Point point in points) {
+    if (result[point.province].isEmpty) {
+      result[point.province].add(point);
+//      temp[point.province].add(point.name);
+    } else {
+//      if(temp[point.province].contains(point.name)){
+      if (containsPoint(point, result[point.province])) {
+        continue;
+      } else {
+        result[point.province].add(point);
+//        temp[point.province].add(point.name);
+      }
+    }
+  }
+//  print(result.keys.length);
+//  print(temp);
+//  print(result);
+  return result;
+}
+
+bool containsPoint(
+  Point point,
+  List<Point> points,
+) {
+  for (final Point element in points) {
+    if (point.id == element.id) {
+      return true;
+    }
+  }
+  return false;
+}
+
+int indexOfPoint(Point point, List<Point> points){
+  int i =0;
+  while(i<points.length){
+    if(points[i].id.trim()==point.id.trim()){
+      return i;
+    }
+    i++;
+  }
+  return -1;
+}
+
+List<Point> getDropOffPoints(Point startPoint, List<RouteEntity> routes) {
+  final List<Point> result = <Point>[];
+  for (int i =  0; i< routes.length; i++) {
+    final RouteEntity routeEntity = routes[i];
+    final int index = indexOfPoint(startPoint,routeEntity.listPoint);
+    if(index!=-1&&!containsPoint(routeEntity.listPoint[index], result)&&index!=routeEntity.listPoint.length){
+      result.addAll(routeEntity.listPoint.getRange(index+1, routeEntity.listPoint.length));
+    }
+  }
+  return result;
+}
+List<Point> getPossibleStartPoints(Point endPoint, List<RouteEntity> routes){
+  final List<Point> result = <Point>[];
+  for(int i =0; i< routes.length;i++){
+    final RouteEntity routeEntity = routes[i];
+    final int index = indexOfPoint(endPoint,routeEntity.listPoint);
+    if(index!=-1&&!containsPoint(routeEntity.listPoint[index], result)&&index!=0){
+      result.addAll(routeEntity.listPoint.getRange(0,index));
+    }
+  }
+  return result;
+}
+
+void printPoint(Point point){
+  print('${point.name}:${point.id}');
+}
 String currencyFormat(int param, String unit) {
   final NumberFormat formatCurrency = NumberFormat();
   String result = formatCurrency.format(param);
   result = result.replaceAll(',', '.');
   return result + unit;
 }
-//List<Point> getDropOffPoints(List<RouteEntity> routes){
-//  final List<Point> result = <Point>[];
-//  for (final RouteEntity routeEntity in routes){
-//    result.add(routeEntity.listPoint.last);
-//  }
-//  return result;
-//}
