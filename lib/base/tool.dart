@@ -227,3 +227,9 @@ List<Point> getPossibleStartPoints(Point endPoint, List<RouteEntity> routes){
 void printPoint(Point point){
   print('${point.name}:${point.id}');
 }
+String currencyFormat(int param, String unit) {
+  final NumberFormat formatCurrency = NumberFormat();
+  String result = formatCurrency.format(param);
+  result = result.replaceAll(',', '.');
+  return result + unit;
+}

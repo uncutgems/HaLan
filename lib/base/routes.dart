@@ -6,4 +6,5 @@ class RoutesName {
   static const String calendarPage = 'calendarPage';
   static const String promotionPage = 'promotionPage';
   static const String selectPlacePage = 'selectPlacePage';
+  static const String busBookingPage = 'busBookingPage';
 }
