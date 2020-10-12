@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/base/styles.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
+import 'package:halan/page/home_otp/home_otp.dart';
 
 import 'package:halan/page/home_page/home_page.dart';
+import 'package:halan/page/log_in/home_signin.dart';
 import 'package:halan/page/splash/splash.dart';
 import 'package:halan/pages/default_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -30,7 +33,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: RoutesName.promotionPage,
+      theme: themeData,
+      initialRoute: RoutesName.splashPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -80,6 +84,15 @@ MaterialPageRoute<dynamic> routeSettings(
         builder: (BuildContext context) => BusBookingPage(),
         settings: const RouteSettings(name: RoutesName.busBookingPage),
       );
+    case RoutesName.homeSignInPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => HomeSignInPage(),
+        settings: const RouteSettings(name: RoutesName.homeSignInPage),
+      );
+    case RoutesName.homeOtpPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HomeOtpPage(),
+          settings: const RouteSettings(name: RoutesName.homeOtpPage));
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),

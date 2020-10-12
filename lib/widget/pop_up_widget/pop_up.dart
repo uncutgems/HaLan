@@ -71,7 +71,7 @@ class _PopUpWidgetState extends State<PopUpWidget> {
                 aspectRatio: 16 / 9,
                 autoPlay: true,
                 height: AppSize.getWidth(context, 193),
-                autoPlayAnimationDuration: const Duration(seconds: 2),
+                autoPlayAnimationDuration: const Duration(seconds: 1),
                 onPageChanged: (int index, CarouselPageChangedReason reason) {
 //                    bloc.add(ChangedPagePopularFilmEvent(index, filmList));
                 }),
@@ -108,7 +108,7 @@ class _PopUpWidgetState extends State<PopUpWidget> {
 
   Widget _loading(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppSize.getHeight(context, 16)),
+      padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
       child: const Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),

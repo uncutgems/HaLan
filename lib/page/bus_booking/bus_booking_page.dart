@@ -2,10 +2,8 @@ import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/avwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:halan/base/api_handler.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/size.dart';
-import 'package:halan/model/entity.dart';
 import 'package:halan/widget/pop_up_widget/pop_up.dart';
 import 'package:halan/widget/popular_route_widget/popular_route.dart';
 
