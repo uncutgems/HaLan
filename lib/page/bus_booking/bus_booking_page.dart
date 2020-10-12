@@ -61,10 +61,13 @@ class _BusBookingPageState extends State<BusBookingPage> {
       ),
       body: ListView(
         children: <Widget>[
-          Container(height: AppSize.getHeight(context, 8),),
-
+          Container(
+            height: AppSize.getHeight(context, 8),
+          ),
           mainScreen(context),
-          Container(height: AppSize.getHeight(context, 16),),
+          Container(
+            height: AppSize.getHeight(context, 16),
+          ),
           PopUpWidget(),
           PopularRoute(),
         ],
@@ -74,8 +77,9 @@ class _BusBookingPageState extends State<BusBookingPage> {
 
   Widget mainScreen(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.only(left: AppSize.getWidth(context, 16),
-      right: AppSize.getWidth(context, 16)),
+      padding: EdgeInsets.only(
+          left: AppSize.getWidth(context, 16),
+          right: AppSize.getWidth(context, 16)),
       child: Column(
         children: <Widget>[
           pickLocation(
