@@ -12,7 +12,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/page/select_date/calendar_page.dart';
-
+import 'package:halan/page/select_place/select_place_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.busesListPage,
+      initialRoute: RoutesName.splashPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -75,6 +75,10 @@ MaterialPageRoute<dynamic> routeSettings(
         builder: (BuildContext context) => PromotionPage(),
         settings: const RouteSettings(name: RoutesName.promotionPage),
       );
+    case RoutesName.selectPlacePage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) =>SelectPlacePage(),
+        settings: const RouteSettings(name: RoutesName.selectPlacePage),);
     case RoutesName.busBookingPage:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BusBookingPage(),
@@ -91,4 +95,35 @@ MaterialPageRoute<dynamic> routeSettings(
         settings: const RouteSettings(name: RoutesName.defaultPage),
       );
   }
+}
+
+class ScaleRoute extends PageRouteBuilder<dynamic> {
+  ScaleRoute({this.page})
+      : super(
+    pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        ) =>
+    page,
+    transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+        ) =>
+        ScaleTransition(
+          scale: Tween<double>(
+            begin: 0.0,
+            end: 1.0,
+          ).animate(
+            CurvedAnimation(
+              parent: animation,
+              curve: Curves.fastOutSlowIn,
+            ),
+          ),
+          child: child,
+        ),
+  );
+  final Widget page;
 }
