@@ -8,6 +8,7 @@ import 'package:halan/page/home_otp/home_otp.dart';
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/log_in/home_signin.dart';
 import 'package:halan/page/splash/splash.dart';
+import 'package:halan/pages/buses_list/buses_list_home_view.dart';
 import 'package:halan/pages/default_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -24,6 +25,7 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+  prefs = await SharedPreferences.getInstance();
 
   runApp(MyApp());
 }
@@ -56,7 +58,7 @@ MaterialPageRoute<dynamic> routeSettings(
   switch (settings.name) {
     case RoutesName.splashPage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context,) => SplashPage(),
+        builder: (BuildContext context) => SplashPage(),
         settings: const RouteSettings(name: RoutesName.splashPage),
       );
 
@@ -83,6 +85,11 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BusBookingPage(),
         settings: const RouteSettings(name: RoutesName.busBookingPage),
+      );
+    case RoutesName.busesListPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => BusesListPage(),
+        settings: const RouteSettings(name: RoutesName.busesListPage),
       );
     case RoutesName.homeSignInPage:
       return MaterialPageRoute<dynamic>(
