@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:halan/pages/buses_list/bus_list_bloc.dart';
-import 'package:halan/pages/buses_list/bus_list_view.dart';
-import 'package:halan/pages/buses_list/calendar_slider/calendar_slider_bloc.dart';
-import 'package:halan/pages/buses_list/calendar_slider/calendar_slider_view.dart';
-import 'package:halan/pages/buses_list/filter/trip_filter_view.dart';
+import 'package:halan/page/buses_list/bus_list_bloc.dart';
+import 'package:halan/page/buses_list/bus_list_view.dart';
+import 'package:halan/page/buses_list/calendar_slider/calendar_slider_bloc.dart';
+import 'package:halan/page/buses_list/calendar_slider/calendar_slider_view.dart';
+import 'package:halan/page/buses_list/filter/trip_filter_view.dart';
 
 class BusesListPage extends StatefulWidget {
   @override
@@ -39,8 +39,7 @@ class _BusesListPageState extends State<BusesListPage> {
             ),
           ),
           TripFilterWidget(
-            onSort: (Key sortType) {
-              print('cos vao day ko');
+            onSort: (List<bool> sortType) {
               busListBloc.add(SortListGetDataBusListEvent(sortType));
             },
           ),

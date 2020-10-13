@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/styles.dart';
-import 'package:halan/pages/buses_list/filter/trip_filter_bloc.dart';
+import 'package:halan/page/buses_list/filter/trip_filter_bloc.dart';
 
 class TripFilterWidget extends StatefulWidget {
   const TripFilterWidget({Key key, @required this.onSort}) : super(key: key);
-  final ValueChanged<Key> onSort;
+  final ValueChanged<List<bool>> onSort;
 
   @override
   _TripFilterWidgetState createState() => _TripFilterWidgetState();
@@ -14,8 +14,9 @@ class TripFilterWidget extends StatefulWidget {
 
 class _TripFilterWidgetState extends State<TripFilterWidget> {
   final TripFilterBloc bloc = TripFilterBloc();
-  final Key timeKey = const Key('time');
-  final Key priceKey = const Key('price');
+//  final Key timeKey = const Key('time');
+//  final Key priceKey = const Key('price');
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _TripFilterWidgetState extends State<TripFilterWidget> {
       },
       buildWhen: (TripFilterState prev, TripFilterState current) {
         if (current is CallBackTripFilterState) {
-          widget.onSort(current.key);
+          widget.onSort(<bool>[current.timeSort, current.priceSort]);
           return false;
         } else
           return true;
@@ -41,7 +42,7 @@ class _TripFilterWidgetState extends State<TripFilterWidget> {
     return Row(
       children: <Widget>[
         FlatButton(
-          key: timeKey,
+//          key: timeKey,
           child: Row(
             children: <Widget>[
               Text(
@@ -49,42 +50,42 @@ class _TripFilterWidgetState extends State<TripFilterWidget> {
                 style: textTheme.bodyText2.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: state.selectedButton == timeKey
+                    color: state.timeSort == true
                         ? HaLanColor.primaryColor
                         : HaLanColor.gray80),
               ),
               Icon(Icons.arrow_upward,
                   size: 16,
-                  color: state.selectedButton == timeKey
+                  color: state.timeSort == true
                       ? HaLanColor.primaryColor
                       : HaLanColor.gray80)
             ],
           ),
           onPressed: () {
-            bloc.add(SortTripFilterEvent(timeKey));
+            bloc.add(SortTripByTimeFilterEvent(state.timeSort));
 //            busListBloc.add(SortListGetDataBusListEvent(true));
           },
         ),
         FlatButton(
-          key: priceKey,
+//          key: priceKey,
           child: Row(
             children: <Widget>[
               Text('Giá vé',
                   style: textTheme.bodyText2.copyWith(
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
-                      color: state.selectedButton == priceKey
+                      color: state.priceSort == true
                           ? HaLanColor.primaryColor
                           : HaLanColor.gray80)),
               Icon(Icons.arrow_upward,
                   size: 16,
-                  color: state.selectedButton == priceKey
+                  color: state.priceSort == true
                       ? HaLanColor.primaryColor
                       : HaLanColor.gray80)
             ],
           ),
           onPressed: () {
-            bloc.add(SortTripFilterEvent(priceKey));
+            bloc.add(SortTripByPriceFilterEvent(state.priceSort));
 //            busListBloc.add(SortListGetDataBusListEvent(false));
           },
         ),
