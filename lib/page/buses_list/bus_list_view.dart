@@ -5,7 +5,7 @@ import 'package:halan/base/color.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
-import 'package:halan/pages/buses_list/bus_list_bloc.dart';
+import 'package:halan/page/buses_list/bus_list_bloc.dart';
 
 class BusesListWidget extends StatefulWidget {
   const BusesListWidget({Key key, this.onStart, this.onStop}) : super(key: key);
@@ -120,7 +120,6 @@ class _BusesListWidgetState extends State<BusesListWidget> {
       BuildContext context, Trip trip, SuccessGetDataBusListState state) {
     final int startTime =
         convertNewDayStyleToMillisecond(trip.date) + trip.startTimeReality;
-    print(DateTime.now().millisecondsSinceEpoch);
     final bool passStartTime =
         DateTime.now().millisecondsSinceEpoch > startTime;
     final bool outOfSeat = trip.totalEmptySeat == 0;
@@ -223,7 +222,6 @@ class _BusesListWidgetState extends State<BusesListWidget> {
                     Expanded(child: Container()),
                     Text(
                       currencyFormat(trip.price.toInt(), 'Đ'),
-
                       style: textTheme.headline6.copyWith(
                           fontSize: 18,
                           fontWeight: FontWeight.w600,

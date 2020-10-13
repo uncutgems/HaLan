@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
+import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/home_otp/home_otp.dart';
 
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/log_in/home_signin.dart';
 import 'package:halan/page/splash/splash.dart';
-import 'package:halan/pages/buses_list/buses_list_home_view.dart';
-import 'package:halan/pages/default_page.dart';
+import 'package:halan/page/default_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:halan/page/promotion_page/promotion_page.dart';
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.splashPage,
+      initialRoute: RoutesName.busesListPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
