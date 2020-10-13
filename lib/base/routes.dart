@@ -7,4 +7,7 @@ class RoutesName {
   static const String promotionPage = 'promotionPage';
   static const String selectPlacePage = 'selectPlacePage';
   static const String busBookingPage = 'busBookingPage';
+  static const String busesListPage = 'busesListPage';
+  static const String homeSignInPage = 'homeSignInPage';
+  static const String homeOtpPage = 'homeOtpPage';
 }

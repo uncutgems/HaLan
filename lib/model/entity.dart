@@ -160,6 +160,25 @@ List<Point> parseListPoint(String key, Map<String, dynamic> data) {
   return result;
 }
 
+List<AdditionPrice> parseListAdditionPrice(
+    String key, Map<String, dynamic> data) {
+  final List<AdditionPrice> result = <AdditionPrice>[];
+  if (data == null) {
+    return result;
+  }
+  if (data[key] == null) {
+    return result;
+  }
+  if (!data.containsKey(key)) {
+    return result;
+  }
+
+  data[key].forEach((dynamic item) {
+    result.add(AdditionPrice.fromJson(item as Map<String, dynamic>));
+  });
+  return result;
+}
+
 /// parse Point
 List<Seat> parseListSeat(String key, Map<String, dynamic> data) {
   final List<Seat> result = <Seat>[];
@@ -1256,8 +1275,8 @@ class Trip {
       tripStatus: getInt(Constant.tripStatus, data),
       vehicleTypeId: getString(Constant.vehicleTypeId, data),
       vehicleTypeName: getString(Constant.vehicleTypeName, data),
-      additionPriceForUserType: AdditionPrice.fromJson(
-          data[Constant.additionPriceForUserType] as Map<String, dynamic>),
+      additionPriceForUserType:
+          parseListAdditionPrice(Constant.additionPriceForUserType, data),
       vehicle: Vehicle.fromMap(data[Constant.vehicle] as Map<String, dynamic>),
       contractRepresentation: ContractRepresentation.fromMap(
           data[Constant.contractRepresentation] as Map<String, dynamic>),
@@ -1287,7 +1306,7 @@ class Trip {
   final int tripStatus;
   final String vehicleTypeId;
   final String vehicleTypeName;
-  final AdditionPrice additionPriceForUserType;
+  final List<AdditionPrice> additionPriceForUserType;
   final Vehicle vehicle;
   final ContractRepresentation contractRepresentation;
   final Point pointDown;
@@ -1344,7 +1363,7 @@ class Trip {
     int tripStatus,
     String vehicleTypeId,
     String vehicleTypeName,
-    AdditionPrice additionPriceForUserType,
+    List<AdditionPrice> additionPriceForUserType,
     Vehicle vehicle,
     ContractRepresentation contractRepresentation,
     Point pointDown,
@@ -1433,6 +1452,7 @@ class User {
     this.stateCode,
     this.companyName,
     this.companyId,
+
   });
 
   factory User.fromMap(Map<String, dynamic> data) {
@@ -3012,3 +3032,4 @@ class PopUp {
   final int endDate;
   final int priority;
 }
+
