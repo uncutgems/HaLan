@@ -5,4 +5,7 @@ class URL {
   static const String getPopUp = baseURL+'popup/get-list';
   static const String getRouteList = baseURL+'route/getList';
   static const String getPopularRouteList = baseURL+'route/popular?companyId=TC0FR1szrRt37fiR';
+  static const String getOTPCode = baseURL+'user/sendOTP';
+  static const String loginURL = baseURL+'user/login';
+
 }

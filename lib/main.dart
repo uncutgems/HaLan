@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
+import 'package:halan/page/home_otp/home_otp.dart';
 
 import 'package:halan/page/home_page/home_page.dart';
+import 'package:halan/page/log_in/home_signin.dart';
 import 'package:halan/page/splash/splash.dart';
 import 'package:halan/pages/buses_list/buses_list_home_view.dart';
 import 'package:halan/pages/default_page.dart';
@@ -84,11 +86,20 @@ MaterialPageRoute<dynamic> routeSettings(
         builder: (BuildContext context) => BusBookingPage(),
         settings: const RouteSettings(name: RoutesName.busBookingPage),
       );
-      case RoutesName.busesListPage:
+    case RoutesName.busesListPage:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BusesListPage(),
         settings: const RouteSettings(name: RoutesName.busesListPage),
       );
+    case RoutesName.homeSignInPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => HomeSignInPage(),
+        settings: const RouteSettings(name: RoutesName.homeSignInPage),
+      );
+    case RoutesName.homeOtpPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HomeOtpPage(),
+          settings: const RouteSettings(name: RoutesName.homeOtpPage));
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),

@@ -2,7 +2,6 @@ import 'package:avwidget/avwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:halan/base/api_handler.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tool.dart';
@@ -162,7 +161,7 @@ class _PopularRouteState extends State<PopularRoute> {
           Positioned(
             top: 0,
             right: 16,
-            child: (routeEntity.newRoute == false)
+            child: (routeEntity.newRoute)
                 ? SvgPicture.asset(
                     'assets/new_label_final.svg',
                     height: AppSize.getWidth(context, 24),

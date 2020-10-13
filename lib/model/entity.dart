@@ -1452,6 +1452,7 @@ class User {
     this.stateCode,
     this.companyName,
     this.companyId,
+
   });
 
   factory User.fromMap(Map<String, dynamic> data) {

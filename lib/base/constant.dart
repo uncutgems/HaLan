@@ -302,4 +302,5 @@ class Constant {
   static const String endTimeLimit = 'endTimeLimit';
   static const String distance = 'distance';
   static const String newRoute = 'newRoute';
+  static const String otpCode = 'otpCode';
 }
