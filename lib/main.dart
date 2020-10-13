@@ -52,7 +52,10 @@ MaterialPageRoute<dynamic> routeSettings(
   switch (settings.name) {
     case RoutesName.splashPage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context,) => SplashPage(),
+        builder: (
+          BuildContext context,
+        ) =>
+            SplashPage(),
         settings: const RouteSettings(name: RoutesName.splashPage),
       );
 
@@ -73,8 +76,9 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     case RoutesName.selectPlacePage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) =>SelectPlacePage(),
-        settings: const RouteSettings(name: RoutesName.selectPlacePage),);
+        builder: (BuildContext context) => SelectPlacePage(),
+        settings: const RouteSettings(name: RoutesName.selectPlacePage),
+      );
     case RoutesName.busBookingPage:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BusBookingPage(),
@@ -88,8 +92,43 @@ MaterialPageRoute<dynamic> routeSettings(
   }
 }
 
-class ScaleRoute extends PageRouteBuilder<dynamic> {
-  ScaleRoute({this.page})
+class SwipeRoute extends PageRouteBuilder<dynamic> {
+  SwipeRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: const Offset(1.0, 0.0),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
+            ),
+          ),
+        );
+  final Widget page;
+}
+
+class BotToTopRoute extends PageRouteBuilder<dynamic> {
+  BotToTopRoute({this.page})
       : super(
     pageBuilder: (
         BuildContext context,
@@ -103,17 +142,21 @@ class ScaleRoute extends PageRouteBuilder<dynamic> {
         Animation<double> secondaryAnimation,
         Widget child,
         ) =>
-        ScaleTransition(
-          scale: Tween<double>(
-            begin: 0.0,
-            end: 1.0,
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.fastOutSlowIn,
+        SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 1),
+            end: Offset.zero,
+          ).animate(animation),
+          child: FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset.zero,
+                end: const Offset(0, 1),
+              ).animate(secondaryAnimation),
+              child: child,
             ),
           ),
-          child: child,
         ),
   );
   final Widget page;
