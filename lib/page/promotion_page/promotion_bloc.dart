@@ -20,13 +20,14 @@ class PromotionBloc extends Bloc<PromotionEvent, PromotionState> {
       try {
         yield PromotionStateLoading();
         final List<PopUp> promotionList = await repository.getPromotions();
-        print(promotionList.first.link);
-        yield PromotionStateDismissLoading();
+
+        print(DateTime.fromMillisecondsSinceEpoch(promotionList.first.endDate).month);
+//        yield PromotionStateDismissLoading();
         yield PromotionInitial(promotionList);
 
       }
       on APIException catch(e){
-        yield PromotionStateDismissLoading();
+//        yield PromotionStateDismissLoading();
         yield PromotionStateFail(e.message());
       }
     }
