@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
-import 'package:halan/base/styles.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/home_otp/home_otp.dart';
-
 import 'package:halan/page/home_page/home_page.dart';
-import 'package:halan/page/log_in/home_signin.dart';
 import 'package:halan/page/splash/splash.dart';
-import 'package:halan/page/default_page.dart';
+import 'package:halan/pages/default_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/page/select_date/calendar_page.dart';
 import 'package:halan/page/select_place/select_place_page.dart';
@@ -25,7 +21,6 @@ Future<void> main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  prefs = await SharedPreferences.getInstance();
 
   runApp(MyApp());
 }
@@ -58,7 +53,10 @@ MaterialPageRoute<dynamic> routeSettings(
   switch (settings.name) {
     case RoutesName.splashPage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => SplashPage(),
+        builder: (
+          BuildContext context,
+        ) =>
+            SplashPage(),
         settings: const RouteSettings(name: RoutesName.splashPage),
       );
 
@@ -79,27 +77,14 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     case RoutesName.selectPlacePage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) =>SelectPlacePage(),
-        settings: const RouteSettings(name: RoutesName.selectPlacePage),);
+        builder: (BuildContext context) => SelectPlacePage(),
+        settings: const RouteSettings(name: RoutesName.selectPlacePage),
+      );
     case RoutesName.busBookingPage:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BusBookingPage(),
         settings: const RouteSettings(name: RoutesName.busBookingPage),
       );
-    case RoutesName.busesListPage:
-      return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => BusesListPage(),
-        settings: const RouteSettings(name: RoutesName.busesListPage),
-      );
-    case RoutesName.homeSignInPage:
-      return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => HomeSignInPage(),
-        settings: const RouteSettings(name: RoutesName.homeSignInPage),
-      );
-    case RoutesName.homeOtpPage:
-      return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => HomeOtpPage(),
-          settings: const RouteSettings(name: RoutesName.homeOtpPage));
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),
@@ -108,8 +93,43 @@ MaterialPageRoute<dynamic> routeSettings(
   }
 }
 
-class ScaleRoute extends PageRouteBuilder<dynamic> {
-  ScaleRoute({this.page})
+class SwipeRoute extends PageRouteBuilder<dynamic> {
+  SwipeRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: const Offset(1.0, 0.0),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
+            ),
+          ),
+        );
+  final Widget page;
+}
+
+class BotToTopRoute extends PageRouteBuilder<dynamic> {
+  BotToTopRoute({this.page})
       : super(
     pageBuilder: (
         BuildContext context,
@@ -123,17 +143,21 @@ class ScaleRoute extends PageRouteBuilder<dynamic> {
         Animation<double> secondaryAnimation,
         Widget child,
         ) =>
-        ScaleTransition(
-          scale: Tween<double>(
-            begin: 0.0,
-            end: 1.0,
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.fastOutSlowIn,
+        SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(0, 1),
+            end: Offset.zero,
+          ).animate(animation),
+          child: FadeTransition(
+            opacity: animation,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset.zero,
+                end: const Offset(0, 1),
+              ).animate(secondaryAnimation),
+              child: child,
             ),
           ),
-          child: child,
         ),
   );
   final Widget page;
