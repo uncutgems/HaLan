@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tool.dart';
-import 'package:halan/pages/buses_list/calendar_slider/calendar_slider_bloc.dart';
+import 'package:halan/page/buses_list/calendar_slider/calendar_slider_bloc.dart';
 
 class CalendarSlider extends StatefulWidget {
   const CalendarSlider({Key key, @required this.selectedDate}) : super(key: key);

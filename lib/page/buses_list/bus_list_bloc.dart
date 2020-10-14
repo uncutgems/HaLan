@@ -34,29 +34,33 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
             currentState.dateSelected,
             currentState.page + 1,
             currentState.listTrip,
-        sortSelection: currentState.sortSelections);
+            sortSelection: currentState.sortSelections);
       } else if (event is SortListGetDataBusListEvent) {
-        print(event.key.toString());
-        if (event.key == const Key('time')) {
-          yield* _mapGetDataBusListEventToState(
-              currentState.startPoint,
-              currentState.endPoint,
-              currentState.dateSelected,
-              0,
-              <Trip>[],
+        if (event.sortTypes.first == true && event.sortTypes.last == true) {
+          yield* _mapGetDataBusListEventToState(currentState.startPoint,
+              currentState.endPoint, currentState.dateSelected, 0, <Trip>[],
               sortSelection: <SortSelection>[
-                SortSelection(fieldName: 'startTime', ascDirection: true)
+                SortSelection(fieldName: 'startTime', ascDirection: true),
+                SortSelection(fieldName: 'price', ascDirection: true)
               ]);
-        } else if (event.key == const Key('price')) {
-          yield* _mapGetDataBusListEventToState(
-              currentState.startPoint,
-              currentState.endPoint,
-              currentState.dateSelected,
-              0,
-              <Trip>[],
+        } else if (event.sortTypes.first == false &&
+            event.sortTypes.last == true) {
+          yield* _mapGetDataBusListEventToState(currentState.startPoint,
+              currentState.endPoint, currentState.dateSelected, 0, <Trip>[],
               sortSelection: <SortSelection>[
                 SortSelection(fieldName: 'price', ascDirection: true)
               ]);
+        } else if (event.sortTypes.first == true &&
+            event.sortTypes.last == false) {
+          yield* _mapGetDataBusListEventToState(currentState.startPoint,
+              currentState.endPoint, currentState.dateSelected, 0, <Trip>[],
+              sortSelection: <SortSelection>[
+                SortSelection(fieldName: 'startTime', ascDirection: true)
+              ]);
+        } else {
+          yield* _mapGetDataBusListEventToState(currentState.startPoint,
+              currentState.endPoint, currentState.dateSelected, 0, <Trip>[],
+              sortSelection: <SortSelection>[]);
         }
       }
     }
@@ -66,8 +70,8 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
       String endPoint, DateTime date, int page, List<Trip> tripList,
       {List<SortSelection> sortSelection}) async* {
     try {
-      yield SuccessGetDataBusListState(
-          tripList, -1, date, startPoint, endPoint, false, const <SortSelection>[]);
+      yield SuccessGetDataBusListState(tripList, -1, date, startPoint, endPoint,
+          false, const <SortSelection>[]);
       final List<Trip> newTripList = <Trip>[];
       newTripList.addAll(tripList);
       newTripList.addAll(await _tripRepository.getSchedule(

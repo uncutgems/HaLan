@@ -21,7 +21,7 @@ class ChangeDateBusListEvent extends BusListEvent {
 class LoadMoreBusListEvent extends BusListEvent {}
 
 class SortListGetDataBusListEvent extends BusListEvent{
-  SortListGetDataBusListEvent(this.key);
-  final Key key;
+  SortListGetDataBusListEvent(this.sortTypes);
+  final List<bool> sortTypes;
 
 }
