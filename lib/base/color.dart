@@ -14,8 +14,11 @@ class HaLanColor {
   static const Color borderColor = Color(0xffCFD3DB);
   static const Color disableColor = Color(0xffB0B5C1);
   static const Color gray30 = Color(0xffECEDF1);
+  static const Color gray20 = Color(0xffF1F3F5);
   static const Color gray50 = Color(0xffB0B5C1);
   static const Color gray60 = Color(0xff9198A9);
+  static const Color grayATM = Color(0xffC4C4C4);
+  static const Color gray70 = Color(0xff646D84);
   static const Color gray80 = Color(0xff464D5D);
   static const Color backgroundColor = Color(0xffECEFF7);
   static const Color white = Color(0xffFFFFFF);

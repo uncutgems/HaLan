@@ -8,6 +8,11 @@ import 'package:halan/page/home_otp/home_otp.dart';
 
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/log_in/home_signin.dart';
+import 'package:halan/page/payment/payment_atm/payment_atm_view.dart';
+import 'package:halan/page/payment/payment_home/payment_home_view.dart';
+import 'package:halan/page/payment/payment_home/payment_success_view.dart';
+import 'package:halan/page/payment/payment_qr/payment_qr_home.dart';
+import 'package:halan/page/payment/payment_transfer/payment_transfer_view.dart';
 import 'package:halan/page/splash/splash.dart';
 import 'package:halan/page/default_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -36,7 +41,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.busesListPage,
+      initialRoute: RoutesName.paymentHomePage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -100,6 +105,26 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HomeOtpPage(),
           settings: const RouteSettings(name: RoutesName.homeOtpPage));
+      case RoutesName.paymentHomePage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentHomePage(),
+          settings: const RouteSettings(name: RoutesName.paymentHomePage));
+      case RoutesName.paymentSuccessPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentSuccessPage(),
+          settings: const RouteSettings(name: RoutesName.paymentSuccessPage));
+      case RoutesName.paymentQRPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentQRHomePage(),
+          settings: const RouteSettings(name: RoutesName.paymentQRPage));
+      case RoutesName.paymentATMPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentATMPage(),
+          settings: const RouteSettings(name: RoutesName.paymentATMPage));
+      case RoutesName.paymentTransferPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentTransferPage(),
+          settings: const RouteSettings(name: RoutesName.paymentTransferPage));
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),

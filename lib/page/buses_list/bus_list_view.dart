@@ -40,7 +40,6 @@ class _BusesListWidgetState extends State<BusesListWidget> {
       builder: (BuildContext context, BusListState state) {
         if (state is SuccessGetDataBusListState) {
           if (state.page == -1) {
-            print('ddaau tien la day');
             widget.onStart();
             return _body(context, state);
           } else {
@@ -73,7 +72,7 @@ class _BusesListWidgetState extends State<BusesListWidget> {
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
       child: Column(children: <Widget>[
-        if (state.listTrip.isNotEmpty)
+        if (state.listTrip.isNotEmpty )
           Expanded(
             child: ListView.separated(
                 itemBuilder: (BuildContext context, int index) {
@@ -86,7 +85,7 @@ class _BusesListWidgetState extends State<BusesListWidget> {
                     ),
                 itemCount: state.listTrip.length),
           )
-        else
+        else if (state.listTrip.isEmpty && state.page != -1)
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Center(
