@@ -10,4 +10,10 @@ class RoutesName {
   static const String busesListPage = 'busesListPage';
   static const String homeSignInPage = 'homeSignInPage';
   static const String homeOtpPage = 'homeOtpPage';
+  static const String paymentHomePage = 'paymentHomePage';
+  static const String paymentSuccessPage = 'paymentSuccessPage';
+  static const String paymentQRPage = 'paymentQRPage';
+  static const String paymentATMPage = 'paymentATMPage';
+  static const String paymentTransferPage = 'paymentTransferPage';
+  static const String ticketConfirmPage = 'ticketConfirmPage';
 }
