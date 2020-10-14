@@ -29,7 +29,7 @@ class _PaymentTransferPageState extends State<PaymentTransferPage> {
             child: Center(
                 child: Text(
               'Số tiền cần thanh toán là',
-              style: textTheme.subtitle1.copyWith(
+              style: textTheme.bodyText1.copyWith(
                   color: HaLanColor.primaryColor,
                   fontWeight: FontWeight.w600,
                   height: 1.5),
@@ -62,24 +62,24 @@ class _PaymentTransferPageState extends State<PaymentTransferPage> {
           ),
           Text(
             'Cú pháp chuyển khoản: ',
-            style: textTheme.subtitle2
+            style: textTheme.bodyText2
                 .copyWith(fontWeight: FontWeight.w600, height: 11 / 7),
           ),
           RichText(
             text: TextSpan(
                 text: '<Số điện thoại đặt vé>',
-                style: textTheme.subtitle2.copyWith(
+                style: textTheme.bodyText2.copyWith(
                     fontWeight: FontWeight.w600,
                     height: 11 / 7,
                     color: HaLanColor.red100),
                 children: <TextSpan>[
                   TextSpan(
                       text: ' thanh toan',
-                      style: textTheme.subtitle2.copyWith(
+                      style: textTheme.bodyText2.copyWith(
                           fontWeight: FontWeight.w600, height: 11 / 7)),
                   TextSpan(
                       text: ' <Mã vé>',
-                      style: textTheme.subtitle2.copyWith(
+                      style: textTheme.bodyText2.copyWith(
                           fontWeight: FontWeight.w600,
                           height: 11 / 7,
                           color: HaLanColor.red100)),
@@ -101,7 +101,7 @@ class _PaymentTransferPageState extends State<PaymentTransferPage> {
         children: <Widget>[
           Text(
             bankName,
-            style: textTheme.subtitle2.copyWith(
+            style: textTheme.bodyText2.copyWith(
                 fontWeight: FontWeight.w600,
                 color: HaLanColor.primaryColor,
                 height: 11 / 7),
@@ -111,7 +111,7 @@ class _PaymentTransferPageState extends State<PaymentTransferPage> {
           ),
           Text(
             cardNumber.toString(),
-            style: textTheme.subtitle1.copyWith(
+            style: textTheme.bodyText1.copyWith(
                 color: HaLanColor.black,
                 fontWeight: FontWeight.w600,
                 height: 1.5),
@@ -123,7 +123,7 @@ class _PaymentTransferPageState extends State<PaymentTransferPage> {
             children: <Widget>[
               Text(
                 cardOwnerName,
-                style: textTheme.subtitle2
+                style: textTheme.bodyText2
                     .copyWith(fontWeight: FontWeight.w600, height: 11 / 7),
               ),
               Expanded(child: Container()),

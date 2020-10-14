@@ -28,7 +28,7 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
             child: Center(
                 child: Text(
                   'Số tiền cần thanh toán là',
-                  style: textTheme.subtitle1.copyWith(
+                  style: textTheme.bodyText2.copyWith(
                       color: HaLanColor.primaryColor,
                       fontWeight: FontWeight.w600,
                       height: 1.5),
@@ -40,7 +40,7 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text('Vui lòng sử dụng các phần mềm của Ngân hàng để đọc mã QR Code', style: textTheme.subtitle2.copyWith(fontWeight: FontWeight.w600, height: 11/7),),
+            child: Text('Vui lòng sử dụng các phần mềm của Ngân hàng để đọc mã QR Code', style: textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600, height: 11/7),),
           )
         ],
       ),

@@ -1245,6 +1245,7 @@ class Trip {
     this.pointUp,
     this.pointDown,
     this.price,
+    this.choosableSeat,
     this.drivers,
     this.assistants,
     this.listLockTrip,
@@ -1286,6 +1287,7 @@ class Trip {
       price: getDouble(Constant.price, data),
       listLockTrip: getListInt(Constant.listLockTrip, data),
       drivers: parseListUser(Constant.drivers, data),
+      choosableSeat: getInt(Constant.choosableSeat, data),
       assistants: parseListUser(Constant.assistants, data),
       note: getString(Constant.note, data),
     );
@@ -1301,6 +1303,7 @@ class Trip {
   final String startDateReality;
   final int totalEmptySeat;
   final int totalSeat;
+  final int choosableSeat;
   final String tripId;
   final String scheduleId;
   final int tripStatus;
@@ -1344,6 +1347,7 @@ class Trip {
       Constant.assistants: assistants,
       Constant.listLockTrip: listLockTrip,
       Constant.note: note,
+      Constant.choosableSeat: choosableSeat
     };
   }
 
@@ -1358,6 +1362,7 @@ class Trip {
     String startDateReality,
     int totalEmptySeat,
     int totalSeat,
+    int choosableSeat,
     String tripId,
     String scheduleId,
     int tripStatus,
@@ -1387,6 +1392,8 @@ class Trip {
         (totalEmptySeat == null ||
             identical(totalEmptySeat, this.totalEmptySeat)) &&
         (totalSeat == null || identical(totalSeat, this.totalSeat)) &&
+        (choosableSeat == null ||
+            identical(choosableSeat, this.choosableSeat)) &&
         (tripId == null || identical(tripId, this.tripId)) &&
         (scheduleId == null || identical(scheduleId, this.scheduleId)) &&
         (tripStatus == null || identical(tripStatus, this.tripStatus)) &&
@@ -1421,6 +1428,7 @@ class Trip {
       startDateReality: startDateReality ?? this.startDateReality,
       totalEmptySeat: totalEmptySeat ?? this.totalEmptySeat,
       totalSeat: totalSeat ?? this.totalSeat,
+      choosableSeat: choosableSeat ?? this.choosableSeat,
       tripId: tripId ?? this.tripId,
       scheduleId: scheduleId ?? this.scheduleId,
       tripStatus: tripStatus ?? this.tripStatus,
@@ -1452,7 +1460,6 @@ class User {
     this.stateCode,
     this.companyName,
     this.companyId,
-
   });
 
   factory User.fromMap(Map<String, dynamic> data) {
@@ -3032,4 +3039,3 @@ class PopUp {
   final int endDate;
   final int priority;
 }
-

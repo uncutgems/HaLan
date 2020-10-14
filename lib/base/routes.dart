@@ -15,4 +15,5 @@ class RoutesName {
   static const String paymentQRPage = 'paymentQRPage';
   static const String paymentATMPage = 'paymentATMPage';
   static const String paymentTransferPage = 'paymentTransferPage';
+  static const String ticketConfirmPage = 'ticketConfirmPage';
 }

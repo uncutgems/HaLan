@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
+import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/home_otp/home_otp.dart';
@@ -20,7 +21,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/page/select_date/calendar_page.dart';
 import 'package:halan/page/select_place/select_place_page.dart';
+import 'package:halan/page/ticket_confirm/ticket_confirm_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'base/constant.dart';
 
 SharedPreferences prefs;
 
@@ -41,7 +45,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.paymentHomePage,
+      initialRoute: RoutesName.busesListPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -124,6 +128,12 @@ MaterialPageRoute<dynamic> routeSettings(
       case RoutesName.paymentTransferPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => PaymentTransferPage(),
+          settings: const RouteSettings(name: RoutesName.paymentTransferPage));
+     case RoutesName.ticketConfirmPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => TicketConfirmPage(
+            trip: data[Constant.trip] as Trip,
+          ),
           settings: const RouteSettings(name: RoutesName.paymentTransferPage));
     default:
       return MaterialPageRoute<dynamic>(

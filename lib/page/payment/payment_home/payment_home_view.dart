@@ -29,7 +29,7 @@ class _PaymentHomePageState extends State<PaymentHomePage> {
             child: Center(
                 child: Text(
               'Số tiền cần thanh toán là',
-              style: textTheme.subtitle1.copyWith(
+              style: textTheme.bodyText2.copyWith(
                   color: HaLanColor.primaryColor,
                   fontWeight: FontWeight.w600,
                   height: 1.5),
@@ -41,7 +41,7 @@ class _PaymentHomePageState extends State<PaymentHomePage> {
           ),
           Text(
             'Bạn lựa chọn hình thức thanh toán nào?',
-            style: textTheme.subtitle1.copyWith(
+            style: textTheme.bodyText1.copyWith(
               fontWeight: FontWeight.w600,
               height: 1.5,
             ),
@@ -97,7 +97,7 @@ class _PaymentHomePageState extends State<PaymentHomePage> {
                 height: 16,
               ),
               Text(title,
-                  style: textTheme.subtitle1.copyWith(
+                  style: textTheme.bodyText1.copyWith(
                     fontWeight: FontWeight.w600,
                     height: 1.5,
                   ))
