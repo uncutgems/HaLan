@@ -1,0 +1,28 @@
+import 'package:halan/base/api_handler.dart';
+import 'package:halan/base/constant.dart';
+import 'package:halan/base/url.dart';
+import 'package:halan/model/entity.dart';
+
+class TicketRepository {
+  Future<List<Ticket>> getListTicketForUser(
+      String tripId, String pointUpId, String pointDownId) async {
+    final Map<String, dynamic> body = <String, dynamic>{};
+    body[Constant.tripId] = tripId;
+    body[Constant.pointUpId] = pointUpId;
+    body[Constant.pointDownId] = pointDownId;
+    final AVResponse response = await callPOST(
+      path: URL.getListTicket,
+      body: body,
+    );
+    if (response.isOK) {
+      final List<Ticket> ticketList = <Ticket>[];
+      response.response[Constant.tickets].forEach((final dynamic itemJson) {
+        final Ticket ticket = Ticket.fromJson(itemJson as Map<String, dynamic>);
+        ticketList.add(ticket);
+      });
+      return ticketList;
+    } else {
+      throw APIException(response);
+    }
+  }
+}

@@ -88,7 +88,7 @@ Future<AVResponse> callPOST({
 
   if (body is List) {
     for (final dynamic item in body) {
-      item[Constant.packageName] = 'vn.anvui.driver';
+      item[Constant.packageName] = 'vn.anvui.halan';
       item[Constant.timeZone] = 7;
       item[Constant.platform] = 1;
       item[Constant.deviceType] = 1;
@@ -97,7 +97,7 @@ Future<AVResponse> callPOST({
       item[Constant.deviceId] = prefs.getString(Constant.deviceId);
     }
   } else {
-    body[Constant.packageName] = 'vn.anvui.driver';
+    body[Constant.packageName] = 'vn.anvui.halan';
     body[Constant.timeZone] = 7;
     body[Constant.platform] = 3;
     body[Constant.deviceType] = 1;

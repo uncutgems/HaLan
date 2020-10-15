@@ -304,4 +304,6 @@ class Constant {
   static const String newRoute = 'newRoute';
   static const String otpCode = 'otpCode';
   static const String choosableSeat = 'choosableSeat';
+  static const String pointUpId = 'pointUpId';
+  static const String pointDownId = 'pointDownId';
 }

@@ -40,4 +40,17 @@ class RouteRepository {
       throw APIException(response);
     }
   }
+  Future<RouteEntity> showRoute(String id, {String vehicleTypeId}) async {
+    final Map<String, dynamic> body = <String, dynamic>{};
+    body[Constant.id] = id;
+    final AVResponse result = await callPOST(path: URL.viewRoute, body: body);
+    RouteEntity routeEntity = RouteEntity();
+    if (result.isOK) {
+      routeEntity = RouteEntity.fromMap(
+          result.response[Constant.route] as Map<String, dynamic>);
+
+      return routeEntity;
+    } else
+      throw APIException(result);
+  }
 }

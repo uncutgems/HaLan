@@ -5,14 +5,13 @@ abstract class SeatMapState {}
 
 class SeatMapInitial extends SeatMapState {}
 
-
 class GetDataSeatMapState extends SeatMapState {
   GetDataSeatMapState(
-      this.seatList1,
-      this.seatList2,
+    this.seatList1,
+    this.seatList2,
 //      this.ticketList,
 //      this.tripPrice,
-      );
+  );
 
   final List<Seat> seatList1;
   final List<Seat> seatList2;
@@ -20,3 +19,12 @@ class GetDataSeatMapState extends SeatMapState {
 //  final double tripPrice;
 
 }
+
+class FailGetDataSeatMapState extends SeatMapState {
+  FailGetDataSeatMapState(this.error);
+
+  final String error;
+}
+
+class TurnOnLoadingSeatMapState extends SeatMapState {}
+class TurnOffLoadingSeatMapState extends SeatMapState {}
