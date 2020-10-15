@@ -4,8 +4,8 @@ part of 'ticket_payment_bloc.dart';
 abstract class TicketPaymentState {}
 
 class TicketPaymentInitial extends TicketPaymentState {
-  TicketPaymentInitial(this.seatNumber, this.totalPrice);
+  TicketPaymentInitial(this.listSeat, this.totalPrice);
 
-  final int seatNumber;
-  final double totalPrice;
+  final List<Seat> listSeat;
+  final int totalPrice;
 }
