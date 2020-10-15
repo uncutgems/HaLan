@@ -24,13 +24,17 @@ Future<AVResponse> callGET(String url, {Map<String, String> headers}) async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final Map<String, String> _headers = <String, String>{};
   _headers[Constant.contentType] = 'application/json';
-  _headers[Constant.headerDOBODY6969] = prefs.getString(Constant.token).toString();
+//  _headers[Constant.headerDOBODY6969] = prefs.getString(Constant.token).toString();
+  //TODO: nhớ đổi lại
+  _headers[Constant.headerDOBODY6969] =
+      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDI4MTY3NjMsImp0aSI6Ik9SRzA4WjFxSEhaQnhreUVmIn0.W3L1Y1qWlHEYoq33jFVx0gv9_2f_6HRXdPPYTjahjHE';
   _headers.addAll(headers ?? <String, String>{});
   try {
     print('GET ===================== ');
     print('HEADER: $_headers');
     print('URL : $url');
-    final Response response = await get(url, headers: _headers).timeout(const Duration(seconds: 30));
+    final Response response =
+        await get(url, headers: _headers).timeout(const Duration(seconds: 30));
     if (response != null) {
       print('RESPONSE: ' + response.body);
     }
@@ -39,11 +43,13 @@ Future<AVResponse> callGET(String url, {Map<String, String> headers}) async {
       result = AVResponse(
         code: response.statusCode,
         isOK: true,
-        response: jsonDecode(response.body)[Constant.results] as Map<String, dynamic>,
+        response:
+            jsonDecode(response.body)[Constant.results] as Map<String, dynamic>,
       );
     } else {
       final Map<String, dynamic> jsonError =
-          jsonDecode(response.body)[Constant.results][Constant.error] as Map<String, dynamic>;
+          jsonDecode(response.body)[Constant.results][Constant.error]
+              as Map<String, dynamic>;
       result = AVResponse(
         isOK: false,
         code: response.statusCode,
@@ -81,10 +87,9 @@ Future<AVResponse> callPOST({
   final Map<String, String> _headers = <String, String>{};
   _headers.addAll(header ?? <String, String>{});
   _headers[Constant.contentType] = 'application/json';
-  _headers[Constant.headerDOBODY6969] = prefs.getString(Constant.token).toString();
+  _headers[Constant.headerDOBODY6969] =
+      prefs.getString(Constant.token).toString();
 //  _headers[Constant.headerDOBODY6969] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDE0NTQ2NzUsImp0aSI6IlVTMElHMXU3QlJWNTVpMzAifQ.ulFjE7eaWdjOGooJuizggaC5yvCr-fP1XUNzPqM_1Mw";
-
-
 
   if (body is List) {
     for (final dynamic item in body) {
@@ -112,7 +117,8 @@ Future<AVResponse> callPOST({
   print('body: $body');
   try {
     final Response response =
-        await post(_url, headers: _headers, body: jsonEncode(body)).timeout(const Duration(seconds: 30));
+        await post(_url, headers: _headers, body: jsonEncode(body))
+            .timeout(const Duration(seconds: 30));
     if (response != null) {
       print('response: ' + response.body);
     }
@@ -121,11 +127,13 @@ Future<AVResponse> callPOST({
       result = AVResponse(
         code: response.statusCode,
         isOK: true,
-        response: json.decode(response.body)[Constant.results] as Map<String, dynamic>,
+        response: json.decode(response.body)[Constant.results]
+            as Map<String, dynamic>,
       );
     } else {
       final Map<String, dynamic> jsonError =
-          json.decode(response.body)[Constant.results][Constant.error] as Map<String, dynamic>;
+          json.decode(response.body)[Constant.results][Constant.error]
+              as Map<String, dynamic>;
       result = AVResponse(
         isOK: false,
         code: response.statusCode,
@@ -227,4 +235,3 @@ Future<StreamedResponse> uploadImage(File file) async {
   print(response.statusCode);
   return response;
 }
-

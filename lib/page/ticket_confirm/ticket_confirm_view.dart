@@ -118,7 +118,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                       ),
                       Text(
                         convertTime(
-                            'hh:mm', widget.trip.startTimeReality, true),
+                            'HH:mm', widget.trip.startTimeReality, true),
                         style: textTheme.subtitle1.copyWith(
                             fontSize: AVSize.getFontSize(context, 24),
                             fontWeight: FontWeight.w500,
@@ -162,7 +162,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                       ),
                       Text(
                         convertTime(
-                            'hh:mm',
+                            'HH:mm',
                             widget.trip.startTimeReality + widget.trip.runTime,
                             true),
                         style: textTheme.subtitle1.copyWith(

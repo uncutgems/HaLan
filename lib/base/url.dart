@@ -9,5 +9,6 @@ class URL {
   static const String loginURL = baseURL+'user/login';
   static const String getListTicket = baseURL+'ticket/getForCustomer';
   static const String viewRoute = baseURL+'route/view';
+  static const String getListTicketByUser = baseURL+'ticket/getListByUser';
 
 }

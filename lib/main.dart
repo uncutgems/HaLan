@@ -7,6 +7,8 @@ import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/default_page.dart';
+import 'package:halan/page/history_home/history_home_view.dart';
+import 'package:halan/page/history_ticket_detail/history_ticket_detail_view.dart';
 import 'package:halan/page/home_otp/home_otp.dart';
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/log_in/home_signin.dart';
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.busesListPage,
+      initialRoute: RoutesName.historyHomePage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -135,6 +137,17 @@ MaterialPageRoute<dynamic> routeSettings(
                 trip: data[Constant.trip] as Trip,
               ),
           settings: const RouteSettings(name: RoutesName.paymentTransferPage));
+      case RoutesName.historyHomePage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HistoryHomePage(
+              ),
+          settings: const RouteSettings(name: RoutesName.historyHomePage));
+      case RoutesName.historyTicketDetailPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HistoryTicketDetailPage(
+            ticket: data[Constant.ticket] as Ticket,
+              ),
+          settings: const RouteSettings(name: RoutesName.historyTicketDetailPage));
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),
