@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
-import 'package:halan/model/entity.dart;
+import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
+import 'package:halan/page/default_page.dart';
 import 'package:halan/page/home_otp/home_otp.dart';
 import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/log_in/home_signin.dart';
@@ -13,12 +15,10 @@ import 'package:halan/page/payment/payment_home/payment_home_view.dart';
 import 'package:halan/page/payment/payment_home/payment_success_view.dart';
 import 'package:halan/page/payment/payment_qr/payment_qr_home.dart';
 import 'package:halan/page/payment/payment_transfer/payment_transfer_view.dart';
-import 'package:halan/page/splash/splash.dart';
-import 'package:halan/pages/default_page.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/page/select_date/calendar_page.dart';
 import 'package:halan/page/select_place/select_place_page.dart';
+import 'package:halan/page/splash/splash.dart';
 import 'package:halan/page/ticket_confirm/ticket_confirm_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -73,8 +73,7 @@ MaterialPageRoute<dynamic> routeSettings(
 
     case RoutesName.homePage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => HomePage(),
-          settings: const RouteSettings(name: RoutesName.homePage));
+          builder: (BuildContext context) => HomePage(), settings: const RouteSettings(name: RoutesName.homePage));
 
     case RoutesName.calendarPage:
       return MaterialPageRoute<dynamic>(
@@ -110,31 +109,31 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HomeOtpPage(),
           settings: const RouteSettings(name: RoutesName.homeOtpPage));
-      case RoutesName.paymentHomePage:
+    case RoutesName.paymentHomePage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => PaymentHomePage(),
           settings: const RouteSettings(name: RoutesName.paymentHomePage));
-      case RoutesName.paymentSuccessPage:
+    case RoutesName.paymentSuccessPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => PaymentSuccessPage(),
           settings: const RouteSettings(name: RoutesName.paymentSuccessPage));
-      case RoutesName.paymentQRPage:
+    case RoutesName.paymentQRPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => PaymentQRHomePage(),
           settings: const RouteSettings(name: RoutesName.paymentQRPage));
-      case RoutesName.paymentATMPage:
+    case RoutesName.paymentATMPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => PaymentATMPage(),
           settings: const RouteSettings(name: RoutesName.paymentATMPage));
-      case RoutesName.paymentTransferPage:
+    case RoutesName.paymentTransferPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => PaymentTransferPage(),
           settings: const RouteSettings(name: RoutesName.paymentTransferPage));
-     case RoutesName.ticketConfirmPage:
+    case RoutesName.ticketConfirmPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketConfirmPage(
-            trip: data[Constant.trip] as Trip,
-          ),
+                trip: data[Constant.trip] as Trip,
+              ),
           settings: const RouteSettings(name: RoutesName.paymentTransferPage));
     default:
       return MaterialPageRoute<dynamic>(
@@ -182,34 +181,34 @@ class SwipeRoute extends PageRouteBuilder<dynamic> {
 class BotToTopRoute extends PageRouteBuilder<dynamic> {
   BotToTopRoute({this.page})
       : super(
-    pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        ) =>
-    page,
-    transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-        ) =>
-        SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0, 1),
-            end: Offset.zero,
-          ).animate(animation),
-          child: FadeTransition(
-            opacity: animation,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: Offset.zero,
-                end: const Offset(0, 1),
-              ).animate(secondaryAnimation),
-              child: child,
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: const Offset(0, 1),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
             ),
           ),
-        ),
-  );
+        );
   final Widget page;
 }
