@@ -9,7 +9,6 @@ import 'package:halan/model/entity.dart';
 import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_bloc.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_view.dart';
-import 'package:halan/page/ticket_confirm/promotion/promotion_view.dart';
 import 'package:halan/page/ticket_confirm/seat_map/seat_map_view.dart';
 import 'package:halan/page/ticket_confirm/seat_number/seat_number_view.dart';
 import 'package:halan/page/ticket_confirm/ticket_confirm_bloc.dart';
@@ -118,7 +117,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                       ),
                       Text(
                         convertTime(
-                            'hh:mm', widget.trip.startTimeReality, true),
+                            'HH:mm', widget.trip.startTimeReality, true),
                         style: textTheme.subtitle1.copyWith(
                             fontSize: AVSize.getFontSize(context, 24),
                             fontWeight: FontWeight.w500,
@@ -162,7 +161,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                       ),
                       Text(
                         convertTime(
-                            'hh:mm',
+                            'HH:mm',
                             widget.trip.startTimeReality + widget.trip.runTime,
                             true),
                         style: textTheme.subtitle1.copyWith(
@@ -238,7 +237,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                   listSeat1: state.listSeat1,
                   listSeat2: state.listSeat2,
                 ),
-              PromotionWidget(),
+//              PromotionWidget(),
             ],
           ),
         ),

@@ -155,7 +155,7 @@ class _BusesListWidgetState extends State<BusesListWidget> {
                           Container(
                             width: 54,
                             child: Text(
-                              convertTime('hh:mm', trip.startTimeReality, true),
+                              convertTime('HH:mm', trip.startTimeReality, true),
                               style: textTheme.subtitle1.copyWith(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
@@ -180,7 +180,7 @@ class _BusesListWidgetState extends State<BusesListWidget> {
                           Container(
                             width: 54,
                             child: Text(
-                              convertTime('hh:mm',
+                              convertTime('HH:mm',
                                   trip.startTimeReality + trip.runTime, true),
                               style: textTheme.subtitle1.copyWith(
                                   fontSize: 16,

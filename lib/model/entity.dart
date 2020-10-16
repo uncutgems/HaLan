@@ -1530,42 +1530,42 @@ class User {
 
 @JsonSerializable(nullable: false)
 class Ticket {
-  Ticket({
-    this.ticketId,
-    this.ticketCode,
-    this.ticketStatus,
-    this.createdDate,
-    this.commission,
-    this.tripId,
-    this.scheduleId,
-    this.getInTimePlan,
-    this.getOffTimePlan,
-    this.getInTimePlanInt,
-    this.listSeatId,
-    this.fullName,
-    this.phoneNumber,
-    this.routeId,
-    this.paidMoney,
-    this.pointUp,
-    this.pointDown,
-    this.agencyPrice,
-    this.gotIntoTrip,
-    this.isCompleted,
-    this.note,
-    this.companyId,
-    this.company,
-    this.tripStatus,
-    this.overTime,
-    this.seat,
-    this.routeInfo,
-    this.vehicle,
-    this.isAdult,
-    this.cashOnTheTrip,
-    this.callStatus,
-    this.image,
-    this.originalTicketPrice,
-    this.paymentType,
-  });
+  Ticket(
+      {this.ticketId,
+      this.ticketCode,
+      this.ticketStatus,
+      this.createdDate,
+      this.commission,
+      this.tripId,
+      this.scheduleId,
+      this.getInTimePlan,
+      this.getOffTimePlan,
+      this.getInTimePlanInt,
+      this.listSeatId,
+      this.fullName,
+      this.phoneNumber,
+      this.routeId,
+      this.paidMoney,
+      this.pointUp,
+      this.pointDown,
+      this.agencyPrice,
+      this.gotIntoTrip,
+      this.isCompleted,
+      this.note,
+      this.companyId,
+      this.company,
+      this.tripStatus,
+      this.overTime,
+      this.seat,
+      this.routeInfo,
+      this.vehicle,
+      this.isAdult,
+      this.cashOnTheTrip,
+      this.callStatus,
+      this.image,
+      this.originalTicketPrice,
+      this.paymentType,
+      this.tripInfo});
 
   factory Ticket.fromJson(Map<String, dynamic> data) {
     if (data == null) {
@@ -1608,6 +1608,9 @@ class Ticket {
       cashOnTheTrip: getDouble(Constant.cashOnTheTrip, data),
       callStatus: getInt(Constant.callStatus, data),
       paymentType: getInt(Constant.paymentType, data),
+      tripInfo: data[Constant.tripInfo] != null
+          ? TripInfo.fromMap(data[Constant.tripInfo] as Map<String, dynamic>)
+          : TripInfo(),
     );
   }
 
@@ -1645,6 +1648,7 @@ class Ticket {
   final int callStatus;
   final String image;
   final int paymentType;
+  final TripInfo tripInfo;
 
   Ticket copyWith({
     String ticketId,
@@ -1681,6 +1685,7 @@ class Ticket {
     int callStatus,
     String image,
     int paymentType,
+    TripInfo tripInfo,
   }) {
     if ((ticketId == null || identical(ticketId, this.ticketId)) &&
         (ticketCode == null || identical(ticketCode, this.ticketCode)) &&
@@ -1719,8 +1724,9 @@ class Ticket {
         (cashOnTheTrip == null ||
             identical(cashOnTheTrip, this.cashOnTheTrip)) &&
         (callStatus == null || identical(callStatus, this.callStatus)) &&
+        (image == null || identical(image, this.image)) &&
         (paymentType == null || identical(paymentType, this.paymentType)) &&
-        (image == null || identical(image, this.image))) {
+        (tripInfo == null || identical(tripInfo, this.tripInfo))) {
       return this;
     }
 
@@ -1759,6 +1765,7 @@ class Ticket {
       callStatus: callStatus ?? this.callStatus,
       image: image ?? this.image,
       paymentType: paymentType ?? this.paymentType,
+      tripInfo: tripInfo ?? this.tripInfo,
     );
   }
 
@@ -1791,6 +1798,7 @@ class Ticket {
       Constant.paymentType: paymentType,
       Constant.seatId: seat.toJson(),
       Constant.routeInfo: routeInfo.toJson(),
+      Constant.tripInfo: tripInfo,
     };
   }
 }
@@ -3038,4 +3046,110 @@ class PopUp {
   final int startDate;
   final int endDate;
   final int priority;
+}
+
+class TripInfo {
+  TripInfo({this.vehicle, this.drivers, this.assistants});
+
+  factory TripInfo.fromMap(Map<String, dynamic> data) {
+    return TripInfo(
+      vehicle: Vehicle.fromMap(data[Constant.vehicle] as Map<String, dynamic>),
+      drivers: parseListUser(Constant.drivers, data),
+      assistants: parseListUser(Constant.assistants, data),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      Constant.vehicle: vehicle,
+      Constant.drivers: drivers,
+      Constant.assistants: assistants
+    };
+  }
+
+  TripInfo copyWith({
+    Vehicle vehicle,
+    List<User> drivers,
+    List<User> assistants,
+  }) {
+    if ((vehicle == null || identical(vehicle, this.vehicle)) &&
+        (drivers == null || identical(drivers, this.drivers)) &&
+        (assistants == null || identical(assistants, this.assistants))) {
+      return this;
+    }
+
+    return TripInfo(
+      vehicle: vehicle ?? this.vehicle,
+      drivers: drivers ?? this.drivers,
+      assistants: assistants ?? this.assistants,
+    );
+  }
+
+  final Vehicle vehicle;
+  final List<User> drivers;
+  final List<User> assistants;
+}
+
+class PromotionObject {
+  PromotionObject({
+    this.promotionId,
+    this.promotionCode,
+    this.price,
+    this.percent,
+    this.minPriceApply,
+  });
+
+  factory PromotionObject.fromMap(Map<String, dynamic> data) {
+    return PromotionObject(
+      promotionId: getString(Constant.promotionId, data),
+      promotionCode: getString(Constant.promotionCode, data),
+      price: getDouble(Constant.price, data),
+      percent: getDouble(Constant.percent, data),
+      minPriceApply: data[Constant.minPriceApply] != null
+          ? getDouble(Constant.minPriceApply, data)
+          : 0.0,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      Constant.promotionId: promotionId,
+      Constant.promotionCode: promotionCode,
+      Constant.price: price,
+      Constant.percent: percent,
+      Constant.minPriceApply: minPriceApply,
+    };
+  }
+
+  PromotionObject copyWith({
+    String promotionId,
+    String promotionCode,
+    double price,
+    double percent,
+    double minPriceApply,
+  }) {
+    if ((promotionId == null || identical(promotionId, this.promotionId)) &&
+        (promotionCode == null ||
+            identical(promotionCode, this.promotionCode)) &&
+        (price == null || identical(price, this.price)) &&
+        (percent == null || identical(percent, this.percent)) &&
+        (minPriceApply == null ||
+            identical(minPriceApply, this.minPriceApply))) {
+      return this;
+    }
+
+    return PromotionObject(
+      promotionId: promotionId ?? this.promotionId,
+      promotionCode: promotionCode ?? this.promotionCode,
+      price: price ?? this.price,
+      percent: percent ?? this.percent,
+      minPriceApply: minPriceApply ?? this.minPriceApply,
+    );
+  }
+
+  final String promotionId;
+  final String promotionCode;
+  final double price;
+  final double percent;
+  final double minPriceApply;
 }

@@ -16,4 +16,6 @@ class RoutesName {
   static const String paymentATMPage = 'paymentATMPage';
   static const String paymentTransferPage = 'paymentTransferPage';
   static const String ticketConfirmPage = 'ticketConfirmPage';
+  static const String historyHomePage = 'historyHomePage';
+  static const String historyTicketDetailPage = 'historyTicketDetailPage';
 }

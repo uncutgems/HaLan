@@ -4,6 +4,9 @@ import 'package:avwidget/av_button_widget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:halan/base/color.dart';
+import 'package:halan/model/entity.dart';
+import 'package:halan/model/enum.dart';
 import 'package:intl/intl.dart';
 
 // chuyển thời gian từ millisecond sang định dạng format
@@ -32,17 +35,16 @@ class CurrencyInputFormatter extends TextInputFormatter {
       TextEditingValue oldValue, TextEditingValue newValue) {
     return newValue.copyWith(
         text:
-        currencyFormat(int.parse(newValue.text.toString().trim()), 'VNĐ'));
+            currencyFormat(int.parse(newValue.text.toString().trim()), 'VNĐ'));
   }
 }
 
 void showMessage(
     {@required BuildContext context,
-      @required String message,
-      List<Widget> actions}) {
+    @required String message,
+    List<Widget> actions}) {
   actions ??= <Widget>[];
-  actions.add(
-      AVButton(title: 'Đóng', onPressed: () => Navigator.pop(context)));
+  actions.add(AVButton(title: 'Đóng', onPressed: () => Navigator.pop(context)));
   showDialog<dynamic>(
     context: context,
     builder: (BuildContext context) {
@@ -342,4 +344,74 @@ String convertAccent(String text) {
     }
   }
   return result;
+}
+
+String setTitleByTicketStatus(Ticket ticket) {
+  switch (ticket.ticketStatus) {
+//  static const int invalid = -2;
+//  static const int canceled = 0;
+//  static const int empty = 1;
+//  static const int booked = 2;
+//  static const int bought = 3;
+//  static const int onTheTrip = 4;
+//  static const int completed = 5;
+//  static const int overTime = 6;
+//  static const int bookedAdmin = 7;
+    case TicketStatus.empty:
+      return 'Chưa đặt';
+      break;
+    case TicketStatus.booked:
+      return 'Đã giữ chỗ';
+
+      break;
+    case TicketStatus.bought:
+      return 'Đã mua vé';
+      break;
+    case TicketStatus.onTheTrip:
+      return 'Đã lên xe';
+      break;
+    case TicketStatus.completed:
+      return 'Đã hoàn thành';
+      break;
+    case TicketStatus.bookedAdmin:
+      return 'Đã giữ chỗ';
+      break;
+      case TicketStatus.canceled:
+      return 'Đã hủy';
+      break;
+  }
+  return 'Vé đang xử lý';
+}
+
+Color setColorByTicketStatus(Ticket ticket) {
+  switch (ticket.ticketStatus) {
+    case TicketStatus.empty:
+      return HaLanColor.primaryColor;
+      break;
+    case TicketStatus.booked:
+      return HaLanColor.primaryColor;
+
+      break;
+    case TicketStatus.canceled:
+      return HaLanColor.cancelColor;
+
+      break;
+    case TicketStatus.overTime:
+      return HaLanColor.cancelColor;
+
+      break;
+    case TicketStatus.bought:
+      return HaLanColor.green;
+      break;
+    case TicketStatus.onTheTrip:
+      return HaLanColor.green;
+      break;
+    case TicketStatus.completed:
+      return HaLanColor.green;
+      break;
+    case TicketStatus.bookedAdmin:
+      return HaLanColor.primaryColor;
+      break;
+  }
+  return HaLanColor.primaryColor;
 }
