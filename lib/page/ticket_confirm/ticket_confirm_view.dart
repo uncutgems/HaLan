@@ -9,7 +9,6 @@ import 'package:halan/model/entity.dart';
 import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_bloc.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_view.dart';
-import 'package:halan/page/ticket_confirm/promotion/promotion_view.dart';
 import 'package:halan/page/ticket_confirm/seat_map/seat_map_view.dart';
 import 'package:halan/page/ticket_confirm/seat_number/seat_number_view.dart';
 import 'package:halan/page/ticket_confirm/ticket_confirm_bloc.dart';
@@ -238,7 +237,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                   listSeat1: state.listSeat1,
                   listSeat2: state.listSeat2,
                 ),
-              PromotionWidget(),
+//              PromotionWidget(),
             ],
           ),
         ),

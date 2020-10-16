@@ -1608,8 +1608,9 @@ class Ticket {
       cashOnTheTrip: getDouble(Constant.cashOnTheTrip, data),
       callStatus: getInt(Constant.callStatus, data),
       paymentType: getInt(Constant.paymentType, data),
-      tripInfo:
-          TripInfo.fromMap(data[Constant.tripInfo] as Map<String, dynamic>),
+      tripInfo: data[Constant.tripInfo] != null
+          ? TripInfo.fromMap(data[Constant.tripInfo] as Map<String, dynamic>)
+          : TripInfo(),
     );
   }
 
@@ -3087,4 +3088,68 @@ class TripInfo {
   final Vehicle vehicle;
   final List<User> drivers;
   final List<User> assistants;
+}
+
+class PromotionObject {
+  PromotionObject({
+    this.promotionId,
+    this.promotionCode,
+    this.price,
+    this.percent,
+    this.minPriceApply,
+  });
+
+  factory PromotionObject.fromMap(Map<String, dynamic> data) {
+    return PromotionObject(
+      promotionId: getString(Constant.promotionId, data),
+      promotionCode: getString(Constant.promotionCode, data),
+      price: getDouble(Constant.price, data),
+      percent: getDouble(Constant.percent, data),
+      minPriceApply: data[Constant.minPriceApply] != null
+          ? getDouble(Constant.minPriceApply, data)
+          : 0.0,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      Constant.promotionId: promotionId,
+      Constant.promotionCode: promotionCode,
+      Constant.price: price,
+      Constant.percent: percent,
+      Constant.minPriceApply: minPriceApply,
+    };
+  }
+
+  PromotionObject copyWith({
+    String promotionId,
+    String promotionCode,
+    double price,
+    double percent,
+    double minPriceApply,
+  }) {
+    if ((promotionId == null || identical(promotionId, this.promotionId)) &&
+        (promotionCode == null ||
+            identical(promotionCode, this.promotionCode)) &&
+        (price == null || identical(price, this.price)) &&
+        (percent == null || identical(percent, this.percent)) &&
+        (minPriceApply == null ||
+            identical(minPriceApply, this.minPriceApply))) {
+      return this;
+    }
+
+    return PromotionObject(
+      promotionId: promotionId ?? this.promotionId,
+      promotionCode: promotionCode ?? this.promotionCode,
+      price: price ?? this.price,
+      percent: percent ?? this.percent,
+      minPriceApply: minPriceApply ?? this.minPriceApply,
+    );
+  }
+
+  final String promotionId;
+  final String promotionCode;
+  final double price;
+  final double percent;
+  final double minPriceApply;
 }

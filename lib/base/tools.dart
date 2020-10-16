@@ -348,6 +348,15 @@ String convertAccent(String text) {
 
 String setTitleByTicketStatus(Ticket ticket) {
   switch (ticket.ticketStatus) {
+//  static const int invalid = -2;
+//  static const int canceled = 0;
+//  static const int empty = 1;
+//  static const int booked = 2;
+//  static const int bought = 3;
+//  static const int onTheTrip = 4;
+//  static const int completed = 5;
+//  static const int overTime = 6;
+//  static const int bookedAdmin = 7;
     case TicketStatus.empty:
       return 'Chưa đặt';
       break;
@@ -366,6 +375,9 @@ String setTitleByTicketStatus(Ticket ticket) {
       break;
     case TicketStatus.bookedAdmin:
       return 'Đã giữ chỗ';
+      break;
+      case TicketStatus.canceled:
+      return 'Đã hủy';
       break;
   }
   return 'Vé đang xử lý';

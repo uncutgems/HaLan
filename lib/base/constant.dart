@@ -307,4 +307,7 @@ class Constant {
   static const String pointUpId = 'pointUpId';
   static const String pointDownId = 'pointDownId';
   static const String tripInfo = 'tripInfo';
+  static const String promotionId = 'promotionId';
+  static const String percent = 'percent';
+  static const String minPriceApply = 'minPriceApply';
 }
