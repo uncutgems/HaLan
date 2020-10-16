@@ -8,17 +8,19 @@ import 'package:halan/base/tools.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_bloc.dart';
 
 class TicketPaymentWidget extends StatefulWidget {
+  const TicketPaymentWidget({Key key, this.tripPrice}) : super(key: key);
+  final int tripPrice;
 
   @override
   _TicketPaymentWidgetState createState() => _TicketPaymentWidgetState();
 }
 
 class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
-   TicketPaymentBloc bloc ;
-  
+  TicketPaymentBloc bloc;
+
   @override
   void initState() {
-    bloc=BlocProvider.of<TicketPaymentBloc>(context);
+    bloc = BlocProvider.of<TicketPaymentBloc>(context);
     super.initState();
   }
 
@@ -40,7 +42,7 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Container(
-          padding:const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: const BoxDecoration(
             color: HaLanColor.primaryColor,
             borderRadius: BorderRadius.vertical(
@@ -52,7 +54,7 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    '${state.seatNumber} ghế',
+                    '${state.listSeat.length} ghế',
                     style: textTheme.subtitle1.copyWith(
                         fontSize: AVSize.getFontSize(context, 14),
                         color: HaLanColor.white,
@@ -72,13 +74,23 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
               ),
               Expanded(child: Container()),
               AVButton(
-                onPressed: () {
-                  print('hi');
-                },
+                onPressed: state.listSeat.isNotEmpty
+                    ? () {
+                        print('ticket detail');
+                      }
+                    : null,
                 color: HaLanColor.white,
+                disableColor: HaLanColor.disableColor,
                 title: 'Xác nhận đặt',
-                textColor: HaLanColor.primaryColor,
-                trailingIcon: const Icon(Icons.arrow_forward, color: HaLanColor.primaryColor,),
+                textColor: state.listSeat.isNotEmpty
+                    ? HaLanColor.primaryColor
+                    : HaLanColor.white,
+                trailingIcon: Icon(
+                  Icons.arrow_forward,
+                  color: state.listSeat.isNotEmpty
+                      ? HaLanColor.primaryColor
+                      : HaLanColor.white,
+                ),
               ),
             ],
           ),
