@@ -5,9 +5,8 @@ import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
-import 'package:halan/base/tool.dart';
+import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
-import 'package:halan/model/enum.dart';
 import 'package:halan/page/history_home/history_home_bloc.dart';
 
 class HistoryHomePage extends StatefulWidget {
@@ -87,8 +86,6 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
   }
 
   Widget _historyItem(Ticket ticket) {
-    final bool isCanceled = ticket.ticketStatus == TicketStatus.canceled ||
-        ticket.ticketStatus == TicketStatus.overTime;
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,
@@ -126,11 +123,9 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
                   decoration: BoxDecoration(
                       borderRadius: const BorderRadius.horizontal(
                           left: Radius.circular(4), right: Radius.zero),
-                      color: isCanceled
-                          ? HaLanColor.cancelColor
-                          : HaLanColor.green),
+                      color: setColorByTicketStatus(ticket)),
                   child: Text(
-                    isCanceled ? 'Đã hủy' : 'Đã hoàn thành',
+                    setTitleByTicketStatus(ticket),
                     style: textTheme.bodyText2.copyWith(
                         fontSize: AVSize.getFontSize(context, 12),
                         fontWeight: FontWeight.w600,

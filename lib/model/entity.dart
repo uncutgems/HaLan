@@ -1530,42 +1530,42 @@ class User {
 
 @JsonSerializable(nullable: false)
 class Ticket {
-  Ticket({
-    this.ticketId,
-    this.ticketCode,
-    this.ticketStatus,
-    this.createdDate,
-    this.commission,
-    this.tripId,
-    this.scheduleId,
-    this.getInTimePlan,
-    this.getOffTimePlan,
-    this.getInTimePlanInt,
-    this.listSeatId,
-    this.fullName,
-    this.phoneNumber,
-    this.routeId,
-    this.paidMoney,
-    this.pointUp,
-    this.pointDown,
-    this.agencyPrice,
-    this.gotIntoTrip,
-    this.isCompleted,
-    this.note,
-    this.companyId,
-    this.company,
-    this.tripStatus,
-    this.overTime,
-    this.seat,
-    this.routeInfo,
-    this.vehicle,
-    this.isAdult,
-    this.cashOnTheTrip,
-    this.callStatus,
-    this.image,
-    this.originalTicketPrice,
-    this.paymentType,
-  });
+  Ticket(
+      {this.ticketId,
+      this.ticketCode,
+      this.ticketStatus,
+      this.createdDate,
+      this.commission,
+      this.tripId,
+      this.scheduleId,
+      this.getInTimePlan,
+      this.getOffTimePlan,
+      this.getInTimePlanInt,
+      this.listSeatId,
+      this.fullName,
+      this.phoneNumber,
+      this.routeId,
+      this.paidMoney,
+      this.pointUp,
+      this.pointDown,
+      this.agencyPrice,
+      this.gotIntoTrip,
+      this.isCompleted,
+      this.note,
+      this.companyId,
+      this.company,
+      this.tripStatus,
+      this.overTime,
+      this.seat,
+      this.routeInfo,
+      this.vehicle,
+      this.isAdult,
+      this.cashOnTheTrip,
+      this.callStatus,
+      this.image,
+      this.originalTicketPrice,
+      this.paymentType,
+      this.tripInfo});
 
   factory Ticket.fromJson(Map<String, dynamic> data) {
     if (data == null) {
@@ -1608,6 +1608,8 @@ class Ticket {
       cashOnTheTrip: getDouble(Constant.cashOnTheTrip, data),
       callStatus: getInt(Constant.callStatus, data),
       paymentType: getInt(Constant.paymentType, data),
+      tripInfo:
+          TripInfo.fromMap(data[Constant.tripInfo] as Map<String, dynamic>),
     );
   }
 
@@ -1645,6 +1647,7 @@ class Ticket {
   final int callStatus;
   final String image;
   final int paymentType;
+  final TripInfo tripInfo;
 
   Ticket copyWith({
     String ticketId,
@@ -1681,6 +1684,7 @@ class Ticket {
     int callStatus,
     String image,
     int paymentType,
+    TripInfo tripInfo,
   }) {
     if ((ticketId == null || identical(ticketId, this.ticketId)) &&
         (ticketCode == null || identical(ticketCode, this.ticketCode)) &&
@@ -1719,8 +1723,9 @@ class Ticket {
         (cashOnTheTrip == null ||
             identical(cashOnTheTrip, this.cashOnTheTrip)) &&
         (callStatus == null || identical(callStatus, this.callStatus)) &&
+        (image == null || identical(image, this.image)) &&
         (paymentType == null || identical(paymentType, this.paymentType)) &&
-        (image == null || identical(image, this.image))) {
+        (tripInfo == null || identical(tripInfo, this.tripInfo))) {
       return this;
     }
 
@@ -1759,6 +1764,7 @@ class Ticket {
       callStatus: callStatus ?? this.callStatus,
       image: image ?? this.image,
       paymentType: paymentType ?? this.paymentType,
+      tripInfo: tripInfo ?? this.tripInfo,
     );
   }
 
@@ -1791,6 +1797,7 @@ class Ticket {
       Constant.paymentType: paymentType,
       Constant.seatId: seat.toJson(),
       Constant.routeInfo: routeInfo.toJson(),
+      Constant.tripInfo: tripInfo,
     };
   }
 }
@@ -3038,4 +3045,46 @@ class PopUp {
   final int startDate;
   final int endDate;
   final int priority;
+}
+
+class TripInfo {
+  TripInfo({this.vehicle, this.drivers, this.assistants});
+
+  factory TripInfo.fromMap(Map<String, dynamic> data) {
+    return TripInfo(
+      vehicle: Vehicle.fromMap(data[Constant.vehicle] as Map<String, dynamic>),
+      drivers: parseListUser(Constant.drivers, data),
+      assistants: parseListUser(Constant.assistants, data),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      Constant.vehicle: vehicle,
+      Constant.drivers: drivers,
+      Constant.assistants: assistants
+    };
+  }
+
+  TripInfo copyWith({
+    Vehicle vehicle,
+    List<User> drivers,
+    List<User> assistants,
+  }) {
+    if ((vehicle == null || identical(vehicle, this.vehicle)) &&
+        (drivers == null || identical(drivers, this.drivers)) &&
+        (assistants == null || identical(assistants, this.assistants))) {
+      return this;
+    }
+
+    return TripInfo(
+      vehicle: vehicle ?? this.vehicle,
+      drivers: drivers ?? this.drivers,
+      assistants: assistants ?? this.assistants,
+    );
+  }
+
+  final Vehicle vehicle;
+  final List<User> drivers;
+  final List<User> assistants;
 }
