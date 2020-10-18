@@ -34,7 +34,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "1b06ecd21b534240a010d52ed6c3a8a629ab7300"
+      resolved-ref: "78e8d4af83297d779e80f1ec309a09a656f38074"
       url: "https://github.com/anvui/AVWidget.git"
     source: git
     version: "0.0.1"
@@ -351,7 +351,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.6.18"
+    version: "1.6.21"
   path_provider_linux:
     dependency: transitive
     description:
@@ -442,7 +442,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.12"
+    version: "0.5.12+2"
   shared_preferences_linux:
     dependency: transitive
     description:
