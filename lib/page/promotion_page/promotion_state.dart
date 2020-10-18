@@ -8,7 +8,7 @@ class PromotionInitial extends PromotionState {
   final List<PopUp> promotionList;
 }
 class PromotionStateLoading extends PromotionState{}
-class PromotionStateDismissLoading extends PromotionState{}
+//class PromotionStateDismissLoading extends PromotionState{}
 class PromotionStateFail extends PromotionState{
   PromotionStateFail(this.error);
   final String error;

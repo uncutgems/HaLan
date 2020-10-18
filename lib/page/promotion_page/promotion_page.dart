@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
-import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/main.dart';
 import 'package:halan/model/entity.dart';
@@ -35,18 +34,13 @@ class _PromotionPageState extends State<PromotionPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<PromotionBloc, PromotionState>(
       cubit: bloc,
-      buildWhen: (PromotionState prev, PromotionState state){
-        if(state is PromotionStateLoading){
-          showDialog<dynamic>(context: context,builder: (BuildContext context){
-            return const AVLoadingWidget();
-          });
-          return false;
-        }
-        else if (state is PromotionStateDismissLoading){
-          Navigator.pop(context);
-        }
-        return true;
-      },
+//      buildWhen: (PromotionState prev, PromotionState state){
+//
+//         if (state is PromotionStateDismissLoading){
+//          Navigator.pop(context);
+//        }
+//        return true;
+//      },
       builder: (BuildContext context, PromotionState state) {
         if (state is PromotionInitial) {
           return promotionScreen(context, state);
@@ -77,12 +71,22 @@ class _PromotionPageState extends State<PromotionPage> {
             },),)
           );
         }
+        else if(state is PromotionStateLoading){
+          return promotionScreen(context, state);
+        }
         return Container();
       },
     );
   }
 
-  Widget promotionScreen(BuildContext context, PromotionInitial state) {
+  Widget promotionScreen(BuildContext context, PromotionState state) {
+    Widget body;
+    if (state is PromotionInitial) {
+      body = promotionCards(context, state);
+    }
+    else if(state is PromotionStateLoading){
+      body = const Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
       backgroundColor: HaLanColor.backgroundColor,
       appBar: AppBar(
@@ -104,18 +108,22 @@ class _PromotionPageState extends State<PromotionPage> {
         ),
         actions: <Widget>[
           IconButton(icon: const Icon(Icons.filter),onPressed: (){
-//            showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context){
-//              return BusesListFilter();
-//            },
-//              shape: RoundedRectangleBorder(
-//                borderRadius: BorderRadius.circular(24.0),
-//              ),
-//            );
-          Navigator.of(context).push<dynamic>(ScaleRoute(page:SelectPlacePage()));
+            showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context){
+              return BusesListFilter(
+                times: (List<int>times){
+                  print(times[1]);
+                },
+              );
+            },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
+              ),
+            );
+//          Navigator.of(context).push<dynamic>(SwipeRoute(page:SelectPlacePage()));
           },)
         ],
       ),
-      body: promotionCards(context, state),
+      body: body
     );
   }
 

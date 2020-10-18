@@ -6,18 +6,43 @@ import 'package:halan/base/size.dart';
 import 'package:halan/widget/buses_list_filter/buses_list_filter_bloc.dart';
 
 class BusesListFilter extends StatefulWidget {
+  const BusesListFilter({Key key, this.times}) : super(key: key);
+
+  final ValueChanged<List<int>> times;
+
   @override
   _BusesListFilterState createState() => _BusesListFilterState();
 }
 
 class _BusesListFilterState extends State<BusesListFilter> {
   BusesListFilterBloc bloc = BusesListFilterBloc();
+  List<int> timeList = <int>[];
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BusesListFilterBloc,BusesListFilterState>(
       cubit:bloc ,
       builder:(BuildContext context,BusesListFilterState state) {
         if(state is BusesListFilterInitial) {
+          if(state.time==1){
+
+            final DateTime morning = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 06:00:00.000');
+            final DateTime morningEnd = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 12:00:00.000');
+            timeList=<int>[morning.millisecondsSinceEpoch,morningEnd.millisecondsSinceEpoch];
+          }
+          else if(state.time==2){
+            final DateTime afternoon = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 12:00:00.000');
+            final DateTime afternoonEnd = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 18:00:00.000');
+            timeList=<int>[afternoon.millisecondsSinceEpoch,afternoonEnd.millisecondsSinceEpoch];
+          }
+          else if(state.time==3){
+            final DateTime evening = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 18:00:00.000');
+            final DateTime eveningEnd = evening.add(const Duration(hours: 12));
+            timeList=<int>[evening.millisecondsSinceEpoch,eveningEnd.millisecondsSinceEpoch];
+          }
+          else if(state.time==-1){
+            timeList = <int>[];
+          }
+
           return Container(
             decoration: BoxDecoration(
               color: HaLanColor.white,
@@ -81,6 +106,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
                             child: AVButton(color: state.time==2?HaLanColor.primaryColor: HaLanColor.gray30,
                               onPressed: () {
                                 bloc.add(BusesListFilterEventClickTime(2));
+
                               },
                               title: 'Trưa (12h - 18h)',
                               textColor: state.time==2?HaLanColor.white: HaLanColor.black,
@@ -94,7 +120,6 @@ class _BusesListFilterState extends State<BusesListFilter> {
                           Expanded(
                             child: AVButton(color:state.time==3?HaLanColor.primaryColor: HaLanColor.gray30,
                               onPressed: () {
-
                                 bloc.add(BusesListFilterEventClickTime(3));
                               },
                               title: 'Tối (18h - 6h)',
@@ -124,7 +149,9 @@ class _BusesListFilterState extends State<BusesListFilter> {
                       Container(width: AppSize.getWidth(context, 17),),
                       Expanded(child: AVButton(textColor: HaLanColor.white,
                         title: 'Áp dụng',
-                        onPressed: () {},
+                        onPressed:timeList.isEmpty?null: () {
+                          widget.times(timeList);
+                        },
                         color: HaLanColor.primaryColor,))
                     ],
                   ),

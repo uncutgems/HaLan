@@ -175,7 +175,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
-                        .copyWith(color: HaLanColor.gray50)
+                        .copyWith(color: HaLanColor.disableColor)
                         .copyWith(fontSize: AppSize.getFontSize(context, 12))
                         .copyWith(fontWeight: FontWeight.w600),
                   ),
