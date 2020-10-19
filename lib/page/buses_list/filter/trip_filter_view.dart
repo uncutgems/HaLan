@@ -3,10 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/page/buses_list/filter/trip_filter_bloc.dart';
+import 'package:halan/widget/buses_list_filter/buses_list_filter.dart';
 
 class TripFilterWidget extends StatefulWidget {
-  const TripFilterWidget({Key key, @required this.onSort}) : super(key: key);
+  const TripFilterWidget(
+      {Key key, @required this.onSort, @required this.onTimePeriod})
+      : super(key: key);
   final ValueChanged<List<bool>> onSort;
+  final ValueChanged<List<int>> onTimePeriod;
 
   @override
   _TripFilterWidgetState createState() => _TripFilterWidgetState();
@@ -14,9 +18,6 @@ class TripFilterWidget extends StatefulWidget {
 
 class _TripFilterWidgetState extends State<TripFilterWidget> {
   final TripFilterBloc bloc = TripFilterBloc();
-//  final Key timeKey = const Key('time');
-//  final Key priceKey = const Key('price');
-
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class _TripFilterWidgetState extends State<TripFilterWidget> {
       buildWhen: (TripFilterState prev, TripFilterState current) {
         if (current is CallBackTripFilterState) {
           widget.onSort(<bool>[current.timeSort, current.priceSort]);
+          widget.onTimePeriod(current.timePeriods);
           return false;
         } else
           return true;
@@ -42,7 +44,6 @@ class _TripFilterWidgetState extends State<TripFilterWidget> {
     return Row(
       children: <Widget>[
         FlatButton(
-//          key: timeKey,
           child: Row(
             children: <Widget>[
               Text(
@@ -93,7 +94,17 @@ class _TripFilterWidgetState extends State<TripFilterWidget> {
         IconButton(
           icon: const Icon(Icons.filter_list),
           onPressed: () {
-            print('filter page');
+            showModalBottomSheet<dynamic>(
+                isScrollControlled: false,
+                context: context,
+                builder: (BuildContext context) => BusesListFilter(
+                      times: (List<int> timesConstraint) {
+                        print(timesConstraint.first);
+                        print(timesConstraint.last);
+
+                        bloc.add(SortByTimePeriodFilterEvent(timesConstraint));
+                      },
+                    ));
           },
         ),
       ],

@@ -13,3 +13,10 @@ class SortTripByPriceFilterEvent extends TripFilterEvent {
   final bool priceSort;
 
 }
+
+class SortByTimePeriodFilterEvent extends TripFilterEvent{
+  SortByTimePeriodFilterEvent(this.timePeriod);
+
+  final List<int> timePeriod;
+
+}

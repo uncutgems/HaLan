@@ -58,10 +58,9 @@ class _HomeOtpPageState extends State<HomeOtpPage>
   @override
   void initState() {
     _controller =
-        AnimationController(vsync: this, duration: const Duration(seconds: 60));
+        AnimationController(duration: const Duration(seconds: 60), vsync: this);
     _controller.forward();
 
-    
     super.initState();
   }
 
