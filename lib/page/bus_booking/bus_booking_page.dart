@@ -170,13 +170,13 @@ class _BusBookingPageState extends State<BusBookingPage> {
                     size: 25,
                     color: HaLanColor.white,
                   ),
-                  onPressed: () {
+                  onPressed: selectedPoints.isNotEmpty? () {
                     Navigator.pushNamed(context, RoutesName.busesListPage,arguments: <String,dynamic>{
                       Constant.startPoint: selectedPoints.first,
                       Constant.endPoint: selectedPoints.last,
                       Constant.dateTime: dateTime
                     });
-                  },
+                  }:null,
                 ),
               ),
             ],
