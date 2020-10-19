@@ -1,7 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:halan/base/routes.dart';
+import 'package:halan/base/styles.dart';
+import 'package:halan/model/entity.dart';
+import 'package:halan/page/bus_booking/bus_booking_page.dart';
+import 'package:halan/page/buses_list/buses_list_home_view.dart';
+import 'package:halan/page/default_page.dart';
+import 'package:halan/page/history_home/history_home_view.dart';
+import 'package:halan/page/history_ticket_detail/history_ticket_detail_view.dart';
+import 'package:halan/page/home_otp/home_otp.dart';
+import 'package:halan/page/home_page/home_page.dart';
+import 'package:halan/page/log_in/home_signin.dart';
+import 'package:halan/page/payment/payment_atm/payment_atm_view.dart';
+import 'package:halan/page/payment/payment_home/payment_home_view.dart';
+import 'package:halan/page/payment/payment_home/payment_success_view.dart';
+import 'package:halan/page/payment/payment_qr/payment_qr_home.dart';
+import 'package:halan/page/payment/payment_transfer/payment_transfer_view.dart';
+import 'package:halan/page/promotion_page/promotion_page.dart';
+import 'package:halan/page/select_date/calendar_page.dart';
+import 'package:halan/page/select_place/select_place_page.dart';
+import 'package:halan/page/splash/splash.dart';
+import 'package:halan/page/ticket_confirm/ticket_confirm_view.dart';
+import 'package:halan/page/ticket_detail/ticket_detail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+import 'base/constant.dart';
+
+SharedPreferences prefs;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(<DeviceOrientation>[
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
   runApp(MyApp());
+  prefs = await SharedPreferences.getInstance();
+
 }
 
 class MyApp extends StatelessWidget {
@@ -9,109 +46,201 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      theme: themeData,
+      initialRoute: RoutesName.ticketDetailPage,
+      onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const <Locale>[
+        Locale('vi', 'VN'), // Viet Nam
+      ],
     );
+
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+MaterialPageRoute<dynamic> routeSettings(
+  RouteSettings settings,
+) {
+  final dynamic data = settings.arguments;
+  switch (settings.name) {
+    case RoutesName.splashPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (
+          BuildContext context,
+        ) =>
+            SplashPage(),
+        settings: const RouteSettings(name: RoutesName.splashPage),
+      );
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
+    case RoutesName.homePage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HomePage(),
+          settings: const RouteSettings(name: RoutesName.homePage));
 
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
+    case RoutesName.calendarPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => CalendarPage(
+          chosenDate: data[Constant.dateTime] as DateTime,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+        settings: const RouteSettings(name: RoutesName.calendarPage),
+      );
+    case RoutesName.promotionPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => PromotionPage(),
+        settings: const RouteSettings(name: RoutesName.promotionPage),
+      );
+    case RoutesName.selectPlacePage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => SelectPlacePage(
+          scenario: data[Constant.scenario] as int,
+        ),
+        settings: const RouteSettings(name: RoutesName.selectPlacePage),
+      );
+    case RoutesName.busBookingPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => BusBookingPage(),
+        settings: const RouteSettings(name: RoutesName.busBookingPage),
+      );
+    case RoutesName.busesListPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => BusesListPage(
+          startPoint: data[Constant.startPoint] as Point,
+          endPoint:  data[Constant.endPoint] as Point,
+          date: data[Constant.dateTime] as DateTime,
+        ),
+        settings: const RouteSettings(name: RoutesName.busesListPage),
+      );
+    case RoutesName.homeSignInPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => HomeSignInPage(),
+        settings: const RouteSettings(name: RoutesName.homeSignInPage),
+      );
+    case RoutesName.homeOtpPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HomeOtpPage(),
+          settings: const RouteSettings(name: RoutesName.homeOtpPage));
+    case RoutesName.paymentHomePage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentHomePage(),
+          settings: const RouteSettings(name: RoutesName.paymentHomePage));
+    case RoutesName.paymentSuccessPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentSuccessPage(),
+          settings: const RouteSettings(name: RoutesName.paymentSuccessPage));
+    case RoutesName.paymentQRPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentQRHomePage(),
+          settings: const RouteSettings(name: RoutesName.paymentQRPage));
+    case RoutesName.paymentATMPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentATMPage(),
+          settings: const RouteSettings(name: RoutesName.paymentATMPage));
+    case RoutesName.paymentTransferPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => PaymentTransferPage(),
+          settings: const RouteSettings(name: RoutesName.paymentTransferPage));
+    case RoutesName.ticketConfirmPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => TicketConfirmPage(
+                trip: data[Constant.trip] as Trip,
+            startPoint: data[Constant.startPoint] as Point,
+            endPoint: data[Constant.endPoint] as Point,
+              ),
+          settings: const RouteSettings(name: RoutesName.paymentTransferPage));
+    case RoutesName.historyHomePage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HistoryHomePage(),
+          settings: const RouteSettings(name: RoutesName.historyHomePage));
+    case RoutesName.historyTicketDetailPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => HistoryTicketDetailPage(
+                ticket: data[Constant.ticket] as Ticket,
+              ),
+          settings:
+              const RouteSettings(name: RoutesName.historyTicketDetailPage));
+    case RoutesName.ticketDetailPage:
+      return MaterialPageRoute<dynamic>(
+          builder: (BuildContext context) => TicketDetailPage(),
+          settings: const RouteSettings(name: RoutesName.ticketDetailPage));
+    default:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => DefaultPage(),
+        settings: const RouteSettings(name: RoutesName.defaultPage),
+      );
   }
+}
+
+class SwipeRoute extends PageRouteBuilder<dynamic> {
+  SwipeRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(1, 0),
+              end: Offset.zero,
+            ).animate(animation),
+            child: FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: const Offset(1.0, 0.0),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
+            ),
+          ),
+        );
+  final Widget page;
+}
+
+class BotToTopRoute extends PageRouteBuilder<dynamic> {
+  BotToTopRoute({this.page})
+      : super(
+          pageBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) =>
+              page,
+          transitionsBuilder: (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) =>
+              SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: FadeTransition(
+              opacity: animation,
+              child: SlideTransition(
+                position: Tween<Offset>(
+                  begin: Offset.zero,
+                  end: const Offset(0, 1),
+                ).animate(secondaryAnimation),
+                child: child,
+              ),
+            ),
+          ),
+        );
+  final Widget page;
 }

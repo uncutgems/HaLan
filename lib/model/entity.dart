@@ -160,6 +160,25 @@ List<Point> parseListPoint(String key, Map<String, dynamic> data) {
   return result;
 }
 
+List<AdditionPrice> parseListAdditionPrice(
+    String key, Map<String, dynamic> data) {
+  final List<AdditionPrice> result = <AdditionPrice>[];
+  if (data == null) {
+    return result;
+  }
+  if (data[key] == null) {
+    return result;
+  }
+  if (!data.containsKey(key)) {
+    return result;
+  }
+
+  data[key].forEach((dynamic item) {
+    result.add(AdditionPrice.fromJson(item as Map<String, dynamic>));
+  });
+  return result;
+}
+
 /// parse Point
 List<Seat> parseListSeat(String key, Map<String, dynamic> data) {
   final List<Seat> result = <Seat>[];
@@ -1086,6 +1105,8 @@ class RouteEntity {
     this.listTransshipmentPoint,
     this.listPoint,
     this.listPriceByVehicleType,
+    this.distance,
+    this.newRoute,
   });
 
   factory RouteEntity.fromMap(Map<String, dynamic> data) {
@@ -1110,20 +1131,10 @@ class RouteEntity {
       listPoint: parseListPoint(Constant.listPoint, data),
       listPriceByVehicleType:
           getListDouble(Constant.listPriceByVehicleType, data),
+      distance: getDouble(Constant.distance, data),
+      newRoute: getBool(Constant.newRoute, data),
     );
   }
-
-  final double displayPrice;
-  final String id;
-  final List<String> images;
-  final List<String> listPointId;
-  final String name;
-  final String nameShort;
-  final String phoneNumber;
-  final double childrenTicketRatio;
-  final Map<String, dynamic> listTransshipmentPoint;
-  final List<Point> listPoint;
-  final List<double> listPriceByVehicleType;
 
   RouteEntity copyWith({
     double displayPrice,
@@ -1137,6 +1148,8 @@ class RouteEntity {
     Map<String, dynamic> listTransshipmentPoint,
     List<Point> listPoint,
     List<double> listPriceByVehicleType,
+    double distance,
+    bool newRoute,
   }) {
     if ((displayPrice == null || identical(displayPrice, this.displayPrice)) &&
         (id == null || identical(id, this.id)) &&
@@ -1151,7 +1164,9 @@ class RouteEntity {
             identical(listTransshipmentPoint, this.listTransshipmentPoint)) &&
         (listPoint == null || identical(listPoint, this.listPoint)) &&
         (listPriceByVehicleType == null ||
-            identical(listPriceByVehicleType, this.listPriceByVehicleType))) {
+            identical(listPriceByVehicleType, this.listPriceByVehicleType)) &&
+        (distance == null || identical(distance, this.distance)) &&
+        (newRoute == null || identical(newRoute, this.newRoute))) {
       return this;
     }
 
@@ -1169,8 +1184,24 @@ class RouteEntity {
       listPoint: listPoint ?? this.listPoint,
       listPriceByVehicleType:
           listPriceByVehicleType ?? this.listPriceByVehicleType,
+      distance: distance ?? this.distance,
+      newRoute: newRoute ?? this.newRoute,
     );
   }
+
+  final double displayPrice;
+  final String id;
+  final List<String> images;
+  final List<String> listPointId;
+  final String name;
+  final String nameShort;
+  final String phoneNumber;
+  final double childrenTicketRatio;
+  final Map<String, dynamic> listTransshipmentPoint;
+  final List<Point> listPoint;
+  final List<double> listPriceByVehicleType;
+  final double distance;
+  final bool newRoute;
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
@@ -1185,6 +1216,8 @@ class RouteEntity {
       Constant.listTransshipmentPoint: listTransshipmentPoint,
       Constant.listPoint: listPoint,
       Constant.listPriceByVehicleType: listPriceByVehicleType,
+      Constant.distance: distance,
+      Constant.newRoute: newRoute,
     };
   }
 }
@@ -1212,6 +1245,7 @@ class Trip {
     this.pointUp,
     this.pointDown,
     this.price,
+    this.choosableSeat,
     this.drivers,
     this.assistants,
     this.listLockTrip,
@@ -1242,8 +1276,8 @@ class Trip {
       tripStatus: getInt(Constant.tripStatus, data),
       vehicleTypeId: getString(Constant.vehicleTypeId, data),
       vehicleTypeName: getString(Constant.vehicleTypeName, data),
-      additionPriceForUserType: AdditionPrice.fromJson(
-          data[Constant.additionPriceForUserType] as Map<String, dynamic>),
+      additionPriceForUserType:
+          parseListAdditionPrice(Constant.additionPriceForUserType, data),
       vehicle: Vehicle.fromMap(data[Constant.vehicle] as Map<String, dynamic>),
       contractRepresentation: ContractRepresentation.fromMap(
           data[Constant.contractRepresentation] as Map<String, dynamic>),
@@ -1253,6 +1287,7 @@ class Trip {
       price: getDouble(Constant.price, data),
       listLockTrip: getListInt(Constant.listLockTrip, data),
       drivers: parseListUser(Constant.drivers, data),
+      choosableSeat: getInt(Constant.choosableSeat, data),
       assistants: parseListUser(Constant.assistants, data),
       note: getString(Constant.note, data),
     );
@@ -1268,12 +1303,13 @@ class Trip {
   final String startDateReality;
   final int totalEmptySeat;
   final int totalSeat;
+  final int choosableSeat;
   final String tripId;
   final String scheduleId;
   final int tripStatus;
   final String vehicleTypeId;
   final String vehicleTypeName;
-  final AdditionPrice additionPriceForUserType;
+  final List<AdditionPrice> additionPriceForUserType;
   final Vehicle vehicle;
   final ContractRepresentation contractRepresentation;
   final Point pointDown;
@@ -1311,6 +1347,7 @@ class Trip {
       Constant.assistants: assistants,
       Constant.listLockTrip: listLockTrip,
       Constant.note: note,
+      Constant.choosableSeat: choosableSeat
     };
   }
 
@@ -1325,12 +1362,13 @@ class Trip {
     String startDateReality,
     int totalEmptySeat,
     int totalSeat,
+    int choosableSeat,
     String tripId,
     String scheduleId,
     int tripStatus,
     String vehicleTypeId,
     String vehicleTypeName,
-    AdditionPrice additionPriceForUserType,
+    List<AdditionPrice> additionPriceForUserType,
     Vehicle vehicle,
     ContractRepresentation contractRepresentation,
     Point pointDown,
@@ -1354,6 +1392,8 @@ class Trip {
         (totalEmptySeat == null ||
             identical(totalEmptySeat, this.totalEmptySeat)) &&
         (totalSeat == null || identical(totalSeat, this.totalSeat)) &&
+        (choosableSeat == null ||
+            identical(choosableSeat, this.choosableSeat)) &&
         (tripId == null || identical(tripId, this.tripId)) &&
         (scheduleId == null || identical(scheduleId, this.scheduleId)) &&
         (tripStatus == null || identical(tripStatus, this.tripStatus)) &&
@@ -1388,6 +1428,7 @@ class Trip {
       startDateReality: startDateReality ?? this.startDateReality,
       totalEmptySeat: totalEmptySeat ?? this.totalEmptySeat,
       totalSeat: totalSeat ?? this.totalSeat,
+      choosableSeat: choosableSeat ?? this.choosableSeat,
       tripId: tripId ?? this.tripId,
       scheduleId: scheduleId ?? this.scheduleId,
       tripStatus: tripStatus ?? this.tripStatus,
@@ -1489,42 +1530,42 @@ class User {
 
 @JsonSerializable(nullable: false)
 class Ticket {
-  Ticket({
-    this.ticketId,
-    this.ticketCode,
-    this.ticketStatus,
-    this.createdDate,
-    this.commission,
-    this.tripId,
-    this.scheduleId,
-    this.getInTimePlan,
-    this.getOffTimePlan,
-    this.getInTimePlanInt,
-    this.listSeatId,
-    this.fullName,
-    this.phoneNumber,
-    this.routeId,
-    this.paidMoney,
-    this.pointUp,
-    this.pointDown,
-    this.agencyPrice,
-    this.gotIntoTrip,
-    this.isCompleted,
-    this.note,
-    this.companyId,
-    this.company,
-    this.tripStatus,
-    this.overTime,
-    this.seat,
-    this.routeInfo,
-    this.vehicle,
-    this.isAdult,
-    this.cashOnTheTrip,
-    this.callStatus,
-    this.image,
-    this.originalTicketPrice,
-    this.paymentType,
-  });
+  Ticket(
+      {this.ticketId,
+      this.ticketCode,
+      this.ticketStatus,
+      this.createdDate,
+      this.commission,
+      this.tripId,
+      this.scheduleId,
+      this.getInTimePlan,
+      this.getOffTimePlan,
+      this.getInTimePlanInt,
+      this.listSeatId,
+      this.fullName,
+      this.phoneNumber,
+      this.routeId,
+      this.paidMoney,
+      this.pointUp,
+      this.pointDown,
+      this.agencyPrice,
+      this.gotIntoTrip,
+      this.isCompleted,
+      this.note,
+      this.companyId,
+      this.company,
+      this.tripStatus,
+      this.overTime,
+      this.seat,
+      this.routeInfo,
+      this.vehicle,
+      this.isAdult,
+      this.cashOnTheTrip,
+      this.callStatus,
+      this.image,
+      this.originalTicketPrice,
+      this.paymentType,
+      this.tripInfo});
 
   factory Ticket.fromJson(Map<String, dynamic> data) {
     if (data == null) {
@@ -1567,6 +1608,9 @@ class Ticket {
       cashOnTheTrip: getDouble(Constant.cashOnTheTrip, data),
       callStatus: getInt(Constant.callStatus, data),
       paymentType: getInt(Constant.paymentType, data),
+      tripInfo: data[Constant.tripInfo] != null
+          ? TripInfo.fromMap(data[Constant.tripInfo] as Map<String, dynamic>)
+          : TripInfo(),
     );
   }
 
@@ -1604,6 +1648,7 @@ class Ticket {
   final int callStatus;
   final String image;
   final int paymentType;
+  final TripInfo tripInfo;
 
   Ticket copyWith({
     String ticketId,
@@ -1640,6 +1685,7 @@ class Ticket {
     int callStatus,
     String image,
     int paymentType,
+    TripInfo tripInfo,
   }) {
     if ((ticketId == null || identical(ticketId, this.ticketId)) &&
         (ticketCode == null || identical(ticketCode, this.ticketCode)) &&
@@ -1678,8 +1724,9 @@ class Ticket {
         (cashOnTheTrip == null ||
             identical(cashOnTheTrip, this.cashOnTheTrip)) &&
         (callStatus == null || identical(callStatus, this.callStatus)) &&
+        (image == null || identical(image, this.image)) &&
         (paymentType == null || identical(paymentType, this.paymentType)) &&
-        (image == null || identical(image, this.image))) {
+        (tripInfo == null || identical(tripInfo, this.tripInfo))) {
       return this;
     }
 
@@ -1718,6 +1765,7 @@ class Ticket {
       callStatus: callStatus ?? this.callStatus,
       image: image ?? this.image,
       paymentType: paymentType ?? this.paymentType,
+      tripInfo: tripInfo ?? this.tripInfo,
     );
   }
 
@@ -1750,6 +1798,7 @@ class Ticket {
       Constant.paymentType: paymentType,
       Constant.seatId: seat.toJson(),
       Constant.routeInfo: routeInfo.toJson(),
+      Constant.tripInfo: tripInfo,
     };
   }
 }
@@ -2810,13 +2859,13 @@ class BillEntity {
 }
 
 class TotalInfo {
-  TotalInfo( {this.user, this.company, this.telecomCompanies});
+  TotalInfo({this.user, this.company, this.telecomCompanies});
 
   factory TotalInfo.fromMap(Map<String, dynamic> data) {
     return TotalInfo(
       user: User.fromMap(data[Constant.userInfo] as Map<String, dynamic>),
       company: Company.fromJson(data[Constant.company] as Map<String, dynamic>),
-      telecomCompanies: parseListTelecom(Constant.telecomCompanies, data ),
+      telecomCompanies: parseListTelecom(Constant.telecomCompanies, data),
     );
   }
 
@@ -2936,10 +2985,171 @@ class TelecomCompany {
   final String telecomApiUrl;
 }
 
-class RegionPageObject{
-  RegionPageObject({this.regionList, this.boolMap, this.provinceValues, this.chosenRegions});
+class RegionPageObject {
+  RegionPageObject(
+      {this.regionList, this.boolMap, this.provinceValues, this.chosenRegions});
+
   final List<RegionInfo> regionList;
   final Map<String, List<bool>> boolMap;
   final List<bool> provinceValues;
   final List<RegionInfo> chosenRegions;
+}
+
+class PopUp {
+  PopUp({this.id, this.link, this.startDate, this.endDate, this.priority});
+
+  factory PopUp.fromJson(Map<String, dynamic> data) {
+    return PopUp(
+        id: getString(Constant.id, data),
+        link: getString(Constant.link, data),
+        startDate: getInt(Constant.startDate, data),
+        endDate: getInt(Constant.endDate, data),
+        priority: getInt(Constant.priority, data));
+  }
+
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      Constant.id: id,
+      Constant.link: link,
+      Constant.startDate: startDate,
+      Constant.endDate: endDate,
+      Constant.priority: priority
+    };
+  }
+
+  PopUp copyWith({
+    String id,
+    String link,
+    int startDate,
+    int endDate,
+    int priority,
+  }) {
+    if ((id == null || identical(id, this.id)) &&
+        (link == null || identical(link, this.link)) &&
+        (startDate == null || identical(startDate, this.startDate)) &&
+        (endDate == null || identical(endDate, this.endDate)) &&
+        (priority == null || identical(priority, this.priority))) {
+      return this;
+    }
+
+    return PopUp(
+      id: id ?? this.id,
+      link: link ?? this.link,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      priority: priority ?? this.priority,
+    );
+  }
+
+  final String id;
+  final String link;
+  final int startDate;
+  final int endDate;
+  final int priority;
+}
+
+class TripInfo {
+  TripInfo({this.vehicle, this.drivers, this.assistants});
+
+  factory TripInfo.fromMap(Map<String, dynamic> data) {
+    return TripInfo(
+      vehicle: Vehicle.fromMap(data[Constant.vehicle] as Map<String, dynamic>),
+      drivers: parseListUser(Constant.drivers, data),
+      assistants: parseListUser(Constant.assistants, data),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      Constant.vehicle: vehicle,
+      Constant.drivers: drivers,
+      Constant.assistants: assistants
+    };
+  }
+
+  TripInfo copyWith({
+    Vehicle vehicle,
+    List<User> drivers,
+    List<User> assistants,
+  }) {
+    if ((vehicle == null || identical(vehicle, this.vehicle)) &&
+        (drivers == null || identical(drivers, this.drivers)) &&
+        (assistants == null || identical(assistants, this.assistants))) {
+      return this;
+    }
+
+    return TripInfo(
+      vehicle: vehicle ?? this.vehicle,
+      drivers: drivers ?? this.drivers,
+      assistants: assistants ?? this.assistants,
+    );
+  }
+
+  final Vehicle vehicle;
+  final List<User> drivers;
+  final List<User> assistants;
+}
+
+class PromotionObject {
+  PromotionObject({
+    this.promotionId,
+    this.promotionCode,
+    this.price,
+    this.percent,
+    this.minPriceApply,
+  });
+
+  factory PromotionObject.fromMap(Map<String, dynamic> data) {
+    return PromotionObject(
+      promotionId: getString(Constant.promotionId, data),
+      promotionCode: getString(Constant.promotionCode, data),
+      price: getDouble(Constant.price, data),
+      percent: getDouble(Constant.percent, data),
+      minPriceApply: data[Constant.minPriceApply] != null
+          ? getDouble(Constant.minPriceApply, data)
+          : 0.0,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      Constant.promotionId: promotionId,
+      Constant.promotionCode: promotionCode,
+      Constant.price: price,
+      Constant.percent: percent,
+      Constant.minPriceApply: minPriceApply,
+    };
+  }
+
+  PromotionObject copyWith({
+    String promotionId,
+    String promotionCode,
+    double price,
+    double percent,
+    double minPriceApply,
+  }) {
+    if ((promotionId == null || identical(promotionId, this.promotionId)) &&
+        (promotionCode == null ||
+            identical(promotionCode, this.promotionCode)) &&
+        (price == null || identical(price, this.price)) &&
+        (percent == null || identical(percent, this.percent)) &&
+        (minPriceApply == null ||
+            identical(minPriceApply, this.minPriceApply))) {
+      return this;
+    }
+
+    return PromotionObject(
+      promotionId: promotionId ?? this.promotionId,
+      promotionCode: promotionCode ?? this.promotionCode,
+      price: price ?? this.price,
+      percent: percent ?? this.percent,
+      minPriceApply: minPriceApply ?? this.minPriceApply,
+    );
+  }
+
+  final String promotionId;
+  final String promotionCode;
+  final double price;
+  final double percent;
+  final double minPriceApply;
 }
