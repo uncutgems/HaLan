@@ -18,4 +18,5 @@ class RoutesName {
   static const String ticketConfirmPage = 'ticketConfirmPage';
   static const String historyHomePage = 'historyHomePage';
   static const String historyTicketDetailPage = 'historyTicketDetailPage';
+  static const String ticketDetailPage = 'ticketDetailPage';
 }
