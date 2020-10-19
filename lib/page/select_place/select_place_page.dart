@@ -120,13 +120,8 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
         backgroundColor: HaLanColor.backgroundColor,
         elevation: 0,
         centerTitle: true,
-        title: Text(
-          'Chọn địa điểm',
-          style: Theme.of(context)
-              .textTheme
-              .bodyText2
-              .copyWith(fontSize: AppSize.getFontSize(context, 18)),
-        ),
+        title: const Text(
+          'Chọn địa điểm',),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           color: HaLanColor.black,

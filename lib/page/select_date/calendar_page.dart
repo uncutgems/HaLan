@@ -48,9 +48,7 @@ class _CalendarPageState extends State<CalendarPage> {
       backgroundColor: AVColor.halanBackground,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Chọn ngày khởi hành', style: TextStyle(
-            fontSize: AppSize.getFontSize(context, 18),
-            color: AVColor.gray100),),
+        title: const Text('Chọn ngày khởi hành'),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AVColor.gray100,),
