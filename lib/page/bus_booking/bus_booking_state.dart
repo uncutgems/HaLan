@@ -5,9 +5,11 @@ abstract class BusBookingState {}
 
 class BusBookingInitial extends BusBookingState {}
 
-class DisplayDataBusBookingState extends BusBookingState {}
-
-class FailBusBookingState extends BusBookingState {}
+class DisplayDataBusBookingState extends BusBookingState {
+  DisplayDataBusBookingState(this.date, this.selectedPoint);
+  final DateTime date;
+  final List<Point> selectedPoint;
+}
 
 class LoadingDataBusBookingState extends BusBookingState {}
 

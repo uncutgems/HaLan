@@ -104,9 +104,11 @@ DateTime convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
   int lunarYear, lunarMonth, lunarDay, lunarLeap, diff, leapMonthDiff, a11, b11;
   if (monthStart > dayNumber) {
     monthStart = getNewMoonDay(k, timeZone);
-
+  }
     a11 = getLunarMonth11(yy, timeZone);
+
     b11 = a11;
+    print('WTF $b11');
     if (a11 >= monthStart) {
       lunarYear = yy;
       a11 = getLunarMonth11(yy - 1, timeZone);
@@ -118,7 +120,7 @@ DateTime convertSolar2Lunar(int dd, int mm, int yy, int timeZone) {
     diff = (monthStart - a11) ~/ 29;
     lunarLeap = 0;
     lunarMonth = diff + 11;
-  }
+
   if (b11 - a11 > 365) {
     leapMonthDiff = getLeapMonthOffset(a11, timeZone);
     if (diff >= leapMonthDiff) {

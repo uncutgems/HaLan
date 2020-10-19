@@ -6,6 +6,7 @@ import 'package:halan/repository/user_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'home_signin_event.dart';
+
 part 'home_signin_state.dart';
 
 class HomeSignInBloc extends Bloc<HomeSignInEvent, HomeSignInState> {
@@ -16,14 +17,15 @@ class HomeSignInBloc extends Bloc<HomeSignInEvent, HomeSignInState> {
   Stream<HomeSignInState> mapEventToState(
     HomeSignInEvent event,
   ) async* {
-    if(event is ClickLogInButtonHomeSignInEvent){
+    if (event is ClickLogInButtonHomeSignInEvent) {
       try {
+        yield LoadingHomeSignInState();
         await userRepository.getOTPCode(event.phoneNumber);
-        yield MoveToNextPageHomeSignInState();
+//        yield DismissLoadingHomeSignInState();
+        yield MoveToNextPageHomeSignInState(event.phoneNumber);
       } on APIException catch (e) {
         yield FailHomeSignInState(e.message());
       }
     }
-
   }
 }

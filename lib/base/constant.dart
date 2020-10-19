@@ -310,4 +310,5 @@ class Constant {
   static const String promotionId = 'promotionId';
   static const String percent = 'percent';
   static const String minPriceApply = 'minPriceApply';
+  static const String scenario = 'scenario';
 }

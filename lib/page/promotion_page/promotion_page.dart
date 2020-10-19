@@ -8,6 +8,7 @@ import 'package:halan/main.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/promotion_page/promotion_bloc.dart';
 import 'package:halan/page/select_place/select_place_page.dart';
+import 'package:halan/widget/buses_list_filter/buses_list_filter.dart';
 import 'package:halan/widget/fail_widget.dart';
 class PromotionPage extends StatefulWidget {
   @override
@@ -107,14 +108,18 @@ class _PromotionPageState extends State<PromotionPage> {
         ),
         actions: <Widget>[
           IconButton(icon: const Icon(Icons.filter),onPressed: (){
-//            showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context){
-//              return BusesListFilter();
-//            },
-//              shape: RoundedRectangleBorder(
-//                borderRadius: BorderRadius.circular(24.0),
-//              ),
-//            );
-          Navigator.of(context).push<dynamic>(SwipeRoute(page:SelectPlacePage()));
+            showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context){
+              return BusesListFilter(
+                times: (List<int>times){
+                  print(times[1]);
+                },
+              );
+            },
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24.0),
+              ),
+            );
+//          Navigator.of(context).push<dynamic>(SwipeRoute(page:SelectPlacePage()));
           },)
         ],
       ),

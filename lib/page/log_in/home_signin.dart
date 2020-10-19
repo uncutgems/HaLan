@@ -2,13 +2,14 @@ import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/avwidget.dart';
 import 'package:avwidget/cus_text_form_field_widget.dart';
+import 'package:avwidget/popup_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
-import 'package:halan/page/home_page/home_bloc.dart';
 import 'package:halan/page/log_in/home_signin_bloc.dart';
 
 class HomeSignInPage extends StatefulWidget {
@@ -51,12 +52,21 @@ class _HomeSignInPageState extends State<HomeSignInPage> {
           _catchError(context, current.errorMessage);
           return false;
         } else if (current is MoveToNextPageHomeSignInState) {
-          Navigator.pushNamed(
-            context,
-            RoutesName.homeOtpPage,
-          );
+          Navigator.pop(context);
+          Navigator.pushNamed(context, RoutesName.homeOtpPage,
+              arguments: <String, dynamic>{
+                Constant.phoneNumber: current.phoneNumber,
+              });
+          return false;
+        } else if (current is LoadingHomeSignInState) {
+          showDialog<dynamic>(
+              context: context,
+              builder: (BuildContext context) {
+                return const AVLoadingWidget();
+              });
           return false;
         }
+
         return true;
       },
     );
@@ -128,8 +138,8 @@ class _HomeSignInPageState extends State<HomeSignInPage> {
                   color: AVColor.orange100,
                   onPressed: () {
                     if (myKey.currentState.validate()) {
-                      homeSignInBloc.add(
-                          ClickLogInButtonHomeSignInEvent(phoneNumber.text.trim()));
+                      homeSignInBloc.add(ClickLogInButtonHomeSignInEvent(
+                          phoneNumber.text.trim()));
                     }
                   },
                 ),
