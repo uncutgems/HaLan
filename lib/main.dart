@@ -37,6 +37,8 @@ Future<void> main() async {
   ]);
 
   runApp(MyApp());
+  prefs = await SharedPreferences.getInstance();
+
 }
 
 class MyApp extends StatelessWidget {
@@ -57,6 +59,7 @@ class MyApp extends StatelessWidget {
         Locale('vi', 'VN'), // Viet Nam
       ],
     );
+
   }
 }
 

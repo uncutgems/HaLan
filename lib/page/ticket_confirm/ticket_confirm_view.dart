@@ -129,9 +129,12 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                       Container(
                         height: AVSize.getSize(context, 4),
                       ),
-                      Text(
-                        widget.trip.pointUp.name,
-                        style: textTheme.bodyText2.copyWith(fontSize: 12),
+                      Container(
+                        width: AVSize.getSize(context, 150),
+                        child: Text(
+                          widget.trip.pointUp.name,
+                          style: textTheme.bodyText2.copyWith(fontSize: 12),
+                        ),
                       )
                     ],
                   ),
@@ -175,9 +178,12 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                       Container(
                         height: AVSize.getSize(context, 4),
                       ),
-                      Text(
-                        widget.trip.pointDown.name,
-                        style: textTheme.bodyText2.copyWith(fontSize: 12),
+                      Container(
+                        width: AVSize.getSize(context, 150),
+                        child: Text(
+                          widget.trip.pointDown.name,
+                          style: textTheme.bodyText2.copyWith(fontSize: 12),
+                        ),
                       )
                     ],
                   ),

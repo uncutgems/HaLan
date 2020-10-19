@@ -308,12 +308,14 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
               Container(
                 width: AppSize.getWidth(context, 13),
               ),
-              Text(
-                point.name,
-                style: Theme.of(context).textTheme.bodyText2.copyWith(
-                    fontSize: AppSize.getFontSize(context, 12),
-                    color: HaLanColor.textColor,
-                    fontWeight: FontWeight.normal),
+              Expanded(
+                child: Text(
+                  point.name,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      fontSize: AppSize.getFontSize(context, 12),
+                      color: HaLanColor.textColor,
+                      fontWeight: FontWeight.normal),
+                ),
               ),
             ],
           ),
