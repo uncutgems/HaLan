@@ -25,14 +25,13 @@ class HomeOtpBloc extends Bloc<HomeOtpEvent, HomeOtpState> {
         yield FailToLoginHomeOtpState(e.message());
       }
     } else if (event is ClickLogInButtonHomeOtpEvent) {
+      yield LoadingHomeOtpState();
       try {
-        yield LoadingHomeOtpState();
         await userRepository.loginOTP(event.phoneNumber, event.otpCode);
         yield DismissLoadingHomeOtpState();
         yield LogInSuccessfullyHomeOtpState();
       } on APIException catch (e) {
         yield DismissLoadingHomeOtpState();
-
         yield FailToLoginHomeOtpState(e.message());
       }
     }

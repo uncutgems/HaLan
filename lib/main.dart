@@ -122,7 +122,9 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     case RoutesName.homeOtpPage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => HomeOtpPage(),
+          builder: (BuildContext context) => HomeOtpPage(
+            phoneNumber: data[Constant.phoneNumber] as String,
+          ),
           settings: const RouteSettings(name: RoutesName.homeOtpPage));
     case RoutesName.paymentHomePage:
       return MaterialPageRoute<dynamic>(

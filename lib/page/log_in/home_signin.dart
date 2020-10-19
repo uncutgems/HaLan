@@ -52,6 +52,7 @@ class _HomeSignInPageState extends State<HomeSignInPage> {
           _catchError(context, current.errorMessage);
           return false;
         } else if (current is MoveToNextPageHomeSignInState) {
+          print('Phuc ${current.phoneNumber}');
           Navigator.pop(context);
           Navigator.pushNamed(context, RoutesName.homeOtpPage,
               arguments: <String, dynamic>{
