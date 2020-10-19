@@ -28,12 +28,6 @@ class SelectPlaceBloc extends Bloc<SelectPlaceEvent, SelectPlaceState> {
             }
           }
         }
-//        Point startPoint = routes.first.listPoint.last;
-//      print(startPoint.name);
-//        for(Point point in getDropOffPoints(startPoint, routes)){
-//          print(point.name);
-//        }
-
         final List<Point> startPoints = getStartingPoints(routes);
         yield SelectPlaceStateDismissLoading();
         yield SelectPlaceStateShowData(startPoints,routes);

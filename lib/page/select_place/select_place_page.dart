@@ -10,6 +10,9 @@ import 'package:halan/page/select_place/select_place_bloc.dart';
 import 'package:halan/widget/fail_widget.dart';
 
 class SelectPlacePage extends StatefulWidget {
+  const SelectPlacePage({Key key, this.scenario}) : super(key: key);
+  final int scenario;
+
   @override
   _SelectPlacePageState createState() => _SelectPlacePageState();
 }
@@ -33,6 +36,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
   @override
   void initState() {
     bloc.add(SelectPlaceEventGetData());
+//    bloc.add(SelectPlaceEventChooseScenario(widget.scenario,points));
     super.initState();
   }
 
@@ -60,6 +64,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
         } else if (state is SelectPlaceStateShowData) {
           routes = state.routes;
           points = state.points;
+          bloc.add(SelectPlaceEventChooseScenario(widget.scenario,points));
           return mainView(context,points);
         } else if (state is SelectPlaceStateInitiateScenario) {
           scenario = state.scenario;
@@ -95,12 +100,12 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
               ));
         }
         else if (state is SelectPlaceStateShowStartPoint){
-          start = state.startPoint;
-          return mainView(context,state.points);
+//          start = state.startPoint;
+            return mainView(context, state.points);
         }
         else if (state is SelectPlaceStateShowDropOffPoint){
-          end = state.dropOffPoint;
-          return mainView(context, state.points);
+//          end = state.dropOffPoint;
+            return mainView(context, state.points);
         }
         return Container();
       },
@@ -108,6 +113,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
   }
 
   Widget mainView(BuildContext context, List<Point> points) {
+
     return Scaffold(
       backgroundColor: HaLanColor.backgroundColor,
       appBar: AppBar(
@@ -125,7 +131,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
           icon: const Icon(Icons.arrow_back),
           color: HaLanColor.black,
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context,<Point>[]);
           },
         ),
       ),
@@ -266,12 +272,27 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
       result.add(GestureDetector(
         onTap: (){
           if (scenario==1){
+//            print('current scenario $scenario');
             scenario = 2;
-            bloc.add(SelectPlaceEventChooseStartPoint(1,getDropOffPoints(point,routes),point));
+            start = point;
+            if(end !=null &&start!=null){
+              Navigator.pop(context,<Point>[start, end]);
+            }
+            else {
+              bloc.add(SelectPlaceEventChooseStartPoint(
+                  1, getDropOffPoints(point, routes), point));
+            }
           }
           else if(scenario==2){
             scenario=1;
-            bloc.add(SelectPlaceEventChooseEndPoint(2,getPossibleStartPoints(point,routes),point));
+            end=point;
+            if(end !=null &&start!=null){
+              Navigator.pop(context,<Point>[start, end]);
+            }
+            else {
+              bloc.add(SelectPlaceEventChooseEndPoint(
+                  2, getPossibleStartPoints(point, routes), point));
+            }
           }
         },
         child: Padding(
