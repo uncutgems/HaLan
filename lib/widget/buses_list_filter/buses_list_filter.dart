@@ -24,20 +24,19 @@ class _BusesListFilterState extends State<BusesListFilter> {
       builder:(BuildContext context,BusesListFilterState state) {
         if(state is BusesListFilterInitial) {
           if(state.time==1){
-
-            final DateTime morning = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 06:00:00.000');
-            final DateTime morningEnd = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 12:00:00.000');
-            timeList=<int>[morning.millisecondsSinceEpoch,morningEnd.millisecondsSinceEpoch];
+            const int start = 0;
+            const int end = 6*24*24*1000;
+            timeList=<int>[start,end];
           }
           else if(state.time==2){
-            final DateTime afternoon = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 12:00:00.000');
-            final DateTime afternoonEnd = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 18:00:00.000');
-            timeList=<int>[afternoon.millisecondsSinceEpoch,afternoonEnd.millisecondsSinceEpoch];
+            const int start = 6*24*24*1000;
+            const int end = 18*24*24*1000;
+            timeList=<int>[start,end];
           }
           else if(state.time==3){
-            final DateTime evening = DateTime.parse('${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day} 18:00:00.000');
-            final DateTime eveningEnd = evening.add(const Duration(hours: 12));
-            timeList=<int>[evening.millisecondsSinceEpoch,eveningEnd.millisecondsSinceEpoch];
+            const int start = 18*24*24*1000;
+            const int end = 24*24*24*1000;
+            timeList=<int>[start,end];
           }
           else if(state.time==-1){
             timeList = <int>[];
