@@ -11,10 +11,11 @@ class TripFilterInitial extends TripFilterState {
 }
 
 class CallBackTripFilterState extends TripFilterState {
-  CallBackTripFilterState(this.timeSort, this.priceSort);
+  CallBackTripFilterState(this.timeSort, this.priceSort, this.timePeriods);
 
   final bool timeSort;
   final bool priceSort;
+  final List<int> timePeriods;
 
 
 }

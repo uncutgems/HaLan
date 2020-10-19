@@ -1,10 +1,14 @@
+import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
+import 'package:halan/main.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_bloc.dart';
 
 class TicketPaymentWidget extends StatefulWidget {
@@ -76,7 +80,24 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
               AVButton(
                 onPressed: state.listSeat.isNotEmpty
                     ? () {
-                        print('ticket detail');
+                        if (prefs.getString(Constant.token) != null) {
+                          Navigator.pushNamed(
+                              context, RoutesName.ticketDetailPage);
+                        } else
+                          showDialog<dynamic>(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  AVAlertDialogWidget(
+                                    bottomWidget: Center(
+                                      child: AVButton(title: 'Đồng ý', onPressed: () {
+                                        Navigator.pushNamed(context, RoutesName.homeSignInPage);
+                                      },),
+                                    ),
+                                    title: 'Bạn chưa đăng nhâp',
+                                    context: context,
+                                    content: 'Đăng nhập để đặt vé',
+
+                                  ));
                       }
                     : null,
                 color: HaLanColor.white,

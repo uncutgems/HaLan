@@ -7,8 +7,9 @@ import 'package:halan/base/tool.dart';
 import 'package:halan/page/buses_list/calendar_slider/calendar_slider_bloc.dart';
 
 class CalendarSlider extends StatefulWidget {
-  const CalendarSlider({Key key, @required this.selectedDate}) : super(key: key);
+  const CalendarSlider({Key key, @required this.selectedDate, @required this.firstDate}) : super(key: key);
   final ValueChanged<DateTime> selectedDate;
+  final DateTime firstDate;
 
   @override
   _CalendarSliderState createState() => _CalendarSliderState();
@@ -20,7 +21,7 @@ class _CalendarSliderState extends State<CalendarSlider> {
   @override
   void initState() {
     bloc = BlocProvider.of<CalendarSliderBloc>(context);
-    bloc.add(ChoosingDateCalendarSliderEvent(DateTime.now()));
+    bloc.add(ChoosingDateCalendarSliderEvent(widget.firstDate));
     super.initState();
   }
 
@@ -115,7 +116,7 @@ class _CalendarSliderState extends State<CalendarSlider> {
 //fontSize: 12, color: HaLanColor.gray80, fontWeight: FontWeight.w600),
 //firstDate: DateTime.now(),
 //lastDate: DateTime(2025),
-//dateFormat: 'dd/MM',
+//dateFormat: 'dd/MM',F
 //initialSelectedDates: <DateTime>[DateTime.now()],
 //pressCalender: true,
 //contentPadding: const EdgeInsets.all(4),

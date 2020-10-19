@@ -37,6 +37,8 @@ Future<void> main() async {
   ]);
 
   runApp(MyApp());
+  prefs = await SharedPreferences.getInstance();
+
 }
 
 class MyApp extends StatelessWidget {
@@ -57,6 +59,7 @@ class MyApp extends StatelessWidget {
         Locale('vi', 'VN'), // Viet Nam
       ],
     );
+
   }
 }
 
@@ -105,7 +108,11 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     case RoutesName.busesListPage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => BusesListPage(),
+        builder: (BuildContext context) => BusesListPage(
+          startPoint: data[Constant.startPoint] as Point,
+          endPoint:  data[Constant.endPoint] as Point,
+          date: data[Constant.dateTime] as DateTime,
+        ),
         settings: const RouteSettings(name: RoutesName.busesListPage),
       );
     case RoutesName.homeSignInPage:
@@ -141,6 +148,8 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketConfirmPage(
                 trip: data[Constant.trip] as Trip,
+            startPoint: data[Constant.startPoint] as Point,
+            endPoint: data[Constant.endPoint] as Point,
               ),
           settings: const RouteSettings(name: RoutesName.paymentTransferPage));
     case RoutesName.historyHomePage:

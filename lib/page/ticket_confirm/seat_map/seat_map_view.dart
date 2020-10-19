@@ -16,7 +16,9 @@ class SeatMapWidget extends StatefulWidget {
       this.trip,
       this.routeEntity,
       this.tripPrice,
-      this.ticketPaymentBloc, this.listSeat1, this.listSeat2})
+      this.ticketPaymentBloc,
+      this.listSeat1,
+      this.listSeat2})
       : super(key: key);
 
   final Trip trip;
@@ -45,8 +47,8 @@ class _SeatMapWidgetState extends State<SeatMapWidget> {
       cubit: bloc,
       builder: (BuildContext context, SeatMapState state) {
         if (state is GetDataSeatMapState) {
-          if(state.seatList1 != null ) {
-             return _body(context, state);
+          if (state.seatList1 != null) {
+            return _body(context, state);
           } else
             return Container();
         } else if (state is FailGetDataSeatMapState) {
@@ -125,12 +127,12 @@ class _SeatMapWidgetState extends State<SeatMapWidget> {
                 ),
               ),
             ),
-          if (widget.trip.seatMap.numberOfFloors == 2)
-            Container(
-              height: AVSize.getSize(context, 350),
-              width: AVSize.getSize(context, 1),
-              color: HaLanColor.bannerColor,
-            ),
+//          if (widget.trip.seatMap.numberOfFloors == 2)
+//            Container(
+//              height: AVSize.getSize(context, 350),
+//              width: AVSize.getSize(context, 1),
+//              color: HaLanColor.bannerColor,
+//            ),
           if (widget.trip.seatMap.numberOfFloors == 2)
             _seatMap(
               context: context,
@@ -190,13 +192,25 @@ class _SeatMapWidgetState extends State<SeatMapWidget> {
         break;
       case SeatType.bedSeat:
         imageString = 'assets/bed.png';
-
-        allowClick = true;
+        if (seat.ticketStatus == TicketStatus.empty) {
+          allowClick = true;
+        } else
+          allowClick = false;
         break;
       case SeatType.normalSeat:
         imageString = 'assets/normal_seat.png';
-        allowClick = true;
+        if (seat.ticketStatus == TicketStatus.empty) {
+          allowClick = true;
+        } else
+          allowClick = false;
         break;
+      case SeatType.door:
+        imageString = 'assets/door.png';
+        allowClick = false;
+        break;
+      default:
+        imageString = 'no_seat';
+        allowClick = false;
     }
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -215,13 +229,17 @@ class _SeatMapWidgetState extends State<SeatMapWidget> {
                     ),
                   ),
                   Text(
-                    'Ghế ${seat.seatId}',
+                    seat.seatType != SeatType.door
+                        ? 'Ghế ${seat.seatId}'
+                        : 'Cửa ra',
                     style: textTheme.bodyText2.copyWith(
-                      fontSize: AVSize.getFontSize(context, 12),
+                      fontSize: AVSize.getFontSize(
+                          context, trip.seatMap.numberOfColumns > 3 ? 8 : 12),
                       color: setColorForSeat(seat),
                     ),
                   ),
-                  if (seat.seatType != SeatType.driverSeat)
+                  if (seat.seatType != SeatType.driverSeat &&
+                      trip.seatMap.numberOfColumns <= 3)
                     Text(
                       currencyFormat(
                           widget.tripPrice.toInt() + seat.extraPrice.toInt(),

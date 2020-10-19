@@ -10,9 +10,13 @@ import 'package:halan/model/entity.dart';
 import 'package:halan/page/buses_list/bus_list_bloc.dart';
 
 class BusesListWidget extends StatefulWidget {
-  const BusesListWidget({Key key, this.onStart, this.onStop}) : super(key: key);
+  const BusesListWidget(
+      {Key key, this.onStart, this.onStop, this.startPoint, this.endPoint})
+      : super(key: key);
   final VoidCallback onStart;
   final VoidCallback onStop;
+  final Point startPoint;
+  final Point endPoint;
 
   @override
   _BusesListWidgetState createState() => _BusesListWidgetState();
@@ -129,7 +133,11 @@ class _BusesListWidgetState extends State<BusesListWidget> {
       onTap: () {
         if (outOfSeat == false && passStartTime == false) {
           Navigator.pushNamed(context, RoutesName.ticketConfirmPage,
-              arguments: <String, dynamic>{Constant.trip: trip});
+              arguments: <String, dynamic>{
+                Constant.trip: trip,
+                Constant.startPoint: widget.startPoint,
+                Constant.endPoint: widget.endPoint
+              });
         }
       },
       child: Stack(children: <Widget>[
