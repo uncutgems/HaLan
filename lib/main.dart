@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.promotionPage,
+      initialRoute: RoutesName.splashPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -79,7 +79,9 @@ MaterialPageRoute<dynamic> routeSettings(
 
     case RoutesName.calendarPage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => CalendarPage(),
+        builder: (BuildContext context) => CalendarPage(
+          chosenDate: data[Constant.dateTime] as DateTime,
+        ),
         settings: const RouteSettings(name: RoutesName.calendarPage),
       );
     case RoutesName.promotionPage:
@@ -89,7 +91,9 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     case RoutesName.selectPlacePage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => SelectPlacePage(),
+        builder: (BuildContext context) => SelectPlacePage(
+          scenario: data[Constant.scenario] as int,
+        ),
         settings: const RouteSettings(name: RoutesName.selectPlacePage),
       );
     case RoutesName.busBookingPage:

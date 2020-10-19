@@ -8,9 +8,10 @@ import 'package:halan/base/tool.dart';
 import 'package:halan/page/select_date/calendar_bloc.dart';
 import 'package:halan/page/select_date/date_helper.dart';
 import 'package:halan/page/select_date/horizontal_calendar.dart';
-import 'package:halan/widget/common_bottom_navigation_bar.dart';
 
 class CalendarPage extends StatefulWidget {
+  const CalendarPage({Key key, this.chosenDate}) : super(key: key);
+  final DateTime chosenDate;
   @override
   _CalendarPageState createState() => _CalendarPageState();
 }
@@ -27,7 +28,7 @@ class _CalendarPageState extends State<CalendarPage> {
       builder: (BuildContext context, CalendarState state) {
         if (state is CalendarInitial) {
           dateOfMonth = state.dateTime;
-          datePickedComparable=null;
+          datePickedComparable=widget.chosenDate;
           print(dateOfMonth.month);
           return mainScreen(context);
         }
@@ -54,12 +55,12 @@ class _CalendarPageState extends State<CalendarPage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AVColor.gray100,),
           onPressed: () {
-//            if(datePickedComparable!=null) {
-//              Navigator.pop(context,datePickedComparable);
-//            }
-//            else{
+            if(datePickedComparable!=null) {
+              Navigator.pop(context,datePickedComparable);
+            }
+            else{
               Navigator.pop(context,DateTime.now());
-//            }
+            }
           },),
         backgroundColor: AVColor.halanBackground,
       ),
