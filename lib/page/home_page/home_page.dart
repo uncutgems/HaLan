@@ -164,7 +164,9 @@ class _HomePageState extends State<HomePage> {
                     width: AppSize.getWidth(context, 163),
                     height: AppSize.getWidth(context, 64),
                     color: AVColor.orange100,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, RoutesName.ticketDetailPage);
+                    },
                   ),
                 ),
               ],
