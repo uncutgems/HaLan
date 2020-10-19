@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/main.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/page/home_otp/home_otp_bloc.dart';
 import 'package:halan/widget/count_down_widget/count_down.dart';
@@ -85,7 +86,9 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           return false;
         } else if (state is DismissLoadingHomeOtpState) {
           Navigator.pop(context);
+          return false;
         } else if (state is LogInSuccessfullyHomeOtpState) {
+
           Navigator.popUntil(context, ModalRoute.withName(RoutesName.homePage));
           return false;
         } else if (state is FailToLoginHomeOtpState) {
@@ -296,6 +299,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
                     controller: _controller,
                     onPressed: () {
                       phoneNumber = widget.phoneNumber;
+                      print('Fuck phuc $phoneNumber');
                       homeOtpBloc.add(ClickSendAgainHomeOtpEvent(phoneNumber));
                     },
                   ),
