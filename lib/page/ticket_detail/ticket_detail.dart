@@ -5,6 +5,8 @@ import 'package:avwidget/testing_tff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/main.dart';
 import 'package:halan/model/entity.dart';
@@ -311,6 +313,12 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               onPressed: () {
                 if (myKey.currentState.validate()) {
                   print('hello');
+                  Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,arguments: <String,dynamic>{
+                    Constant.phoneNumber: phoneNumberController.text,
+                    Constant.fullName: customerNameController.text,
+                    Constant.email: emailController.text,
+                    Constant.passport: passportController.text
+                  });
                 }
               },
               color: HaLanColor.primaryColor,

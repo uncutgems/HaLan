@@ -312,4 +312,5 @@ class Constant {
   static const String minPriceApply = 'minPriceApply';
   static const String scenario = 'scenario';
   static const String interBusLinesCompanyId = 'TC1OHntfnujP';
+  static const String passport = 'passport';
 }
