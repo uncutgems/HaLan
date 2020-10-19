@@ -136,6 +136,12 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   textEditingController: customerNameController,
                   keyboardType: TextInputType.text,
                   focusNode: customerNameFocusNode,
+                  validator: (String value) {
+                    if (value ==null) {
+                      return 'Vui lòng điền';
+                    }
+                    return null;
+                  },
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(emailFocusNode);
                   },
@@ -171,6 +177,12 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   focusNode: emailFocusNode,
                   textEditingController: emailController,
                   keyboardType: TextInputType.text,
+                  validator: (String value) {
+                    if (value ==null) {
+                      return 'Vui lòng điền';
+                    }
+                    return null;
+                  },
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(phoneNumberFocusNode);
                   },
@@ -206,6 +218,12 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   focusNode: phoneNumberFocusNode,
                   textEditingController: phoneNumberController,
                   keyboardType: TextInputType.number,
+                  validator: (String value) {
+                    if (value ==null) {
+                      return 'Vui lòng điền';
+                    }
+                    return null;
+                  },
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(passportFocusNode);
                   },
@@ -284,16 +302,19 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               ],
             ),
           ),
-          floatingActionButton: AVButton(
-            title: 'Tiếp tục',
-            height: AppSize.getWidth(context, 48),
-            width: AppSize.getWidth(context, 343),
-            onPressed: () {
-              if (myKey.currentState.validate()) {
-                print('hello');
-              }
-            },
-            color: HaLanColor.primaryColor,
+          bottomNavigationBar: Padding(
+            padding:  EdgeInsets.all(AppSize.getWidth(context, 16)),
+            child: AVButton(
+              title: 'Tiếp tục',
+              height: AppSize.getWidth(context, 48),
+              width: AppSize.getWidth(context, 343),
+              onPressed: () {
+                if (myKey.currentState.validate()) {
+                  print('hello');
+                }
+              },
+              color: HaLanColor.primaryColor,
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
