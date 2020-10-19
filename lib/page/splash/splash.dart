@@ -26,20 +26,19 @@ class _SplashPageState extends State<SplashPage>
     final CurvedAnimation curvedAnimation =
         CurvedAnimation(parent: animationController, curve: Curves.slowMiddle);
     animation = Tween<double>(begin: -700, end: 700).animate(curvedAnimation)
-    ..addStatusListener((AnimationStatus status) {
-      if(status == AnimationStatus.completed){
-        animationController.reset();
-        animationController.forward();
-      }else{
-      }
-    });
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          animationController.reset();
+          animationController.forward();
+        } else {}
+      });
     animationController.forward();
     Timer(
         const Duration(seconds: 5),
-            () => Navigator.pushNamed(
-          context,
-          RoutesName.homePage,
-        ));
+        () => Navigator.pushNamed(
+              context,
+              RoutesName.homePage,
+            ));
     super.initState();
   }
 

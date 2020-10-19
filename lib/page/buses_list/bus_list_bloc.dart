@@ -62,13 +62,23 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
               currentState.endPoint, currentState.dateSelected, 0, <Trip>[],
               sortSelection: <SortSelection>[]);
         }
+      } else if (event is SortTimePeriodBusListEvent) {
+        yield* _mapGetDataBusListEventToState(
+            currentState.startPoint,
+            currentState.endPoint,
+            currentState.dateSelected,
+            currentState.page,
+            currentState.listTrip,
+            sortSelection: currentState.sortSelections,
+            startTime: event.startTime,
+            endTime: event.endTime);
       }
     }
   }
 
   Stream<BusListState> _mapGetDataBusListEventToState(String startPoint,
       String endPoint, DateTime date, int page, List<Trip> tripList,
-      {List<SortSelection> sortSelection}) async* {
+      {List<SortSelection> sortSelection, int startTime, int endTime}) async* {
     try {
       yield SuccessGetDataBusListState(tripList, -1, date, startPoint, endPoint,
           false, const <SortSelection>[]);
@@ -79,8 +89,8 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
           endPoint: endPoint,
           date: int.parse(
               convertTime('yyyyMMdd', date.millisecondsSinceEpoch, false)),
-          startTimeLimit: 0,
-          endTimeLimit: 86400000,
+          startTimeLimit: startTime ?? 0,
+          endTimeLimit: endTime ?? 86400000,
           page: page,
           sortSelections: sortSelection));
       yield SuccessGetDataBusListState(

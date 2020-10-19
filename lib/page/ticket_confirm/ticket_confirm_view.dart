@@ -14,8 +14,10 @@ import 'package:halan/page/ticket_confirm/seat_number/seat_number_view.dart';
 import 'package:halan/page/ticket_confirm/ticket_confirm_bloc.dart';
 
 class TicketConfirmPage extends StatefulWidget {
-  const TicketConfirmPage({Key key, this.trip}) : super(key: key);
+  const TicketConfirmPage({Key key, @required this.trip, @required this.startPoint, @required this.endPoint}) : super(key: key);
   final Trip trip;
+  final Point startPoint;
+  final Point endPoint;
 
   @override
   _TicketConfirmPageState createState() => _TicketConfirmPageState();
@@ -28,9 +30,9 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
   @override
   void initState() {
     bloc.add(GetDataTicketConfirmEvent(
-        widget.trip, 'P0FT1t0lhczZM64', 'P0FZ1t36daLrKDR'));
+        widget.trip, widget.startPoint.id, widget.endPoint.id));
     bloc.add(GetListTicketTicketConfirmEvent(
-        widget.trip, 'P0FT1t0lhczZM64', 'P0FZ1t36daLrKDR'));
+        widget.trip, widget.startPoint.id, widget.endPoint.id));
     super.initState();
   }
 
@@ -91,6 +93,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
               Row(
                 children: <Widget>[
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
                         'Khởi hành',

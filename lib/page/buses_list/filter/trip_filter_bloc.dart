@@ -18,11 +18,17 @@ class TripFilterBloc extends Bloc<TripFilterEvent, TripFilterState> {
     final TripFilterState currentState = state;
     if (currentState is TripFilterInitial) {
       if (event is SortTripByTimeFilterEvent) {
-        yield CallBackTripFilterState(!event.timeSort, currentState.priceSort);
+        yield CallBackTripFilterState(
+            !event.timeSort, currentState.priceSort, const <int>[0, 86400000]);
         yield TripFilterInitial(!event.timeSort, currentState.priceSort);
       } else if (event is SortTripByPriceFilterEvent) {
-        yield CallBackTripFilterState(currentState.timeSort, event.priceSort);
+        yield CallBackTripFilterState(
+            currentState.timeSort, event.priceSort, const <int>[0, 86400000]);
         yield TripFilterInitial(currentState.timeSort, !event.priceSort);
+      } else if (event is SortByTimePeriodFilterEvent) {
+        yield CallBackTripFilterState(
+            currentState.timeSort, currentState.priceSort, event.timePeriod);
+        yield TripFilterInitial(currentState.timeSort, currentState.priceSort);
       }
     }
   }
