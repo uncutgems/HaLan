@@ -18,9 +18,7 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
   final TripRepository _tripRepository = TripRepository();
 
   @override
-  Stream<BusListState> mapEventToState(
-    BusListEvent event,
-  ) async* {
+  Stream<BusListState> mapEventToState(BusListEvent event,) async* {
     final BusListState currentState = state;
     if (event is GetDataBusListEvent) {
       yield* _mapGetDataBusListEventToState(
@@ -72,6 +70,16 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
             sortSelection: currentState.sortSelections,
             startTime: event.startTime,
             endTime: event.endTime);
+      } else if (event is ChangingSizeBusListEvent) {
+        yield SuccessGetDataBusListState(
+            listTrip: currentState.listTrip,
+            startPoint: currentState.startPoint,
+            endPoint: currentState.endPoint,
+            dateSelected: currentState.dateSelected,
+            page: currentState.page,
+            allowLoadMore: true,
+            sortSelections: currentState.sortSelections,
+            size: event.size);
       }
     }
   }
@@ -80,8 +88,13 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
       String endPoint, DateTime date, int page, List<Trip> tripList,
       {List<SortSelection> sortSelection, int startTime, int endTime}) async* {
     try {
-      yield SuccessGetDataBusListState(tripList, -1, date, startPoint, endPoint,
-          false, const <SortSelection>[]);
+      yield SuccessGetDataBusListState(listTrip: tripList,
+          page: -1,
+          dateSelected: date,
+          startPoint: startPoint,
+          endPoint: endPoint,
+          allowLoadMore: false,
+          sortSelections: const <SortSelection>[]);
       final List<Trip> newTripList = <Trip>[];
       newTripList.addAll(tripList);
       newTripList.addAll(await _tripRepository.getSchedule(
@@ -94,7 +107,13 @@ class BusListBloc extends Bloc<BusListEvent, BusListState> {
           page: page,
           sortSelections: sortSelection));
       yield SuccessGetDataBusListState(
-          newTripList, page, date, startPoint, endPoint, true, sortSelection);
+          listTrip: newTripList,
+          page: page,
+          dateSelected: date,
+          startPoint: startPoint,
+          endPoint: endPoint,
+          allowLoadMore: true,
+          sortSelections: sortSelection);
     } on APIException catch (e) {
       yield FailGetDataBusListState(e.message());
     }
