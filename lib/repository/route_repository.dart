@@ -25,8 +25,8 @@ class RouteRepository {
 
   Future<List<RouteEntity>> getPopularRoutes() async {
     final List<RouteEntity> popularRouteList = <RouteEntity>[];
-    final Map<String, dynamic> body = <String, dynamic>{};
-    body[Constant.companyId] = 'TC0FR1szrRt37fiR';
+//    final Map<String, dynamic> body = <String, dynamic>{};
+//    body[Constant.companyId] = 'TC0FR1szrRt37fiR';
 
     final AVResponse response = await callGET(URL.getPopularRouteList);
     if (response.isOK) {
