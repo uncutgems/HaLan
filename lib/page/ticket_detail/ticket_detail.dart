@@ -8,11 +8,16 @@ import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
-import 'package:halan/main.dart';
+import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';
+import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_detail/ticket_detail_bloc.dart';
 
 class TicketDetailPage extends StatefulWidget {
+  const TicketDetailPage({Key key, this.trip}) : super(key: key);
+
+  final Trip trip;
+
   @override
   _TicketDetailPageState createState() => _TicketDetailPageState();
 }
@@ -250,12 +255,21 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               width: AppSize.getWidth(context, 343),
               onPressed: () {
                 if (myKey.currentState.validate()) {
-                  print('hello');
+                  final Ticket ticket = Ticket(
+                    createdDate: int.parse(convertTime('ddMMyyy', DateTime.now().millisecondsSinceEpoch, true)),
+                    fullName: customerNameController.text,
+                    phoneNumber: phoneNumberController.text,
+                    ticketStatus: TicketStatus.booked,
+                    getInTimePlan: widget.trip.startTime,
+                    getOffTimePlan: widget.trip.startTime + widget.trip.runTime,
+                    pointUp: widget.trip.pointUp,
+                    pointDown: widget.trip.pointDown,
+                    listSeatId: <String>[]
+
+
+                  );
                   Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,arguments: <String,dynamic>{
-                    Constant.phoneNumber: phoneNumberController.text,
-                    Constant.fullName: customerNameController.text,
-                    Constant.email: emailController.text,
-                    Constant.passport: noteController.text
+                    Constant.ticket: ticket
                   });
                 }
               },

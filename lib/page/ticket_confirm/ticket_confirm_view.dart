@@ -260,6 +260,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
         bottomNavigationBar: BlocProvider<TicketPaymentBloc>(
           create: (BuildContext context) => _ticketPaymentBloc,
           child: TicketPaymentWidget(
+            trip: widget.trip,
             tripPrice: state.tripPrice,
             navigate: () {
               Navigator.pushNamed(context, RoutesName.homeSignInPage);

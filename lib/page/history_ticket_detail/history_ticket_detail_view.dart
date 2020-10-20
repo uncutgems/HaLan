@@ -48,12 +48,12 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: Column(
           children: <Widget>[
-            QrImage(
-              data: widget.ticket.ticketId,
-              size: AVSize.getSize(context, 120),
-              version: QrVersions.auto,
-              backgroundColor: HaLanColor.white,
-            ),
+//            QrImage(
+//              data: widget.ticket.ticketId,
+//              size: AVSize.getSize(context, 120),
+//              version: QrVersions.auto,
+//              backgroundColor: HaLanColor.white,
+//            ),
             Container(
               height: AVSize.getSize(context, 8),
             ),
@@ -307,8 +307,8 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
               ),
               child: Column(
                 children: <Widget>[
-                  _rowInfo(context, 'Ghế đã chọn',
-                      widget.ticket.listSeatId.join(',')),
+//                  _rowInfo(context, 'Ghế đã chọn',
+//                      widget.ticket.listSeatId.join(',')),
                   Container(
                     height: AVSize.getSize(context, 8),
                   ),
@@ -409,13 +409,13 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                       Container(
                         height: AVSize.getSize(context, 8),
                       ),
-                      Text(
-                        currencyFormat(widget.ticket.agencyPrice.toInt(), 'Đ'),
-                        style: textTheme.subtitle1.copyWith(
-                            fontSize: AVSize.getFontSize(context, 18),
-                            color: HaLanColor.white,
-                            fontWeight: FontWeight.w600),
-                      )
+//                      Text(
+//                        currencyFormat(widget.ticket.agencyPrice.toInt(), 'Đ'),
+//                        style: textTheme.subtitle1.copyWith(
+//                            fontSize: AVSize.getFontSize(context, 18),
+//                            color: HaLanColor.white,
+//                            fontWeight: FontWeight.w600),
+//                      )
                     ],
                   ),
                   Expanded(
