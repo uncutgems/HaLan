@@ -25,17 +25,17 @@ class _BusesListFilterState extends State<BusesListFilter> {
         if(state is BusesListFilterInitial) {
           if(state.time==1){
             const int start = 0;
-            const int end = 6*24*24*1000;
+            const int end = 6*60*60*1000;
             timeList=<int>[start,end];
           }
           else if(state.time==2){
-            const int start = 6*24*24*1000;
-            const int end = 18*24*24*1000;
+            const int start = 6*60*60*1000;
+            const int end = 18*60*60*1000;
             timeList=<int>[start,end];
           }
           else if(state.time==3){
-            const int start = 18*24*24*1000;
-            const int end = 24*24*24*1000;
+            const int start = 18*60*60*1000;
+            const int end = 24*60*60*1000;
             timeList=<int>[start,end];
           }
           else if(state.time==-1){
