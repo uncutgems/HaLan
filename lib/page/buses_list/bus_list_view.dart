@@ -2,12 +2,12 @@ import 'package:avwidget/popup_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
-import 'package:halan/base/constant.dart';
-import 'package:halan/base/routes.dart';
+
 import 'package:halan/base/styles.dart';
-import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/buses_list/bus_list_bloc.dart';
+import 'package:halan/page/buses_list/bus_list_item/bus_list_item_view.dart';
+import 'package:halan/widget/fail_widget.dart';
 
 class BusesListWidget extends StatefulWidget {
   const BusesListWidget(
@@ -25,10 +25,13 @@ class BusesListWidget extends StatefulWidget {
 class _BusesListWidgetState extends State<BusesListWidget> {
   BusListBloc bloc;
   ScrollController tripController;
+  int listViewItem = 0;
+  int newListView = 0;
 
   @override
   void initState() {
     bloc = BlocProvider.of<BusListBloc>(context);
+
 //    tripController = ScrollController()..addListener(_scrollListener);
     super.initState();
   }
@@ -54,207 +57,80 @@ class _BusesListWidgetState extends State<BusesListWidget> {
           }
         } else if (state is FailGetDataBusListState) {
           return Scaffold(
-            body: Text(state.error),
+            body: Center(
+                child: FailWidget(
+              message: state.error,
+              onPressed: () {
+                bloc.add(GetDataBusListEvent());
+              },
+            )),
           );
-        } else
-          return Container();
-      },
-      buildWhen: (BusListState prev, BusListState current) {
-        if (current is ShowLoadingGetDataBusListState) {
-          widget.onStart();
-          showLoading(context);
-          return false;
-        } else if (current is TurnOffLoadingGetDataBusListState) {
-          widget.onStop();
-          Navigator.pop(context);
-          return false;
-        } else
-          return true;
+        }
+        return Container();
       },
     );
   }
 
   Widget _body(BuildContext context, SuccessGetDataBusListState state) {
+    newListView = state.listTrip.length;
     return NotificationListener<ScrollNotification>(
       onNotification: _handleScrollNotification,
-      child: Column(children: <Widget>[
-        if (state.listTrip.isNotEmpty)
-          Expanded(
-            child: ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemBuilder: (BuildContext context, int index) {
-                  final Trip trip = state.listTrip[index];
-                  return _cardItem(context, trip, state);
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    Container(
-                      height: 8,
-                    ),
-                itemCount: state.listTrip.length),
-          )
-        else if (state.listTrip.isEmpty && state.page != -1)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Image.asset('assets/no_trip.png'),
-                  Text(
-                    'Hiện không có chuyến nào ở tuyến đường này! \n Vui lòng chọn tuyến đường hoặc ngày khác',
-                    style: textTheme.bodyText1
-                        .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
-                  )
-                ],
-              ),
-            ),
-          ),
-        if (state.page == -1)
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Center(
-                child: CircularProgressIndicator(
-              backgroundColor: HaLanColor.primaryColor,
-              valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.white),
-            )),
-          ),
-      ]),
-    );
-  }
-
-  Widget _cardItem(
-      BuildContext context, Trip trip, SuccessGetDataBusListState state) {
-    final int startTime =
-        convertNewDayStyleToMillisecond(trip.date) + trip.startTimeReality;
-    final bool passStartTime =
-        DateTime.now().millisecondsSinceEpoch > startTime;
-    final bool outOfSeat = trip.totalEmptySeat == 0;
-
-    return GestureDetector(
-      onTap: () {
-        if (outOfSeat == false && passStartTime == false) {
-          Navigator.pushNamed(context, RoutesName.ticketConfirmPage,
-              arguments: <String, dynamic>{
-                Constant.trip: trip,
-                Constant.startPoint: widget.startPoint,
-                Constant.endPoint: widget.endPoint
-              });
-        }
-      },
-      child: Stack(children: <Widget>[
-        Container(
-          height: 125,
-          decoration: BoxDecoration(
-            color: HaLanColor.white,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 8.0, left: 16, right: 16, bottom: 4),
+      child: state.listTrip.isEmpty && state.page != -1
+          ? Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 54,
-                          child: Text(
-                            convertTime('HH:mm', trip.startTimeReality, true),
-                            style: textTheme.subtitle1.copyWith(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                height: 1.5),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.arrow_upward,
-                          size: 16,
-                          color: HaLanColor.blue,
-                        ),
-                        Expanded(
-                          child: Text(
-                            trip.pointUp.name,
-                            style: textTheme.bodyText2
-                                .copyWith(fontSize: 12, height: 5 / 3),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 54,
-                          child: Text(
-                            convertTime('HH:mm',
-                                trip.startTimeReality + trip.runTime, true),
-                            style: textTheme.subtitle1.copyWith(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                height: 1.5),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.arrow_downward,
-                          size: 16,
-                          color: HaLanColor.red100,
-                        ),
-                        Expanded(
-                          child: Text(
-                            trip.pointDown.name,
-                            style: textTheme.bodyText2
-                                .copyWith(fontSize: 12, height: 5 / 3),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                height: 1,
-                color: HaLanColor.gray30,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: 16.0, right: 16, top: 8, bottom: 8),
-                child: Row(
-                  children: <Widget>[
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(trip.seatMap.seatMapName,
-                            style: textTheme.bodyText2
-                                .copyWith(fontSize: 12, height: 4 / 3)),
-                        Text(
-                          '${trip.totalEmptySeat}/${trip.totalSeat} ghế trống',
-                          style: textTheme.bodyText2.copyWith(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              height: 4 / 3),
-                        )
-                      ],
-                    ),
-                    Expanded(child: Container()),
+                    Image.asset('assets/no_trip.png'),
                     Text(
-                      currencyFormat(trip.price.toInt(), 'Đ'),
-                      style: textTheme.headline6.copyWith(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: HaLanColor.primaryColor,
-                          height: 11 / 9),
+                      'Hiện không có chuyến nào ở tuyến đường này! \n Vui lòng chọn tuyến đường hoặc ngày khác',
+                      style: textTheme.bodyText1
+                          .copyWith(fontWeight: FontWeight.w600, fontSize: 14),
                     )
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
-        if (outOfSeat == true || passStartTime == true)
-          _maskWidget(context, passStartTime),
-      ]),
+            )
+          : state.listTrip.isNotEmpty
+              ? ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemBuilder: (BuildContext context, int index) {
+                    if (index == state.listTrip.length &&
+                        state.listTrip.length > 6 &&
+                        listViewItem < state.listTrip.length) {
+                      return const Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Center(
+                            child: CircularProgressIndicator(
+                          backgroundColor: HaLanColor.primaryColor,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(HaLanColor.white),
+                        )),
+                      );
+                    } else {
+                      if (index < state.listTrip.length) {
+                        final Trip trip = state.listTrip[index];
+                        return BusListItemWidget(
+                          trip: trip,
+                        );
+                      } else
+                        return Container();
+                    }
+                  },
+                  separatorBuilder: (BuildContext context, int index) =>
+                      Container(
+                        height: 8,
+                      ),
+                  itemCount: state.listTrip.length + 1)
+              : const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: HaLanColor.primaryColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.white),
+                  )),
+                ),
     );
   }
 
@@ -269,27 +145,13 @@ class _BusesListWidgetState extends State<BusesListWidget> {
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification is ScrollEndNotification) {
       if (notification.metrics.pixels >
-          notification.metrics.maxScrollExtent * 0.9) {
-        bloc.add(LoadMoreBusListEvent());
+          notification.metrics.maxScrollExtent * 0.8) {
+        if (listViewItem < newListView) {
+          listViewItem = newListView;
+          bloc.add(LoadMoreBusListEvent());
+        }
       }
     }
     return false;
-  }
-
-  Widget _maskWidget(BuildContext context, bool passStartTime) {
-    return Container(
-      child: Center(
-        child: Text(
-          passStartTime == true ? 'CHUYẾN ĐÃ KHỞI HÀNH' : 'ĐÃ HẾT GHẾ TRỐNG',
-          style: textTheme.subtitle1
-              .copyWith(color: HaLanColor.white, fontWeight: FontWeight.w600),
-        ),
-      ),
-      height: 125,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: HaLanColor.gray80.withOpacity(0.8),
-      ),
-    );
   }
 }
