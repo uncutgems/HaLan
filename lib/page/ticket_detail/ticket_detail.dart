@@ -14,9 +14,10 @@ import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_detail/ticket_detail_bloc.dart';
 
 class TicketDetailPage extends StatefulWidget {
-  const TicketDetailPage({Key key, this.trip}) : super(key: key);
+  const TicketDetailPage({Key key, @required this.trip, @required this.listSeat}) : super(key: key);
 
   final Trip trip;
+  final List<Seat> listSeat;
 
   @override
   _TicketDetailPageState createState() => _TicketDetailPageState();

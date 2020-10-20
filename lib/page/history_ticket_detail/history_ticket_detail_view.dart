@@ -48,12 +48,12 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
         child: Column(
           children: <Widget>[
-//            QrImage(
-//              data: widget.ticket.ticketId,
-//              size: AVSize.getSize(context, 120),
-//              version: QrVersions.auto,
-//              backgroundColor: HaLanColor.white,
-//            ),
+            QrImage(
+              data: widget.ticket.ticketId,
+              size: AVSize.getSize(context, 120),
+              version: QrVersions.auto,
+              backgroundColor: HaLanColor.white,
+            ),
             Container(
               height: AVSize.getSize(context, 8),
             ),

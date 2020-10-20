@@ -40,3 +40,9 @@ class SortTimePeriodBusListEvent extends BusListEvent {
   final int startTime;
   final int endTime;
 }
+
+class ChangingSizeBusListEvent extends BusListEvent {
+  ChangingSizeBusListEvent(this.size);
+
+  final Size size;
+}
