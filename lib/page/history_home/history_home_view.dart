@@ -89,7 +89,9 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,
-            arguments: <String, dynamic>{Constant.ticket: ticket});
+            arguments: <String, dynamic>{
+              Constant.tickets: <Ticket>[ticket]
+            });
       },
       child: Container(
         padding: EdgeInsets.only(

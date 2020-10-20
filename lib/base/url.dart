@@ -13,5 +13,6 @@ class URL {
   static const String viewRoute = baseURL+'route/view';
   static const String getListTicketByUser = baseURL+'ticket/getListByUser';
   static const String checkPromotion = baseURL+'promotion/check';
+  static const String checkTicketByCode = baseURL+ 'ticket/viewByCode';
 
 }

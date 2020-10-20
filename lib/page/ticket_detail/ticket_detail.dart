@@ -8,13 +8,13 @@ import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
-import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';
-import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_detail/ticket_detail_bloc.dart';
 
 class TicketDetailPage extends StatefulWidget {
-  const TicketDetailPage({Key key, @required this.trip, @required this.listSeat}) : super(key: key);
+  const TicketDetailPage(
+      {Key key, @required this.trip, @required this.listSeat})
+      : super(key: key);
 
   final Trip trip;
   final List<Seat> listSeat;
@@ -121,7 +121,6 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
-
                 HalanTextFormField(
                   isRequired: true,
                   title: 'Tên khách hàng',
@@ -130,7 +129,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   keyboardType: TextInputType.text,
                   focusNode: customerNameFocusNode,
                   validator: (String value) {
-                    if (value ==null) {
+                    if (value == null) {
                       return 'Vui lòng điền tên khách hàng';
                     }
                     return null;
@@ -150,7 +149,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   textEditingController: phoneNumberController,
                   keyboardType: TextInputType.number,
                   validator: (String value) {
-                    if (value ==null) {
+                    if (value == null) {
                       return 'Vui lòng điền số điện thoại';
                     }
                     return null;
@@ -172,7 +171,6 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                     FocusScope.of(context).requestFocus(phoneNumberFocusNode);
                   },
                 ),
-
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
@@ -202,22 +200,24 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 19),
                 ),
-                Text('Hình thức đưa đón',style: textStyle,),
+                Text(
+                  'Hình thức đưa đón',
+                  style: textStyle,
+                ),
                 Container(
                   height: AppSize.getWidth(context, 8),
                 ),
-               option(context, () { }, textStyle),
+                option(context, () {}, textStyle),
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
-                option(context, () { }, textStyle),
+                option(context, () {}, textStyle),
                 Container(
                   height: AppSize.getWidth(context, 19),
                 ),
                 Row(
                   children: <Widget>[
                     AVRadio<bool>(
-
                       groupValue: box2,
                       value: true,
                       onTap: () {
@@ -244,34 +244,36 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                     ),
                   ],
                 ),
-
               ],
             ),
           ),
           bottomNavigationBar: Padding(
-            padding:  EdgeInsets.all(AppSize.getWidth(context, 16)),
+            padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
             child: AVButton(
               title: 'Tiếp tục',
               height: AppSize.getWidth(context, 48),
               width: AppSize.getWidth(context, 343),
               onPressed: () {
                 if (myKey.currentState.validate()) {
-                  final Ticket ticket = Ticket(
-                    createdDate: int.parse(convertTime('ddMMyyy', DateTime.now().millisecondsSinceEpoch, true)),
-                    fullName: customerNameController.text,
-                    phoneNumber: phoneNumberController.text,
-                    ticketStatus: TicketStatus.booked,
-                    getInTimePlan: widget.trip.startTime,
-                    getOffTimePlan: widget.trip.startTime + widget.trip.runTime,
-                    pointUp: widget.trip.pointUp,
-                    pointDown: widget.trip.pointDown,
-                    listSeatId: <String>[]
-
-
-                  );
-                  Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,arguments: <String,dynamic>{
-                    Constant.ticket: ticket
-                  });
+                  print('vào đây');
+//                  final Ticket ticket = Ticket(
+//                    createdDate: int.parse(convertTime('ddMMyyy', DateTime.now().millisecondsSinceEpoch, true)),
+//                    fullName: customerNameController.text,
+//                    phoneNumber: phoneNumberController.text,
+//                    ticketStatus: TicketStatus.booked,
+//                    getInTimePlan: widget.trip.startTime,
+//                    getOffTimePlan: widget.trip.startTime + widget.trip.runTime,
+//                    pointUp: widget.trip.pointUp,
+//                    pointDown: widget.trip.pointDown,
+//                    listSeatId: <String>[]
+//
+//
+//                  );
+                  Navigator.pushNamed(
+                      context, RoutesName.historyTicketDetailPage,
+                      arguments: <String, dynamic>{
+                        Constant.ticketCode: '201020-900790'
+                      });
                 }
               },
               color: HaLanColor.primaryColor,
@@ -285,15 +287,20 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   }
 }
 
-Widget option(BuildContext context,VoidCallback onTap,TextStyle textStyle){
+Widget option(BuildContext context, VoidCallback onTap, TextStyle textStyle) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
-      padding: EdgeInsets.symmetric(horizontal: AppSize.getWidth(context, 16),vertical:AppSize.getWidth(context, 9) ),
+      padding: EdgeInsets.symmetric(
+          horizontal: AppSize.getWidth(context, 16),
+          vertical: AppSize.getWidth(context, 9)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text('Đón tại bến',style: textStyle,),
+          Text(
+            'Đón tại bến',
+            style: textStyle,
+          ),
           const Icon(Icons.expand_more),
         ],
       ),

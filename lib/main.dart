@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.homeSignInPage,
+      initialRoute: RoutesName.splashPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -161,7 +161,7 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.historyTicketDetailPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HistoryTicketDetailPage(
-                ticket: data[Constant.ticket] as Ticket,
+                ticketCode: data[Constant.ticketCode] as String,
               ),
           settings:
               const RouteSettings(name: RoutesName.historyTicketDetailPage));
@@ -169,6 +169,7 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketDetailPage(
             trip: data[Constant.trip] as Trip,
+            listSeat: data[Constant.listSeat] as List<Seat>,
           ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
     default:
