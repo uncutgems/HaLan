@@ -153,7 +153,7 @@ MaterialPageRoute<dynamic> routeSettings(
             startPoint: data[Constant.startPoint] as Point,
             endPoint: data[Constant.endPoint] as Point,
               ),
-          settings: const RouteSettings(name: RoutesName.paymentTransferPage));
+          settings: const RouteSettings(name: RoutesName.ticketConfirmPage));
     case RoutesName.historyHomePage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HistoryHomePage(),

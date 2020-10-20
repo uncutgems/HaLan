@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/main.dart';
 import 'package:halan/base/size.dart';
@@ -88,9 +89,16 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           Navigator.pop(context);
           return false;
         } else if (state is LogInSuccessfullyHomeOtpState) {
-
-          Navigator.popUntil(context, ModalRoute.withName(RoutesName.homePage));
-          return false;
+//          print(prefs.getBool(Constant.haveChoseSeat).toString() + '     ====');
+          if (prefs.getBool(Constant.haveChoseSeat) == true) {
+            Navigator.popUntil(
+                context, ModalRoute.withName(RoutesName.ticketConfirmPage));
+            return false;
+          } else {
+            Navigator.popUntil(
+                context, ModalRoute.withName(RoutesName.homePage));
+            return false;
+          }
         } else if (state is FailToLoginHomeOtpState) {
           _showAlert(
               context, 'Chú ý!', 'Mã OTP không chính xác hoặc hết thời hạn');

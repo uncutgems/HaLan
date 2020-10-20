@@ -81,6 +81,7 @@ class _BusesListWidgetState extends State<BusesListWidget> {
         if (state.listTrip.isNotEmpty)
           Expanded(
             child: ListView.separated(
+                padding: const EdgeInsets.all(16),
                 itemBuilder: (BuildContext context, int index) {
                   final Trip trip = state.listTrip[index];
                   return _cardItem(context, trip, state);
@@ -141,136 +142,118 @@ class _BusesListWidgetState extends State<BusesListWidget> {
         }
       },
       child: Stack(children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Container(
-            height: 113,
-//      padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: HaLanColor.white,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 8.0, left: 16, right: 16, bottom: 4),
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: 54,
-                            child: Text(
-                              convertTime('HH:mm', trip.startTimeReality, true),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.5),
-                            ),
+        Container(
+          height: 125,
+          decoration: BoxDecoration(
+            color: HaLanColor.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 8.0, left: 16, right: 16, bottom: 4),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 54,
+                          child: Text(
+                            convertTime('HH:mm', trip.startTimeReality, true),
+                            style: textTheme.subtitle1.copyWith(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                height: 1.5),
                           ),
-                          const Icon(
-                            Icons.arrow_upward,
-                            size: 16,
-                            color: HaLanColor.blue,
-                          ),
-                          Text(
+                        ),
+                        const Icon(
+                          Icons.arrow_upward,
+                          size: 16,
+                          color: HaLanColor.blue,
+                        ),
+                        Expanded(
+                          child: Text(
                             trip.pointUp.name,
                             style: textTheme.bodyText2
                                 .copyWith(fontSize: 12, height: 5 / 3),
                           ),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            width: 54,
-                            child: Text(
-                              convertTime('HH:mm',
-                                  trip.startTimeReality + trip.runTime, true),
-                              style: textTheme.subtitle1.copyWith(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  height: 1.5),
-                            ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 54,
+                          child: Text(
+                            convertTime('HH:mm',
+                                trip.startTimeReality + trip.runTime, true),
+                            style: textTheme.subtitle1.copyWith(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                height: 1.5),
                           ),
-                          const Icon(
-                            Icons.arrow_downward,
-                            size: 16,
-                            color: HaLanColor.red100,
-                          ),
-                          Text(
+                        ),
+                        const Icon(
+                          Icons.arrow_downward,
+                          size: 16,
+                          color: HaLanColor.red100,
+                        ),
+                        Expanded(
+                          child: Text(
                             trip.pointDown.name,
                             style: textTheme.bodyText2
                                 .copyWith(fontSize: 12, height: 5 / 3),
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Container(
-                  height: 1,
-                  color: HaLanColor.gray30,
+              ),
+              Container(
+                height: 1,
+                color: HaLanColor.gray30,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 16.0, right: 16, top: 8, bottom: 8),
+                child: Row(
+                  children: <Widget>[
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(trip.seatMap.seatMapName,
+                            style: textTheme.bodyText2
+                                .copyWith(fontSize: 12, height: 4 / 3)),
+                        Text(
+                          '${trip.totalEmptySeat}/${trip.totalSeat} ghế trống',
+                          style: textTheme.bodyText2.copyWith(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              height: 4 / 3),
+                        )
+                      ],
+                    ),
+                    Expanded(child: Container()),
+                    Text(
+                      currencyFormat(trip.price.toInt(), 'Đ'),
+                      style: textTheme.headline6.copyWith(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: HaLanColor.primaryColor,
+                          height: 11 / 9),
+                    )
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16.0, right: 16, top: 8, bottom: 8),
-                  child: Row(
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(trip.seatMap.seatMapName,
-                              style: textTheme.bodyText2
-                                  .copyWith(fontSize: 12, height: 4 / 3)),
-                          Text(
-                            '${trip.totalEmptySeat}/${trip.totalSeat} ghế trống',
-                            style: textTheme.bodyText2.copyWith(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                height: 4 / 3),
-                          )
-                        ],
-                      ),
-                      Expanded(child: Container()),
-                      Text(
-                        currencyFormat(trip.price.toInt(), 'Đ'),
-                        style: textTheme.headline6.copyWith(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            color: HaLanColor.primaryColor,
-                            height: 11 / 9),
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         if (outOfSeat == true || passStartTime == true)
-          Positioned(
-            child: Container(
-              child: Center(
-                child: Text(
-                  passStartTime == true
-                      ? 'CHUYẾN ĐÃ KHỞI HÀNH'
-                      : 'ĐÃ HẾT GHẾ TRỐNG',
-                  style: textTheme.subtitle1.copyWith(
-                      color: HaLanColor.white, fontWeight: FontWeight.w600),
-                ),
-              ),
-              height: 113,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: HaLanColor.gray80.withOpacity(0.8)),
-            ),
-            left: 16,
-            right: 16,
-          ),
+          _maskWidget(context, passStartTime),
       ]),
     );
   }
@@ -291,5 +274,22 @@ class _BusesListWidgetState extends State<BusesListWidget> {
       }
     }
     return false;
+  }
+
+  Widget _maskWidget(BuildContext context, bool passStartTime) {
+    return Container(
+      child: Center(
+        child: Text(
+          passStartTime == true ? 'CHUYẾN ĐÃ KHỞI HÀNH' : 'ĐÃ HẾT GHẾ TRỐNG',
+          style: textTheme.subtitle1
+              .copyWith(color: HaLanColor.white, fontWeight: FontWeight.w600),
+        ),
+      ),
+      height: 125,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: HaLanColor.gray80.withOpacity(0.8),
+      ),
+    );
   }
 }
