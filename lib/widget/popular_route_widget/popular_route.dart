@@ -73,7 +73,17 @@ class _PopularRouteState extends State<PopularRoute> {
                 if (state is DisplayPopularRouteState) {
                   return popularRoutesList(context, state);
                 } else if (state is LoadingPopularRouteState) {
-                  return _loading(context);
+                  return Container(child: _loading(context),height: MediaQuery.of(context).size.height*2/3,);
+                }
+                else if (state is PopularRouteFailState){
+                  return Container(child: Center(
+                    child: Text(state.error, style: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .copyWith(color: AVColor.gray100)
+                        .copyWith(fontSize: AppSize.getFontSize(context, 18))
+                        .copyWith(fontWeight: FontWeight.w600)),
+                  ),height: MediaQuery.of(context).size.height*2/3,);
                 }
                 return Container();
               }),
@@ -187,10 +197,10 @@ class _PopularRouteState extends State<PopularRoute> {
 
   Widget _loading(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppSize.getHeight(context, 16)),
+      padding: EdgeInsets.only(top:AppSize.getHeight(context, 16)),
       child: const Center(
         child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),
+//          valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),
         ),
       ),
     );

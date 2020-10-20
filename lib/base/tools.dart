@@ -1,10 +1,14 @@
 import 'dart:math';
 
 import 'package:avwidget/av_button_widget.dart';
+import 'package:avwidget/avwidget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/model/enum.dart';
 import 'package:intl/intl.dart';
@@ -414,4 +418,45 @@ Color setColorByTicketStatus(Ticket ticket) {
       break;
   }
   return HaLanColor.primaryColor;
+}
+
+Widget homeStateTop(BuildContext context,VoidCallback onPressed){
+  return  Padding(
+    padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
+    child: Row(
+      children: <Widget>[
+        Expanded(
+          child: AVButton(
+            leadingIcon: SvgPicture.asset(
+              'assets/bus.svg',
+              height: AppSize.getWidth(context, 16),
+              width: AppSize.getWidth(context, 30),
+            ),
+            title: 'Đặt xe',
+            width: AppSize.getWidth(context, 163),
+            height: AppSize.getWidth(context, 64),
+            color: AVColor.orange100,
+            onPressed: onPressed
+          ),
+        ),
+        Container(
+          width: AppSize.getWidth(context, 16),
+        ),
+        Expanded(
+          child: AVButton(
+            leadingIcon: SvgPicture.asset(
+              'assets/taxi.svg',
+              height: AppSize.getWidth(context, 16),
+              width: AppSize.getWidth(context, 30),
+            ),
+            title: 'Đặt taxi',
+            width: AppSize.getWidth(context, 163),
+            height: AppSize.getWidth(context, 64),
+            color: AVColor.orange100,
+            onPressed:(){}
+          ),
+        ),
+      ],
+    ),
+  );
 }

@@ -32,6 +32,7 @@ class UserRepository {
 
     final AVResponse response = await callPOST(path: URL.loginURL, body: body);
     if (response.isOK) {
+      print(response.response);
       print('Login successfully');
       prefs.setString(
           Constant.fullName,
@@ -47,8 +48,7 @@ class UserRepository {
               response.response[Constant.token] as Map<String, dynamic>));
       prefs.setString(Constant.userId,
           response.response[Constant.userInfo][Constant.id] as String);
-      print(prefs.getString(Constant.userId));
-
+      print(prefs.getString(Constant.phoneNumber));
     } else {
       throw APIException(response);
     }

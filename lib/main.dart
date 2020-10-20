@@ -77,10 +77,10 @@ MaterialPageRoute<dynamic> routeSettings(
         settings: const RouteSettings(name: RoutesName.splashPage),
       );
 
-    case RoutesName.homePage:
-      return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => HomePage(),
-          settings: const RouteSettings(name: RoutesName.homePage));
+//    case RoutesName.homePage:
+//      return MaterialPageRoute<dynamic>(
+//          builder: (BuildContext context) => HomePage(),
+//          settings: const RouteSettings(name: RoutesName.homePage));
 
     case RoutesName.calendarPage:
       return MaterialPageRoute<dynamic>(

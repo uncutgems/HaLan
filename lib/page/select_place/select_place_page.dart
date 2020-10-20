@@ -234,6 +234,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
           color: HaLanColor.white,
           borderRadius: BorderRadius.circular(AppSize.getWidth(context, 8)),
           child: ExpansionTile(
+            key: GlobalKey(),
             backgroundColor: HaLanColor.white,
             title: Row(
               children: <Widget>[

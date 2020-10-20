@@ -96,7 +96,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
             return false;
           } else {
             Navigator.popUntil(
-                context, ModalRoute.withName(RoutesName.homePage));
+                context, ModalRoute.withName(RoutesName.busBookingPage));
             return false;
           }
         } else if (state is FailToLoginHomeOtpState) {

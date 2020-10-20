@@ -108,7 +108,7 @@ class _PopUpWidgetState extends State<PopUpWidget> {
 
   Widget _loading(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
+      padding: EdgeInsets.only(left:AppSize.getWidth(context, 16),right:AppSize.getWidth(context, 16),top: AppSize.getWidth(context, 16), bottom: AppSize.getWidth(context, 193),),
       child: const Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),
