@@ -129,6 +129,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: _drawer(context),
       body: ListView(
+        physics: const ClampingScrollPhysics(),
         children: <Widget>[
           Padding(
             padding: EdgeInsets.all(AppSize.getWidth(context, 16)),

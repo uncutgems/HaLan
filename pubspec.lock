@@ -34,7 +34,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "95c84725753f3554b99c0afff455c5e163159825"
+      resolved-ref: "979e852389127c42ddca378c353cf9176bcfc690"
       url: "https://github.com/anvui/AVWidget.git"
     source: git
     version: "0.0.1"
