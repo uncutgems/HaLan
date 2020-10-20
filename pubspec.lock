@@ -34,7 +34,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "2d6a762755729113b5fa3184dd0b1b9ed797530f"
+      resolved-ref: "979e852389127c42ddca378c353cf9176bcfc690"
       url: "https://github.com/anvui/AVWidget.git"
     source: git
     version: "0.0.1"
@@ -208,7 +208,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.19.0"
+    version: "0.19.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
