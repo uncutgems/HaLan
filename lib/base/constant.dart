@@ -313,4 +313,5 @@ class Constant {
   static const String scenario = 'scenario';
   static const String interBusLinesCompanyId = 'TC1OHntfnujP';
   static const String haveChoseSeat = 'haveChoseSeat';
+  static const String passport = 'passport';
 }
