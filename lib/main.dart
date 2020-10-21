@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.homeSignInPage,
+      initialRoute: RoutesName.historyTicketDetailPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -128,7 +128,10 @@ MaterialPageRoute<dynamic> routeSettings(
           settings: const RouteSettings(name: RoutesName.homeOtpPage));
     case RoutesName.paymentHomePage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => PaymentHomePage(),
+          builder: (BuildContext context) => PaymentHomePage(
+            ticketList: data[Constant.listTicket] as List<Ticket>,
+            totalPrice: data[Constant.totalPrice] as int,
+          ),
           settings: const RouteSettings(name: RoutesName.paymentHomePage));
     case RoutesName.paymentSuccessPage:
       return MaterialPageRoute<dynamic>(
@@ -136,7 +139,10 @@ MaterialPageRoute<dynamic> routeSettings(
           settings: const RouteSettings(name: RoutesName.paymentSuccessPage));
     case RoutesName.paymentQRPage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => PaymentQRHomePage(),
+          builder: (BuildContext context) => PaymentQRHomePage(
+            listTicket: data[Constant.listTicket] as List<Ticket>,
+            totalPrice: data[Constant.totalPrice] as int,
+          ),
           settings: const RouteSettings(name: RoutesName.paymentQRPage));
     case RoutesName.paymentATMPage:
       return MaterialPageRoute<dynamic>(
@@ -161,7 +167,7 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.historyTicketDetailPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HistoryTicketDetailPage(
-                ticket: data[Constant.ticket] as Ticket,
+//                ticketCode: data[Constant.ticketCode] as String,
               ),
           settings:
               const RouteSettings(name: RoutesName.historyTicketDetailPage));
@@ -169,6 +175,7 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketDetailPage(
             trip: data[Constant.trip] as Trip,
+            listSeat: data[Constant.listSeat] as List<Seat>,
           ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
     default:
