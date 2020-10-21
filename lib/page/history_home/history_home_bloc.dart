@@ -22,12 +22,11 @@ class HistoryHomeBloc extends Bloc<HistoryHomeEvent, HistoryHomeState> {
   ) async* {
     final HistoryHomeState currentState = state;
     if (event is GetDataHistoryHomeEvent) {
-      print('ủa');
-      yield*_mapGetDataHistoryHomeEventToState(<Ticket>[], 0);
+      yield* _mapGetDataHistoryHomeEventToState(<Ticket>[], 0);
     }
     if (currentState is SuccessGetDataHistoryHomeState) {
       if (event is LoadMoreHistoryHomeEvent) {
-      yield*  _mapGetDataHistoryHomeEventToState(
+        yield* _mapGetDataHistoryHomeEventToState(
             currentState.listTicket, currentState.page + 1);
       }
     }
@@ -42,7 +41,10 @@ class HistoryHomeBloc extends Bloc<HistoryHomeEvent, HistoryHomeState> {
       newListTicket.addAll(await _ticketRepository.getListTicketHistory(page));
       yield SuccessGetDataHistoryHomeState(newListTicket, page + 1);
     } on APIException catch (e) {
-      yield FailGetDataHistoryHomeState(e.message());
+      if (e.aVResponse.code == 401) {
+        yield TokenExpiredHomeState();
+      } else
+        yield FailGetDataHistoryHomeState(e.message());
     }
   }
 }
