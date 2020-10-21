@@ -272,7 +272,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   Navigator.pushNamed(
                       context, RoutesName.historyTicketDetailPage,
                       arguments: <String, dynamic>{
-                        Constant.ticketCode: '201020-900790'
+                        Constant.ticketCode: '201021-359735'
                       });
                 }
               },

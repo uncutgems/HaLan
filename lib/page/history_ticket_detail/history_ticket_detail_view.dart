@@ -5,6 +5,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
@@ -81,13 +83,10 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             CarouselSlider.builder(
-
               options: CarouselOptions(
-                viewportFraction: 1,
-
-                enableInfiniteScroll: false,
-                height: 600
-              ),
+                  viewportFraction: 1,
+                  enableInfiniteScroll: false,
+                  height: 600),
               itemCount: state.listTicket.length,
               itemBuilder: (BuildContext context, int index) {
                 final Ticket ticket = state.listTicket[index];
@@ -197,7 +196,13 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                     fontSize: AVSize.getFontSize(context, 14),
                     color: HaLanColor.white,
                     textColor: HaLanColor.primaryColor,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, RoutesName.paymentHomePage,
+                          arguments: <String, dynamic>{
+                            Constant.listTicket: state.listTicket,
+                            Constant.totalPrice: state.totalMoney
+                          });
+                    },
                     trailingIcon: const Icon(
                       Icons.arrow_forward,
                       color: HaLanColor.primaryColor,

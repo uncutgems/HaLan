@@ -1,10 +1,19 @@
 import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
+import 'package:halan/base/tool.dart';
+import 'package:halan/model/entity.dart';
 
 class PaymentHomePage extends StatefulWidget {
+  const PaymentHomePage({Key key, this.ticketList, this.totalPrice})
+      : super(key: key);
+
+  final List<Ticket> ticketList;
+  final int totalPrice;
+
   @override
   _PaymentHomePageState createState() => _PaymentHomePageState();
 }
@@ -25,13 +34,15 @@ class _PaymentHomePageState extends State<PaymentHomePage> {
       body: Column(
         children: <Widget>[
           Container(
+            height: AVSize.getSize(context, 32),
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Center(
                 child: Text(
-              'Số tiền cần thanh toán là',
+              'Số tiền cần thanh toán là ${currencyFormat(widget.totalPrice, 'Đ')}',
               style: textTheme.bodyText2.copyWith(
                   color: HaLanColor.primaryColor,
                   fontWeight: FontWeight.w600,
+                  fontSize: 16,
                   height: 1.5),
             )),
             color: HaLanColor.bannerColor,
@@ -55,21 +66,24 @@ class _PaymentHomePageState extends State<PaymentHomePage> {
               children: <Widget>[
                 _paymentType(
                     context, Image.asset('assets/qr_code.png'), 'QR Code', () {
-                  Navigator.pushNamed(context, RoutesName.paymentQRPage);
+                  Navigator.pushNamed(context, RoutesName.paymentQRPage, arguments: <String, dynamic> {
+                    Constant.totalPrice: widget.totalPrice,
+                    Constant.listTicket: widget.ticketList,
+                  });
                 }),
                 _paymentType(context, Image.asset('assets/atm_card.png'),
                     'Internet Banking', () {
-                      Navigator.pushNamed(context, RoutesName.paymentATMPage);
+                  Navigator.pushNamed(context, RoutesName.paymentATMPage);
                 }),
                 _paymentType(
                     context, Image.asset('assets/visa.png'), 'VISA/Master Card',
                     () {
-                      Navigator.pushNamed(context, RoutesName.paymentATMPage);
+                  Navigator.pushNamed(context, RoutesName.paymentATMPage);
                 }),
                 _paymentType(
                     context, Image.asset('assets/bank.png'), 'Chuyển khoản',
                     () {
-                      Navigator.pushNamed(context, RoutesName.paymentTransferPage);
+                  Navigator.pushNamed(context, RoutesName.paymentTransferPage);
                 }),
               ],
             ),

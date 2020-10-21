@@ -315,4 +315,6 @@ class Constant {
   static const String haveChoseSeat = 'haveChoseSeat';
   static const String passport = 'passport';
   static const String listSeat = 'listSeat';
+  static const String totalMoney = 'totalMoney';
+  static const String avCompanyId = 'TC08Z1qHHZBxlNLt';
 }
