@@ -53,7 +53,7 @@ class _PaymentATMPageState extends State<PaymentATMPage> {
             title: 'Quay về trang chủ',
             onPressed: () {
               Navigator.popUntil(
-                  context, ModalRoute.withName(RoutesName.homePage));
+                  context, ModalRoute.withName(RoutesName.busBookingPage));
             },
           ),
           Expanded(

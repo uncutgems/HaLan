@@ -161,7 +161,7 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.historyTicketDetailPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HistoryTicketDetailPage(
-                ticket: data[Constant.ticket] as Ticket,
+//                ticket: data[Constant.ticket] as Ticket,
               ),
           settings:
               const RouteSettings(name: RoutesName.historyTicketDetailPage));

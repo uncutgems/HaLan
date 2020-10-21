@@ -129,7 +129,7 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
           title: 'Quay về trang chủ',
           onPressed: () {
             Navigator.popUntil(
-                context, ModalRoute.withName(RoutesName.homePage));
+                context, ModalRoute.withName(RoutesName.busBookingPage));
           },
         ),
       ],
