@@ -17,9 +17,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HistoryTicketDetailPage extends StatefulWidget {
-  const HistoryTicketDetailPage({Key key, this.ticketCode}) : super(key: key);
+  const HistoryTicketDetailPage({Key key, /*this.ticketCode*/}) : super(key: key);
 
-  final String ticketCode;
+//  final String ticketCode;
 
   @override
   _HistoryTicketDetailPageState createState() =>
@@ -31,7 +31,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
 
   @override
   void initState() {
-    bloc.add(GetDataHistoryTicketDetailEvent(widget.ticketCode));
+    bloc.add(GetDataHistoryTicketDetailEvent('201021-359735'));
     super.initState();
   }
 
@@ -44,13 +44,17 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
           if (state.listTicket.isNotEmpty) {
             return _body(context, state);
           } else
-            return Scaffold();
+            return Scaffold(
+              appBar: AppBar(
+                title: const Text('Chi tiết vé'),
+              ),
+            );
         } else if (state is FailGetDataTicketDetailState) {
           return Center(
             child: FailWidget(
               message: state.error,
               onPressed: () {
-                bloc.add(GetDataHistoryTicketDetailEvent(widget.ticketCode));
+                bloc.add(GetDataHistoryTicketDetailEvent('201021-359735'));
               },
             ),
           );
@@ -79,8 +83,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: ListView(
           children: <Widget>[
             CarouselSlider.builder(
               options: CarouselOptions(
@@ -193,7 +196,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                   )),
                   AVButton(
                     title: 'Tiến hành thanh toán',
-                    fontSize: AVSize.getFontSize(context, 14),
+                    fontSize: AVSize.getFontSize(context, 12),
                     color: HaLanColor.white,
                     textColor: HaLanColor.primaryColor,
                     onPressed: () {
@@ -220,190 +223,243 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
         ticket.ticketStatus == TicketStatus.bookedAdmin;
     return Column(
       children: <Widget>[
-        QrImage(
-          data: ticket.ticketId,
-          size: AVSize.getSize(context, 120),
-          version: QrVersions.auto,
-          backgroundColor: HaLanColor.white,
-        ),
-        Container(
-          height: AVSize.getSize(context, 8),
-        ),
-        Text(
-          'Mã vé: ${ticket.ticketId}',
-          style: textTheme.subtitle1.copyWith(
-              fontSize: AVSize.getFontSize(context, 16),
-              fontWeight: FontWeight.w500,
-              height: 5 / 4,
-              color: HaLanColor.black),
-        ),
-        Text(
-          setTitleByTicketStatus(ticket),
-          style: textTheme.subtitle1.copyWith(
-              fontSize: AVSize.getFontSize(context, 16),
-              fontWeight: FontWeight.w500,
-              height: 5 / 4,
-              color: setColorByTicketStatus(ticket)),
-        ),
-        Container(
-          height: AVSize.getSize(context, 8),
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: HaLanColor.white,
-            borderRadius: BorderRadius.circular(8),
+        Center(
+          child: QrImage(
+            data: ticket.ticketId,
+            size: AVSize.getSize(context, 120),
+            version: QrVersions.auto,
+            backgroundColor: HaLanColor.white,
           ),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                    left: AVSize.getSize(context, 16),
-                    top: AVSize.getSize(context, 16),
-                    right: AVSize.getSize(context, 12)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          height: AVSize.getSize(context, 50),
-                          child: Text(
-                            convertTime('HH:mm', ticket.getInTimePlan, true),
-                            style: textTheme.subtitle2.copyWith(
-                                fontSize: AVSize.getFontSize(context, 14),
-                                fontWeight: FontWeight.w600,
-                                color: HaLanColor.black),
+        ),
+        Container(
+          height: AVSize.getSize(context, 8),
+        ),
+        Center(
+          child: Text(
+            'Mã vé: ${ticket.ticketId}',
+            style: textTheme.subtitle1.copyWith(
+                fontSize: AVSize.getFontSize(context, 16),
+                fontWeight: FontWeight.w500,
+                height: 5 / 4,
+                color: HaLanColor.black),
+          ),
+        ),
+        Center(
+          child: Text(
+            setTitleByTicketStatus(ticket),
+            style: textTheme.subtitle1.copyWith(
+                fontSize: AVSize.getFontSize(context, 16),
+                fontWeight: FontWeight.w500,
+                height: 5 / 4,
+                color: setColorByTicketStatus(ticket)),
+          ),
+        ),
+        Container(
+          height: AVSize.getSize(context, 8),
+        ),
+        Center(
+          child: Container(
+            decoration: BoxDecoration(
+              color: HaLanColor.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: AVSize.getSize(context, 16),
+                      top: AVSize.getSize(context, 16),
+                      right: AVSize.getSize(context, 12)),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            height: AVSize.getSize(context, 50),
+                            child: Text(
+                              convertTime('HH:mm', ticket.getInTimePlan, true),
+                              style: textTheme.subtitle2.copyWith(
+                                  fontSize: AVSize.getFontSize(context, 14),
+                                  fontWeight: FontWeight.w600,
+                                  color: HaLanColor.black),
+                            ),
                           ),
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 16),
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 50),
-                          child: Text(
-                            convertTime('HH:mm', ticket.getOffTimePlan, true),
-                            style: textTheme.subtitle2.copyWith(
-                                fontSize: AVSize.getFontSize(context, 14),
-                                fontWeight: FontWeight.w600,
-                                color: HaLanColor.black),
+                          Container(
+                            height: AVSize.getSize(context, 16),
                           ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: AVSize.getSize(context, 10),
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          height: AVSize.getSize(context, 5),
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 8),
-                          width: AVSize.getSize(context, 8),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: HaLanColor.primaryColor),
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 60),
-                          width: AVSize.getSize(context, 2),
-                          color: HaLanColor.primaryColor,
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 8),
-                          width: AVSize.getSize(context, 8),
-                          decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: HaLanColor.primaryColor),
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 10),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: AVSize.getSize(context, 8),
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          height: AVSize.getSize(context, 50),
-                          width: AVSize.getSize(context, 236),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                ticket.pointUp.name,
-                                style: textTheme.subtitle2.copyWith(
-                                    fontSize: AVSize.getFontSize(context, 14),
-                                    fontWeight: FontWeight.w500,
-                                    color: HaLanColor.black),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  ticket.pointUp.address,
-                                  style: textTheme.bodyText2.copyWith(
-                                      fontSize: AVSize.getFontSize(context, 12),
-                                      fontWeight: FontWeight.w400,
+                          Container(
+                            height: AVSize.getSize(context, 50),
+                            child: Text(
+                              convertTime('HH:mm', ticket.getOffTimePlan, true),
+                              style: textTheme.subtitle2.copyWith(
+                                  fontSize: AVSize.getFontSize(context, 14),
+                                  fontWeight: FontWeight.w600,
+                                  color: HaLanColor.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: AVSize.getSize(context, 10),
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            height: AVSize.getSize(context, 5),
+                          ),
+                          Container(
+                            height: AVSize.getSize(context, 8),
+                            width: AVSize.getSize(context, 8),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HaLanColor.primaryColor),
+                          ),
+                          Container(
+                            height: AVSize.getSize(context, 60),
+                            width: AVSize.getSize(context, 2),
+                            color: HaLanColor.primaryColor,
+                          ),
+                          Container(
+                            height: AVSize.getSize(context, 8),
+                            width: AVSize.getSize(context, 8),
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HaLanColor.primaryColor),
+                          ),
+                          Container(
+                            height: AVSize.getSize(context, 10),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: AVSize.getSize(context, 8),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            height: AVSize.getSize(context, 50),
+                            width: AVSize.getSize(context, 236),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  ticket.pointUp.name,
+                                  style: textTheme.subtitle2.copyWith(
+                                      fontSize: AVSize.getFontSize(context, 14),
+                                      fontWeight: FontWeight.w500,
                                       color: HaLanColor.black),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Text(
+                                    ticket.pointUp.address,
+                                    style: textTheme.bodyText2.copyWith(
+                                        fontSize:
+                                            AVSize.getFontSize(context, 12),
+                                        fontWeight: FontWeight.w400,
+                                        color: HaLanColor.black),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 16),
-                        ),
-                        Container(
-                          height: AVSize.getSize(context, 50),
-                          width: AVSize.getSize(context, 236),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                ticket.pointDown.name,
-                                style: textTheme.subtitle2.copyWith(
-                                    fontSize: AVSize.getFontSize(context, 14),
-                                    fontWeight: FontWeight.w500,
-                                    color: HaLanColor.black),
-                              ),
-                              Expanded(
-                                child: Text(
-                                  ticket.pointDown.address,
-                                  style: textTheme.bodyText2.copyWith(
-                                      fontSize: AVSize.getFontSize(context, 12),
-                                      fontWeight: FontWeight.w400,
+                          Container(
+                            height: AVSize.getSize(context, 16),
+                          ),
+                          Container(
+                            height: AVSize.getSize(context, 50),
+                            width: AVSize.getSize(context, 236),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  ticket.pointDown.name,
+                                  style: textTheme.subtitle2.copyWith(
+                                      fontSize: AVSize.getFontSize(context, 14),
+                                      fontWeight: FontWeight.w500,
                                       color: HaLanColor.black),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Text(
+                                    ticket.pointDown.address,
+                                    style: textTheme.bodyText2.copyWith(
+                                        fontSize:
+                                            AVSize.getFontSize(context, 12),
+                                        fontWeight: FontWeight.w400,
+                                        color: HaLanColor.black),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                width: AVSize.getSize(context, 343),
-                color: HaLanColor.gray30,
-                height: AVSize.getSize(context, 1),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  if (showLocation)
+                Container(
+                  width: AVSize.getSize(context, 343),
+                  color: HaLanColor.gray30,
+                  height: AVSize.getSize(context, 1),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    if (showLocation)
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            //TODO: Nối sang màn hình vị trí tài
+                          },
+                          child: Container(
+                            child: Center(
+                              child: Text(
+                                'Vị trí tài xế',
+                                style: textTheme.bodyText2.copyWith(
+                                    color: HaLanColor.blue,
+                                    fontSize: AVSize.getFontSize(context, 14)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    if (showLocation)
+                      Container(
+                        height: AVSize.getSize(context, 49),
+                        color: HaLanColor.gray30,
+                        width: AVSize.getSize(context, 1),
+                      ),
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          //TODO: Nối sang màn hình vị trí tài
+                          if (ticket.tripInfo.drivers.isNotEmpty) {
+                            _callPhone(
+                                ticket.tripInfo.drivers.first.phoneNumber);
+                          } else
+                            showDialog<dynamic>(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    AVAlertDialogWidget(
+                                      context: context,
+                                      title: 'Chưa có tài xế',
+                                      content: 'Vui lòng thử lại sau',
+                                      bottomWidget: Center(
+                                        child: AVButton(
+                                          color: HaLanColor.primaryColor,
+                                          title: 'Hủy',
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                        ),
+                                      ),
+                                    ));
                         },
                         child: Container(
+                          height: AVSize.getSize(context, 49),
                           child: Center(
                             child: Text(
-                              'Vị trí tài xế',
+                              'Gọi tài xế',
                               style: textTheme.bodyText2.copyWith(
                                   color: HaLanColor.blue,
                                   fontSize: AVSize.getFontSize(context, 14)),
@@ -412,52 +468,10 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                         ),
                       ),
                     ),
-                  if (showLocation)
-                    Container(
-                      height: AVSize.getSize(context, 49),
-                      color: HaLanColor.gray30,
-                      width: AVSize.getSize(context, 1),
-                    ),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        if (ticket.tripInfo.drivers.isNotEmpty) {
-                          _callPhone(ticket.tripInfo.drivers.first.phoneNumber);
-                        } else
-                          showDialog<dynamic>(
-                              context: context,
-                              builder: (BuildContext context) =>
-                                  AVAlertDialogWidget(
-                                    context: context,
-                                    title: 'Chưa có tài xế',
-                                    content: 'Vui lòng thử lại sau',
-                                    bottomWidget: Center(
-                                      child: AVButton(
-                                        color: HaLanColor.primaryColor,
-                                        title: 'Hủy',
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                    ),
-                                  ));
-                      },
-                      child: Container(
-                        height: AVSize.getSize(context, 49),
-                        child: Center(
-                          child: Text(
-                            'Gọi tài xế',
-                            style: textTheme.bodyText2.copyWith(
-                                color: HaLanColor.blue,
-                                fontSize: AVSize.getFontSize(context, 14)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         Container(

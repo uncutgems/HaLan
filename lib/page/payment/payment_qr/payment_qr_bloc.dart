@@ -21,14 +21,15 @@ class PaymentQrBloc extends Bloc<PaymentQrEvent, PaymentQrState> {
   ) async* {
     if (event is GetDataStringPaymentQrEvent) {
       try {
-        String ticketIds = '';
+        yield SuccessGetDataPaymentQrState('');
+        String ticketIds = event.listTicket.first.ticketId;
         if (event.listTicket.length > 1) {
-          for (int i = 0; i < event.listTicket.length; i++) {
+          for (int i = 1; i < event.listTicket.length; i++) {
             ticketIds = ticketIds + '-' + event.listTicket[i].ticketId;
           }
         } else
           ticketIds = event.listTicket.first.ticketId;
-        final String dataString = await _qrRepository.getQRCode('TK0J41uQsoqn4gEL');
+        final String dataString = await _qrRepository.getQRCode(ticketIds);
         yield SuccessGetDataPaymentQrState(dataString);
       } on APIException catch (e) {
         yield FailGetDataPaymentQrState(e.message());
