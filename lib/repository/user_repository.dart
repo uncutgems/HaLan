@@ -33,22 +33,17 @@ class UserRepository {
     final AVResponse response = await callPOST(path: URL.loginURL, body: body);
     if (response.isOK) {
       print('Login successfully');
-      prefs.setString(
-          Constant.fullName,
-          getString(Constant.fullName,
-              response.response[Constant.token] as Map<String, dynamic>));
-      prefs.setString(
-          Constant.phoneNumber,
-          getString(Constant.phoneNumber,
-              response.response[Constant.token] as Map<String, dynamic>));
-      prefs.setString(
-          Constant.avatar,
-          getString(Constant.avatar,
-              response.response[Constant.token] as Map<String, dynamic>));
+
       prefs.setString(Constant.userId,
           response.response[Constant.userInfo][Constant.id] as String);
-      print(prefs.getString(Constant.userId));
-
+      prefs.setString(Constant.token,
+          response.response[Constant.token][Constant.tokenKey] as String);
+      prefs.setString(Constant.fullName,
+          response.response[Constant.userInfo][Constant.fullName] as String);
+      prefs.setString(Constant.phoneNumber,
+          response.response[Constant.userInfo][Constant.phoneNumber] as String);
+      prefs.setString(Constant.avatar,
+          response.response[Constant.userInfo][Constant.avatar] as String);
     } else {
       throw APIException(response);
     }
