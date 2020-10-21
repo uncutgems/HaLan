@@ -17,6 +17,7 @@ import 'package:halan/page/payment/payment_home/payment_home_view.dart';
 import 'package:halan/page/payment/payment_home/payment_success_view.dart';
 import 'package:halan/page/payment/payment_qr/payment_qr_home.dart';
 import 'package:halan/page/payment/payment_transfer/payment_transfer_view.dart';
+import 'package:halan/page/personal_profile/personal_profile_view.dart';
 import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/page/select_date/calendar_page.dart';
 import 'package:halan/page/select_place/select_place_page.dart';
@@ -167,6 +168,10 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketDetailPage(),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
+    case RoutesName.personalProfile:
+      return MaterialPageRoute<dynamic>(
+        builder:  (BuildContext context) => PersonalProfile(),
+        settings: const RouteSettings(name: RoutesName.personalProfile));
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),
