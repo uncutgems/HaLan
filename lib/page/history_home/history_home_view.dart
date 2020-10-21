@@ -1,3 +1,5 @@
+import 'package:avwidget/av_alert_dialog_widget.dart';
+import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,6 +48,13 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
               );
             } else
               return Container();
+          },
+          buildWhen: (HistoryHomeState prev, HistoryHomeState current) {
+            if (current is TokenExpiredHomeState) {
+              _showAlert(context);
+              return false;
+            } else
+              return true;
           },
         ));
   }
@@ -200,5 +209,28 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
       }
     }
     return false;
+  }
+
+  void _showAlert(BuildContext context) {
+    showDialog<dynamic>(
+        context: context,
+        builder: (BuildContext context) => AVAlertDialogWidget(
+              context: context,
+              bottomWidget: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: AVButton(
+                      height: AVSize.getSize(context, 32),
+                      title: 'Đăng nhập',
+                      onPressed: () {
+                        Navigator.pushNamed(context, RoutesName.homeSignInPage);
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              title: 'Hết hạn đăng nhập',
+              content: 'Mã đăng nhập đã hết hạn, vui lòng đăng nhập lại',
+            ));
   }
 }

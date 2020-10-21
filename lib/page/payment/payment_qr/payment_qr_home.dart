@@ -30,6 +30,7 @@ class PaymentQRHomePage extends StatefulWidget {
 class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
   final PaymentQrBloc bloc = PaymentQrBloc();
   static GlobalKey previewContainer = GlobalKey();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   void initState() {
@@ -43,6 +44,7 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
     return RepaintBoundary(
       key: previewContainer,
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: const Text('Thanh toán qua QR Code'),
           leading: IconButton(
@@ -87,14 +89,13 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Center(
               child: Text(
-                'Số tiền cần thanh toán là ${currencyFormat(
-                    widget.totalPrice, 'Đ')}',
-                style: textTheme.bodyText2.copyWith(
-                    color: HaLanColor.primaryColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                    height: 1.5),
-              )),
+            'Số tiền cần thanh toán là ${currencyFormat(widget.totalPrice, 'Đ')}',
+            style: textTheme.bodyText2.copyWith(
+                color: HaLanColor.primaryColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                height: 1.5),
+          )),
           color: HaLanColor.bannerColor,
         ),
         Container(
@@ -117,9 +118,9 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
         else
           const Center(
               child: CircularProgressIndicator(
-                backgroundColor: HaLanColor.primaryColor,
-                valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.white),
-              )),
+            backgroundColor: HaLanColor.primaryColor,
+            valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.white),
+          )),
         Container(
           height: AVSize.getSize(context, 16),
         ),
@@ -136,39 +137,20 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
   }
 
   Future<void> takeScreenShot() async {
-    try {
-      RenderRepaintBoundary boundary = previewContainer.currentContext
-          .findRenderObject() as RenderRepaintBoundary;
+    RenderRepaintBoundary boundary = previewContainer.currentContext
+        .findRenderObject() as RenderRepaintBoundary;
 
-      if (boundary.debugNeedsPaint) {
-        print('Waiting for boundary to be painted.');
-        await Future<void>.delayed(const Duration(milliseconds: 20));
-        boundary = previewContainer.currentContext.findRenderObject()
-        as RenderRepaintBoundary;
-      }
-
-      final ui.Image image = await boundary.toImage(pixelRatio: 2.0);
-      final ByteData byteData =
-      await image.toByteData(format: ui.ImageByteFormat.png);
-      final Uint8List pngBytes = byteData.buffer.asUint8List();
-      const SnackBar snackBar = SnackBar(
-        content: Text('Lưu hình ảnh thành công'),
-      );
-
-      final dynamic result =
-      await ImageGallerySaver.saveImage(byteData.buffer.asUint8List())
-          .whenComplete(() => Scaffold.of(context).showSnackBar(snackBar));
-
-//      showDialog<dynamic>(
-//          context: context,
-//          builder: (BuildContext context) => AVAlertDialogWidget(
-//              context: context,
-//              title: 'Chụp ảnh thành công',
-//              content: 'Kiểm tra ảnh chụp màn hình tại Album ảnh'));
-
-    print(result);
-    } catch (e) {
-    print('lỗi' + e.toString());
+    if (boundary.debugNeedsPaint) {
+      print('Waiting for boundary to be painted.');
+      await Future<void>.delayed(const Duration(milliseconds: 20));
+      boundary = previewContainer.currentContext.findRenderObject()
+          as RenderRepaintBoundary;
     }
+
+    final ui.Image image = await boundary.toImage(pixelRatio: 2.0);
+    final ByteData byteData =
+        await image.toByteData(format: ui.ImageByteFormat.png);
+
+    ImageGallerySaver.saveImage(byteData.buffer.asUint8List());
   }
 }
