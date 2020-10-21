@@ -31,10 +31,12 @@ class _MeasureSizeState extends State<MeasureSize> {
 
   void postFrameCallback(dynamic _) {
     final BuildContext context = widgetKey.currentContext;
-    if (context == null) return;
+    if (context == null)
+      return;
 
     final Size newSize = context.size;
-    if (oldSize == newSize) return;
+    if (oldSize == newSize)
+      return;
 
     oldSize = newSize;
     widget.onChange(newSize);

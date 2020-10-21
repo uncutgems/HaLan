@@ -17,3 +17,7 @@ class FailGetDataHistoryHomeState extends HistoryHomeState {
 
   final String error;
 }
+
+class TokenExpiredHomeState extends HistoryHomeState{
+
+}
