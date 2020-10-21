@@ -71,19 +71,76 @@ class _PopularRouteState extends State<PopularRoute> {
               builder: (BuildContext context, PopularRouteState state) {
                 print(state);
                 if (state is DisplayPopularRouteState) {
+                  if (state.popularRouteList.isEmpty) {
+                    return Container(
+                      child: Center(
+                        child: Text('Không có tuyến phổ biến hiện tại',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(color: AVColor.gray100)
+                                .copyWith(
+                                    fontSize: AppSize.getFontSize(context, 18))
+                                .copyWith(fontWeight: FontWeight.w600)),
+                      ),
+                      height: MediaQuery.of(context).size.height * 2 / 3,
+                    );
+                  }
                   return popularRoutesList(context, state);
                 } else if (state is LoadingPopularRouteState) {
-                  return Container(child: _loading(context),height: MediaQuery.of(context).size.height*2/3,);
-                }
-                else if (state is PopularRouteFailState){
-                  return Container(child: Center(
-                    child: Text(state.error, style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: AVColor.gray100)
-                        .copyWith(fontSize: AppSize.getFontSize(context, 18))
-                        .copyWith(fontWeight: FontWeight.w600)),
-                  ),height: MediaQuery.of(context).size.height*2/3,);
+                  return Container(
+                    child: _loading(context),
+                    height: MediaQuery.of(context).size.height * 2 / 3,
+                  );
+                } else if (state is PopularRouteFailState) {
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: AppSize.getWidth(context, 8),
+                            horizontal: AppSize.getWidth(context, 16)),
+                        child: Container(
+                            height: AppSize.getWidth(context, 80),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: HaLanColor.primaryLightColor,
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: AppSize.getWidth(context, 8),
+                            horizontal: AppSize.getWidth(context, 16)),
+                        child: Container(
+                            height: AppSize.getWidth(context, 80),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: HaLanColor.primaryLightColor,
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: AppSize.getWidth(context, 8),
+                            horizontal: AppSize.getWidth(context, 16)),
+                        child: Container(
+                            height: AppSize.getWidth(context, 80),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: HaLanColor.primaryLightColor,
+                            )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: AppSize.getWidth(context, 8),
+                            horizontal: AppSize.getWidth(context, 16)),
+                        child: Container(
+                            height: AppSize.getWidth(context, 80),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: HaLanColor.primaryLightColor,
+                            )),
+                      )
+                    ],
+                  );
                 }
                 return Container();
               }),
@@ -113,12 +170,13 @@ class _PopularRouteState extends State<PopularRoute> {
         left: AppSize.getWidth(context, 16),
       ),
       child: GestureDetector(
-        onTap: (){
-          Navigator.pushNamed(context, RoutesName.busesListPage,arguments: <String,dynamic>{
-            Constant.startPoint: routeEntity.listPoint.first,
-            Constant.endPoint: routeEntity.listPoint.last,
-            Constant.dateTime: DateTime.now()
-          });
+        onTap: () {
+          Navigator.pushNamed(context, RoutesName.busesListPage,
+              arguments: <String, dynamic>{
+                Constant.startPoint: routeEntity.listPoint.first,
+                Constant.endPoint: routeEntity.listPoint.last,
+                Constant.dateTime: DateTime.now()
+              });
         },
         child: Stack(
           children: <Widget>[
@@ -144,8 +202,7 @@ class _PopularRouteState extends State<PopularRoute> {
                           .textTheme
                           .bodyText1
                           .copyWith(color: AVColor.white)
-                          .copyWith(
-                              fontSize: AppSize.getFontSize(context, 14))
+                          .copyWith(fontSize: AppSize.getFontSize(context, 14))
                           .copyWith(fontWeight: FontWeight.w600)),
                   Container(
                     height: AppSize.getHeight(context, 4),
@@ -197,11 +254,11 @@ class _PopularRouteState extends State<PopularRoute> {
 
   Widget _loading(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(top:AppSize.getHeight(context, 16)),
+      padding: EdgeInsets.only(top: AppSize.getHeight(context, 16)),
       child: const Center(
         child: CircularProgressIndicator(
 //          valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),
-        ),
+            ),
       ),
     );
   }

@@ -18,13 +18,14 @@ class PopUpBloc extends Bloc<PopUpEvent, PopUpState> {
   Stream<PopUpState> mapEventToState(
     PopUpEvent event,
   ) async* {
-    if (event is GatDataPopUpEvent) {
+    if (event is GetDataPopUpEvent) {
       try {
         yield LoadingPopUpState();
         final List<PopUp> promotionList =
         await popUpRepository.getPromotionsDummy();
         yield DisplayPopUpState(promotionList);
       } on APIException catch(e){
+        print('hass');
         yield FailPopUpState(e.message());
       }
     }

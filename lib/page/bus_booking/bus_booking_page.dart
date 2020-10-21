@@ -315,17 +315,32 @@ class _BusBookingPageState extends State<BusBookingPage> {
         Navigator.pushNamed(context, RoutesName.homeSignInPage);
       },
     );
-//    if(prefs.getString(Constant.phoneNumber)!=null){
-//      login = Container(
-//        color: HaLanColor.lightOrange,
-//        child: Row(
-//          children: <Widget>[
-//
-//            Text(prefs.getString(Constant.phoneNumber)),
-//          ],
-//        ),
-//      );
-//    }
+    if(prefs.getString(Constant.phoneNumber)!=null){
+      login = Container(
+        padding: EdgeInsets.all(AppSize.getWidth(context, 8)),
+        color: HaLanColor.lightOrange,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: AppSize.getWidth(context, 20),
+                  backgroundImage:
+                  NetworkImage(prefs.getString(Constant.avatar)),
+                  backgroundColor: Colors.transparent,
+                ),
+                Container(width: AppSize.getWidth(context, 8),),
+                Text(prefs.getString(Constant.phoneNumber),style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: AppSize.getFontSize(context, 14)),),
+              ],
+            ),
+            GestureDetector(onTap: (){
+
+            },child: const Icon(Icons.arrow_forward,color: AVColor.orange100,))
+          ],
+        ),
+      );
+    }
     return Drawer(
       child: Padding(
         padding: EdgeInsets.only(
