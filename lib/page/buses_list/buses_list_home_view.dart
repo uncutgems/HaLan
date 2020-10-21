@@ -31,7 +31,7 @@ class _BusesListPageState extends State<BusesListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('abc'),
+        title:  Text('${widget.startPoint.name} - ${widget.endPoint.name}'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {

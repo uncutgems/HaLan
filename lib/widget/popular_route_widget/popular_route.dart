@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';
@@ -100,76 +102,85 @@ class _PopularRouteState extends State<PopularRoute> {
         right: AppSize.getWidth(context, 16),
         left: AppSize.getWidth(context, 16),
       ),
-      child: Stack(
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: Image.asset(
-              'assets/bus_background.png',
-              fit: BoxFit.fitWidth,
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, RoutesName.busesListPage,arguments: <String,dynamic>{
+            Constant.startPoint: routeEntity.listPoint.first,
+            Constant.endPoint: routeEntity.listPoint.last,
+            Constant.dateTime: DateTime.now()
+          });
+        },
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Image.asset(
+                'assets/bus_background.png',
+                fit: BoxFit.fitWidth,
+              ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-                top: AppSize.getHeight(context, 0),
-                left: AppSize.getWidth(context, 16)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  height: AppSize.getHeight(context, 18),
-                ),
-                Text(routeEntity.name,
+            Padding(
+              padding: EdgeInsets.only(
+                  top: AppSize.getHeight(context, 0),
+                  left: AppSize.getWidth(context, 16)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    height: AppSize.getHeight(context, 18),
+                  ),
+                  Text(routeEntity.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1
+                          .copyWith(color: AVColor.white)
+                          .copyWith(
+                              fontSize: AppSize.getFontSize(context, 14))
+                          .copyWith(fontWeight: FontWeight.w600)),
+                  Container(
+                    height: AppSize.getHeight(context, 4),
+                  ),
+                  Text(
+                    '~${routeEntity.distance.toInt()}km',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
                         .copyWith(color: AVColor.white)
-                        .copyWith(
-                            fontSize: AppSize.getFontSize(context, 14))
-                        .copyWith(fontWeight: FontWeight.w600)),
-                Container(
-                  height: AppSize.getHeight(context, 4),
-                ),
-                Text(
-                  '~${routeEntity.distance.toInt()}km',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .copyWith(color: AVColor.white)
-                      .copyWith(fontSize: AppSize.getFontSize(context, 12))
-                      .copyWith(fontWeight: FontWeight.w600),
-                ),
-                Container(
-                  height: AppSize.getHeight(context, 16),
-                ),
-              ],
+                        .copyWith(fontSize: AppSize.getFontSize(context, 12))
+                        .copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  Container(
+                    height: AppSize.getHeight(context, 16),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 8,
-            right: 16,
-            child: Text(
-              currencyFormat(routeEntity.displayPrice.toInt(), 'đ'),
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  .copyWith(color: AVColor.white)
-                  .copyWith(fontSize: AppSize.getFontSize(context, 18))
-                  .copyWith(fontWeight: FontWeight.w600),
+            Positioned(
+              bottom: 8,
+              right: 16,
+              child: Text(
+                currencyFormat(routeEntity.displayPrice.toInt(), 'đ'),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    .copyWith(color: AVColor.white)
+                    .copyWith(fontSize: AppSize.getFontSize(context, 18))
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
             ),
-          ),
-          Positioned(
-            top: 0,
-            right: 16,
-            child: (routeEntity.newRoute)
-                ? SvgPicture.asset(
-                    'assets/new_label_final.svg',
-                    height: AppSize.getWidth(context, 24),
-                    width: AppSize.getWidth(context, 41),
-                  )
-                : Container(),
-          ),
-        ],
+            Positioned(
+              top: 0,
+              right: 16,
+              child: (routeEntity.newRoute)
+                  ? SvgPicture.asset(
+                      'assets/new_label_final.svg',
+                      height: AppSize.getWidth(context, 24),
+                      width: AppSize.getWidth(context, 41),
+                    )
+                  : Container(),
+            ),
+          ],
+        ),
       ),
     );
   }

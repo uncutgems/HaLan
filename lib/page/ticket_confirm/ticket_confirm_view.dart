@@ -3,6 +3,7 @@ import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
@@ -14,7 +15,12 @@ import 'package:halan/page/ticket_confirm/seat_number/seat_number_view.dart';
 import 'package:halan/page/ticket_confirm/ticket_confirm_bloc.dart';
 
 class TicketConfirmPage extends StatefulWidget {
-  const TicketConfirmPage({Key key, @required this.trip, @required this.startPoint, @required this.endPoint}) : super(key: key);
+  const TicketConfirmPage(
+      {Key key,
+      @required this.trip,
+      @required this.startPoint,
+      @required this.endPoint})
+      : super(key: key);
   final Trip trip;
   final Point startPoint;
   final Point endPoint;
@@ -182,6 +188,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
                         width: AVSize.getSize(context, 150),
                         child: Text(
                           widget.trip.pointDown.name,
+                          textAlign: TextAlign.end,
                           style: textTheme.bodyText2.copyWith(fontSize: 12),
                         ),
                       )
@@ -253,7 +260,11 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
         bottomNavigationBar: BlocProvider<TicketPaymentBloc>(
           create: (BuildContext context) => _ticketPaymentBloc,
           child: TicketPaymentWidget(
+            trip: widget.trip,
             tripPrice: state.tripPrice,
+            navigate: () {
+              Navigator.pushNamed(context, RoutesName.homeSignInPage);
+            },
           ),
         ),
       ),

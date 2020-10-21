@@ -238,7 +238,7 @@ class _SeatMapWidgetState extends State<SeatMapWidget> {
                       color: setColorForSeat(seat),
                     ),
                   ),
-                  if (seat.seatType != SeatType.driverSeat &&
+                  if (seat.seatType != SeatType.driverSeat && seat.seatType != SeatType.door &&
                       trip.seatMap.numberOfColumns <= 3)
                     Text(
                       currencyFormat(

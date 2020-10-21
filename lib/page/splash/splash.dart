@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:avwidget/av_alert_dialog_widget.dart';
+import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/avwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +23,7 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   void initState() {
+    splashBloc.add(SplashEventGetData());
     animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 3));
     final CurvedAnimation curvedAnimation =
@@ -33,12 +36,12 @@ class _SplashPageState extends State<SplashPage>
         } else {}
       });
     animationController.forward();
-    Timer(
-        const Duration(seconds: 5),
-        () => Navigator.pushNamed(
-              context,
-              RoutesName.homePage,
-            ));
+//    Timer(
+//        const Duration(seconds: 5),
+//        () => Navigator.pushNamed(
+//              context,
+//              RoutesName.homePage,
+//            ));
     super.initState();
   }
 
@@ -54,6 +57,30 @@ class _SplashPageState extends State<SplashPage>
   Widget build(BuildContext context) {
     return BlocBuilder<SplashBloc, SplashState>(
         cubit: splashBloc,
+        buildWhen: (SplashState prev,SplashState state){
+          if(state is SplashStateFail){
+            showDialog<dynamic>(context: context,builder: (BuildContext context){
+              return AVAlertDialogWidget(
+                title: 'Chú ý',
+                content: state.error,
+                context: context,
+                bottomWidget: AVButton(
+                  title:'Thử lại',
+                  onPressed: (){
+                    Navigator.pop(context);
+                    splashBloc.add(SplashEventGetData());
+                  },
+                ),
+              );
+            });
+            return false;
+          }
+          else if(state is SplashStateForward){
+            Navigator.pushNamed(context, RoutesName.homePage);
+            return false;
+          }
+          return true;
+        },
         builder: (BuildContext context, SplashState state) {
           if (state is SplashInitial) {
             return _mainScreen(context);

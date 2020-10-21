@@ -5,12 +5,20 @@ import 'package:avwidget/testing_tff.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
-import 'package:halan/main.dart';
+import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';
+import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_detail/ticket_detail_bloc.dart';
 
 class TicketDetailPage extends StatefulWidget {
+  const TicketDetailPage({Key key, @required this.trip, @required this.listSeat}) : super(key: key);
+
+  final Trip trip;
+  final List<Seat> listSeat;
+
   @override
   _TicketDetailPageState createState() => _TicketDetailPageState();
 }
@@ -22,7 +30,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   TextEditingController customerNameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
-  TextEditingController passportController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
 
   FocusNode customerNameFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
@@ -39,7 +47,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     customerNameController.dispose();
     emailController.dispose();
     phoneNumberController.dispose();
-    passportController.dispose();
+    noteController.dispose();
     ticketDetailBloc.close();
     super.dispose();
   }
@@ -74,6 +82,11 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   }
 
   Widget mainScreen(BuildContext context, bool box1, bool box2) {
+    final TextStyle textStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        .copyWith(fontWeight: FontWeight.w500)
+        .copyWith(fontSize: AppSize.getFontSize(context, 14));
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Form(
@@ -108,34 +121,20 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Tên khách hàng',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontWeight: FontWeight.w500)
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14)),
-                    ),
-                    Text(
-                      ' *',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontWeight: FontWeight.w500)
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14))
-                          .copyWith(color: HaLanColor.notificationColor),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: AppSize.getWidth(context, 8),
-                ),
+
                 HalanTextFormField(
+                  isRequired: true,
+                  title: 'Tên khách hàng',
+                  titleStyle: textStyle,
                   textEditingController: customerNameController,
                   keyboardType: TextInputType.text,
                   focusNode: customerNameFocusNode,
+                  validator: (String value) {
+                    if (value ==null) {
+                      return 'Vui lòng điền tên khách hàng';
+                    }
+                    return null;
+                  },
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(emailFocusNode);
                   },
@@ -143,69 +142,19 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Email',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontWeight: FontWeight.w500)
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14)),
-                    ),
-                    Text(
-                      ' *',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontWeight: FontWeight.w500)
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14))
-                          .copyWith(color: HaLanColor.notificationColor),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: AppSize.getWidth(context, 8),
-                ),
                 HalanTextFormField(
-                  focusNode: emailFocusNode,
-                  textEditingController: emailController,
-                  keyboardType: TextInputType.text,
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(phoneNumberFocusNode);
-                  },
-                ),
-                Container(
-                  height: AppSize.getWidth(context, 16),
-                ),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Số điện thoại',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontWeight: FontWeight.w500)
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14)),
-                    ),
-                    Text(
-                      ' *',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontWeight: FontWeight.w500)
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14))
-                          .copyWith(color: HaLanColor.notificationColor),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: AppSize.getWidth(context, 8),
-                ),
-                HalanTextFormField(
+                  title: 'Số điện thoại',
+                  titleStyle: textStyle,
+                  isRequired: true,
                   focusNode: phoneNumberFocusNode,
                   textEditingController: phoneNumberController,
                   keyboardType: TextInputType.number,
+                  validator: (String value) {
+                    if (value ==null) {
+                      return 'Vui lòng điền số điện thoại';
+                    }
+                    return null;
+                  },
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(passportFocusNode);
                   },
@@ -213,10 +162,24 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
+                HalanTextFormField(
+                  focusNode: emailFocusNode,
+                  title: 'Email',
+                  titleStyle: textStyle,
+                  textEditingController: emailController,
+                  keyboardType: TextInputType.text,
+                  onEditingComplete: () {
+                    FocusScope.of(context).requestFocus(phoneNumberFocusNode);
+                  },
+                ),
+
+                Container(
+                  height: AppSize.getWidth(context, 16),
+                ),
                 Row(
                   children: <Widget>[
                     Text(
-                      'CMND/Passport',
+                      'Ghi chú',
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -233,27 +196,28 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(FocusNode());
                   },
-                  textEditingController: passportController,
+                  textEditingController: noteController,
                   keyboardType: TextInputType.text,
                 ),
                 Container(
                   height: AppSize.getWidth(context, 19),
                 ),
-                AVRadio<bool>(
-                  groupValue: box1,
-                  text: 'Đặt hộ vé',
-                  value: true,
-                  onTap: () {
-                    ticketDetailBloc
-                        .add(TickBoxesTicketDetailEvent(!box1, box2));
-                  },
-                ),
+                Text('Hình thức đưa đón',style: textStyle,),
                 Container(
-                  height: AppSize.getWidth(context, 22),
+                  height: AppSize.getWidth(context, 8),
+                ),
+               option(context, () { }, textStyle),
+                Container(
+                  height: AppSize.getWidth(context, 16),
+                ),
+                option(context, () { }, textStyle),
+                Container(
+                  height: AppSize.getWidth(context, 19),
                 ),
                 Row(
                   children: <Widget>[
                     AVRadio<bool>(
+
                       groupValue: box2,
                       value: true,
                       onTap: () {
@@ -284,16 +248,34 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               ],
             ),
           ),
-          floatingActionButton: AVButton(
-            title: 'Tiếp tục',
-            height: AppSize.getWidth(context, 48),
-            width: AppSize.getWidth(context, 343),
-            onPressed: () {
-              if (myKey.currentState.validate()) {
-                print('hello');
-              }
-            },
-            color: HaLanColor.primaryColor,
+          bottomNavigationBar: Padding(
+            padding:  EdgeInsets.all(AppSize.getWidth(context, 16)),
+            child: AVButton(
+              title: 'Tiếp tục',
+              height: AppSize.getWidth(context, 48),
+              width: AppSize.getWidth(context, 343),
+              onPressed: () {
+                if (myKey.currentState.validate()) {
+                  final Ticket ticket = Ticket(
+                    createdDate: int.parse(convertTime('ddMMyyy', DateTime.now().millisecondsSinceEpoch, true)),
+                    fullName: customerNameController.text,
+                    phoneNumber: phoneNumberController.text,
+                    ticketStatus: TicketStatus.booked,
+                    getInTimePlan: widget.trip.startTime,
+                    getOffTimePlan: widget.trip.startTime + widget.trip.runTime,
+                    pointUp: widget.trip.pointUp,
+                    pointDown: widget.trip.pointDown,
+                    listSeatId: <String>[]
+
+
+                  );
+                  Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,arguments: <String,dynamic>{
+                    Constant.ticket: ticket
+                  });
+                }
+              },
+              color: HaLanColor.primaryColor,
+            ),
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
@@ -301,4 +283,25 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       ),
     );
   }
+}
+
+Widget option(BuildContext context,VoidCallback onTap,TextStyle textStyle){
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      padding: EdgeInsets.symmetric(horizontal: AppSize.getWidth(context, 16),vertical:AppSize.getWidth(context, 9) ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Text('Đón tại bến',style: textStyle,),
+          const Icon(Icons.expand_more),
+        ],
+      ),
+      height: AppSize.getWidth(context, 40),
+      decoration: BoxDecoration(
+        color: HaLanColor.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
+  );
 }

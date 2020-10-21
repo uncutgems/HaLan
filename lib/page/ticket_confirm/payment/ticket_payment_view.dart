@@ -9,11 +9,15 @@ import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/main.dart';
+import 'package:halan/model/entity.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_bloc.dart';
 
 class TicketPaymentWidget extends StatefulWidget {
-  const TicketPaymentWidget({Key key, this.tripPrice}) : super(key: key);
+  const TicketPaymentWidget({Key key, this.tripPrice, this.navigate, this.trip})
+      : super(key: key);
   final int tripPrice;
+  final VoidCallback navigate;
+  final Trip trip;
 
   @override
   _TicketPaymentWidgetState createState() => _TicketPaymentWidgetState();
@@ -80,24 +84,33 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
               AVButton(
                 onPressed: state.listSeat.isNotEmpty
                     ? () {
-                        if (prefs.getString(Constant.token) != null) {
+                        prefs.setBool(Constant.haveChoseSeat, true);
+                        if (prefs.getString(Constant.userId) != null) {
                           Navigator.pushNamed(
-                              context, RoutesName.ticketDetailPage);
-                        } else
+                              context, RoutesName.ticketDetailPage, arguments: <String, dynamic>{
+                                Constant.trip: widget.trip
+                          });
+                        } else {
                           showDialog<dynamic>(
                               context: context,
                               builder: (BuildContext context) =>
                                   AVAlertDialogWidget(
-                                    bottomWidget: Center(
-                                      child: AVButton(title: 'Đồng ý', onPressed: () {
-                                        Navigator.pushNamed(context, RoutesName.homeSignInPage);
-                                      },),
+                                    bottomWidget: Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: AVButton(
+                                            color: HaLanColor.primaryColor,
+                                            title: 'Đồng ý',
+                                            onPressed: widget.navigate,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                     title: 'Bạn chưa đăng nhâp',
                                     context: context,
                                     content: 'Đăng nhập để đặt vé',
-
                                   ));
+                        }
                       }
                     : null,
                 color: HaLanColor.white,

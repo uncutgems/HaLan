@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.ticketDetailPage,
+      initialRoute: RoutesName.homeSignInPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -123,7 +123,9 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     case RoutesName.homeOtpPage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => HomeOtpPage(),
+          builder: (BuildContext context) => HomeOtpPage(
+            phoneNumber: data[Constant.phoneNumber] as String,
+          ),
           settings: const RouteSettings(name: RoutesName.homeOtpPage));
     case RoutesName.paymentHomePage:
       return MaterialPageRoute<dynamic>(
@@ -152,7 +154,7 @@ MaterialPageRoute<dynamic> routeSettings(
             startPoint: data[Constant.startPoint] as Point,
             endPoint: data[Constant.endPoint] as Point,
               ),
-          settings: const RouteSettings(name: RoutesName.paymentTransferPage));
+          settings: const RouteSettings(name: RoutesName.ticketConfirmPage));
     case RoutesName.historyHomePage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HistoryHomePage(),
@@ -166,7 +168,9 @@ MaterialPageRoute<dynamic> routeSettings(
               const RouteSettings(name: RoutesName.historyTicketDetailPage));
     case RoutesName.ticketDetailPage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => TicketDetailPage(),
+          builder: (BuildContext context) => TicketDetailPage(
+            trip: data[Constant.trip] as Trip,
+          ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
     case RoutesName.personalProfile:
       return MaterialPageRoute<dynamic>(
