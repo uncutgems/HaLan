@@ -25,4 +25,5 @@ class HaLanColor {
   static const Color textColor = Color(0xff232731);
   static const Color green = Color(0xff00C48C);
   static const Color black = Color(0xff232731);
+  static const Color lightOrange = Color(0xffFAE8CA);
 }

@@ -25,9 +25,25 @@ class TicketRepository {
       throw APIException(response);
     }
   }
-  Future<List<Ticket>> getListTicketHistory(
-      int page) async {
-    final AVResponse response = await callGET('${URL.getListTicketByUser}?page=$page&count=10&option=0');
+
+  Future<List<Ticket>> getListTicketHistory(int page) async {
+    final AVResponse response = await callGET(
+        '${URL.getListTicketByUser}?page=$page&count=10&option=0');
+    if (response.isOK) {
+      final List<Ticket> ticketList = <Ticket>[];
+      response.response[Constant.listTicket].forEach((final dynamic itemJson) {
+        final Ticket ticket = Ticket.fromJson(itemJson as Map<String, dynamic>);
+        ticketList.add(ticket);
+      });
+      return ticketList;
+    } else {
+      throw APIException(response);
+    }
+  }
+
+  Future<List<Ticket>> getTicketsByCode(String ticketCode) async {
+    final AVResponse response =
+        await callGET('${URL.checkTicketByCode}?ticketCode=$ticketCode');
     if (response.isOK) {
       final List<Ticket> ticketList = <Ticket>[];
       response.response[Constant.listTicket].forEach((final dynamic itemJson) {

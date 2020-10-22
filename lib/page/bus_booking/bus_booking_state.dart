@@ -10,7 +10,10 @@ class DisplayDataBusBookingState extends BusBookingState {
   final DateTime date;
   final List<Point> selectedPoint;
 }
+class ChangeToHomeBusBookingState extends BusBookingState{}
+
+
 
 class LoadingDataBusBookingState extends BusBookingState {}
-
 class DismissLoadingBusBookingState extends BusBookingState {}
+class LoadingBusBookingState extends BusBookingState {}

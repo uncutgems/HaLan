@@ -230,30 +230,39 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
     for (final String province in provincePoints.keys) {
       result.add(Padding(
         padding: EdgeInsets.only(bottom: AppSize.getWidth(context, 8)),
-        child: Material(
-          color: HaLanColor.white,
-          borderRadius: BorderRadius.circular(AppSize.getWidth(context, 8)),
-          child: ExpansionTile(
-            backgroundColor: HaLanColor.white,
-            title: Row(
-              children: <Widget>[
-                const Icon(
-                  Icons.location_on,
-                  color: HaLanColor.iconColor,
-                ),
-                Container(
-                  width: AppSize.getWidth(context, 13),
-                ),
-                Text(
-                  province,
-                  style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      fontSize: AppSize.getFontSize(context, 12),
-                      color: HaLanColor.textColor,
-                      fontWeight: FontWeight.w600),
-                ),
-              ],
+        child: ClipRRect(
+          borderRadius:BorderRadius.circular(AppSize.getWidth(context, 8)) ,
+          child: Container(
+//          color: HaLanColor.white,
+            decoration: BoxDecoration(
+              color: HaLanColor.white,
+              borderRadius: BorderRadius.circular(AppSize.getWidth(context, 8)),
             ),
-            children: pointWidgets(context, provincePoints[province]),
+//          borderRadius: BorderRadius.circular(AppSize.getWidth(context, 8)),
+            child: ExpansionTile(
+
+              key: GlobalKey(),
+              backgroundColor: HaLanColor.white,
+              title: Row(
+                children: <Widget>[
+                  const Icon(
+                    Icons.location_on,
+                    color: HaLanColor.iconColor,
+                  ),
+                  Container(
+                    width: AppSize.getWidth(context, 13),
+                  ),
+                  Text(
+                    province,
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        fontSize: AppSize.getFontSize(context, 12),
+                        color: HaLanColor.textColor,
+                        fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+              children: pointWidgets(context, provincePoints[province]),
+            ),
           ),
         ),
       ));

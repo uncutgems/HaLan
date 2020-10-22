@@ -26,7 +26,7 @@ Future<AVResponse> callGET(String url, {Map<String, String> headers}) async {
   _headers[Constant.contentType] = 'application/json';
   _headers[Constant.headerDOBODY6969] = prefs.getString(Constant.token).toString();
 //  _headers[Constant.headerDOBODY6969] =
-//      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDI5MDU4MTUsImp0aSI6Ik9SRzA4WjFxSEhaQnhreUVmIn0.a8QSfwNZW9EOkpG8SNjYY9BWH4Iqh293oHXyHazHL7I';
+//      'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDMzNDA0MzgsImp0aSI6Ik9SRzA4WjFxSEhaQnhreUVmIn0.jsuHu1FzVtGLL9HO1Ek1XIdyfe97WmB4ztPqrxDvfY4';
   _headers.addAll(headers ?? <String, String>{});
   try {
     print('GET ===================== ');
@@ -88,7 +88,7 @@ Future<AVResponse> callPOST({
   _headers[Constant.contentType] = 'application/json';
   _headers[Constant.headerDOBODY6969] =
       prefs.getString(Constant.token).toString();
-//  _headers[Constant.headerDOBODY6969] = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDI5MDU4MTUsImp0aSI6Ik9SRzA4WjFxSEhaQnhreUVmIn0.a8QSfwNZW9EOkpG8SNjYY9BWH4Iqh293oHXyHazHL7I";
+//  _headers[Constant.headerDOBODY6969] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDMzNDA0MzgsImp0aSI6Ik9SRzA4WjFxSEhaQnhreUVmIn0.jsuHu1FzVtGLL9HO1Ek1XIdyfe97WmB4ztPqrxDvfY4';
 
   if (body is List) {
     for (final dynamic item in body) {
@@ -96,7 +96,7 @@ Future<AVResponse> callPOST({
       item[Constant.timeZone] = 7;
       item[Constant.platform] = 1;
       item[Constant.deviceType] = 1;
-      item[Constant.companyId] = Constant.interBusLinesCompanyId;
+      item[Constant.companyId] = Constant.haLanCompanyId;
       item[Constant.fcmToken] = prefs.getString(Constant.firebaseKey);
       item[Constant.deviceId] = prefs.getString(Constant.deviceId);
     }
@@ -105,7 +105,7 @@ Future<AVResponse> callPOST({
     body[Constant.timeZone] = 7;
     body[Constant.platform] = 3;
     body[Constant.deviceType] = 1;
-    body[Constant.companyId] = Constant.interBusLinesCompanyId;
+    body[Constant.companyId] = Constant.haLanCompanyId;
     body[Constant.fcmToken] = prefs.getString(Constant.firebaseKey);
     body[Constant.deviceId] = prefs.getString(Constant.deviceId);
   }

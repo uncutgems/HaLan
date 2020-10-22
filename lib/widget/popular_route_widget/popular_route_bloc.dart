@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:halan/base/api_handler.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/repository/route_repository.dart';
 import 'package:meta/meta.dart';
@@ -19,9 +20,14 @@ class PopularRouteBloc extends Bloc<PopularRouteEvent, PopularRouteState> {
   ) async* {
     if (event is GetPopularPopularRouteEvent) {
       yield LoadingPopularRouteState();
-      final List<RouteEntity> popularRouteList =
-          await routeRepository.getPopularRoutes();
-      yield DisplayPopularRouteState(popularRouteList);
+      try {
+        final List<RouteEntity> popularRouteList =
+        await routeRepository.getPopularRoutes();
+        yield DisplayPopularRouteState(popularRouteList);
+      }
+      on APIException catch(e){
+        yield PopularRouteFailState(e.message());
+      }
     }
   }
 }

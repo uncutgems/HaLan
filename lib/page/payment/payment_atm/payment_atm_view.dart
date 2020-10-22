@@ -1,6 +1,8 @@
+import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 
 class PaymentATMPage extends StatefulWidget {
@@ -46,6 +48,14 @@ class _PaymentATMPageState extends State<PaymentATMPage> {
                   .copyWith(fontWeight: FontWeight.w600, height: 11 / 7),
             ),
           ),
+          AVButton(
+            color: HaLanColor.primaryColor,
+            title: 'Quay về trang chủ',
+            onPressed: () {
+              Navigator.popUntil(
+                  context, ModalRoute.withName(RoutesName.busBookingPage));
+            },
+          ),
           Expanded(
             child: GridView.count(
               padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
@@ -67,7 +77,10 @@ class _PaymentATMPageState extends State<PaymentATMPage> {
                 }),
               ],
             ),
-          )
+
+          ),
+
+
         ],
       ),
     );

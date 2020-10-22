@@ -8,7 +8,6 @@ class GetDataBusBookingEvent extends BusBookingEvent{
   GetDataBusBookingEvent(this.date, this.selectedPoints);
   final DateTime date;
   final List<Point> selectedPoints;
-
 }
-
+class ChangeToHomeBusBookingEvent extends BusBookingEvent{}
 
