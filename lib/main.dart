@@ -169,6 +169,7 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketDetailPage(
             trip: data[Constant.trip] as Trip,
+            listSeat: data[Constant.listSeat] as List<Seat>,
           ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
     default:

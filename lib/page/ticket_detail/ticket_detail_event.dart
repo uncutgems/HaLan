@@ -13,3 +13,17 @@ class TickBoxesTicketDetailEvent extends TicketDetailEvent {
   final Point pointUp;
   final Point pointDown;
 }
+
+class TicketDetailClickButtonEvent extends TicketDetailEvent{
+  TicketDetailClickButtonEvent({this.trip, this.seatSelected, this.totalPrice, this.fullName, this.phoneNumber, this.pointUp, this.pointDown, this.note, this.email});
+  final Trip trip;
+  final List<Seat> seatSelected;
+  final double totalPrice;
+  final String fullName;
+  final String phoneNumber;
+  final Point pointUp;
+  final Point pointDown;
+  final String note;
+  final String email;
+
+}

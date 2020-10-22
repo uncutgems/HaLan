@@ -1,6 +1,8 @@
+import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/av_radio_widget.dart';
 import 'package:avwidget/avwidget.dart';
+import 'package:avwidget/popup_loading_widget.dart';
 import 'package:avwidget/testing_tff.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,12 +49,12 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
 
   @override
   void initState() {
-    if(widget.trip!=null){
-      if(widget.trip.pointUp.listTransshipmentPoint.isNotEmpty){
-        transshipmentUp= widget.trip.pointUp.listTransshipmentPoint.first;
+    if (widget.trip != null) {
+      if (widget.trip.pointUp.listTransshipmentPoint.isNotEmpty) {
+        transshipmentUp = widget.trip.pointUp.listTransshipmentPoint.first;
       }
-      if(widget.trip.pointDown.listTransshipmentPoint.isNotEmpty){
-        transshipmentDown= widget.trip.pointDown.listTransshipmentPoint.first;
+      if (widget.trip.pointDown.listTransshipmentPoint.isNotEmpty) {
+        transshipmentDown = widget.trip.pointDown.listTransshipmentPoint.first;
       }
     }
     super.initState();
@@ -70,21 +72,69 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<TicketDetailBloc, TicketDetailState>(
       cubit: bloc,
+      buildWhen: (TicketDetailState prev, TicketDetailState state) {
+        if (state is TicketDetailLoadingState) {
+          showDialog<dynamic>(
+              context: context,
+              builder: (BuildContext context) {
+                return const AVLoadingWidget();
+              });
+          return false;
+        }
+        else if (state is TicketDetailDismissLoadingState){
+          Navigator.pop(context);
+          return false;
+        }
+        else if(state is TicketDetailNextPageState){
+          Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,arguments: <String,dynamic>{
+            Constant.ticketCode:state.ticketCode
+          });
+        }
+        else if (state is TicketDetailFailState){
+          showDialog<dynamic>(
+              context: context,
+              builder: (BuildContext context) {
+                return AVAlertDialogWidget(
+                  title: 'Lỗi',
+                  context: context,
+                  content: state.error,
+                  bottomWidget: AVButton(
+                    title: 'Thử lại',
+                    onPressed: (){
+                      bloc.add(TicketDetailClickButtonEvent(
+                        phoneNumber: phoneNumberController.text,
+                        fullName: customerNameController.text,
+                        note: noteController.text,
+                        pointUp: transshipmentUp,
+                        pointDown: transshipmentDown,
+                        trip: widget.trip,
+                        seatSelected: widget.listSeat,
+                        totalPrice: calculatorPrice(widget.trip, widget.listSeat, transshipmentUp, transshipmentDown),
+                        email: emailController.text,
+                      ));
+                    },
+                  ),
+                );
+              });
+          return false;
+        }
+        return true;
+      },
       builder: (BuildContext context, TicketDetailState state) {
-
         if (state is TicketDetailInitial) {
-          return mainScreen(context, false, widget.trip.pointUp,
-              widget.trip.pointDown);
+          return mainScreen(
+              context, false, widget.trip.pointUp, widget.trip.pointDown);
         } else if (state is TicketDetailChangeCheckBoxState) {
-          pickUp= state.pickUp;
-          dropOff=state.dropDown;
-          check=state.firstBoxState;
-          transshipmentUp=state.pointUp;
-          transshipmentDown=state.pointDown;
-          return mainScreen(context, state.firstBoxState,
-              widget.trip.pointUp, widget.trip.pointDown);
+          pickUp = state.pickUp;
+          dropOff = state.dropDown;
+          check = state.firstBoxState;
+          transshipmentUp = state.pointUp;
+          transshipmentDown = state.pointDown;
+          return mainScreen(context, state.firstBoxState, widget.trip.pointUp,
+              widget.trip.pointDown);
         }
 
         return Container();
@@ -92,8 +142,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     );
   }
 
-  Widget mainScreen(BuildContext context, bool box1, Point pointUp,
-      Point pointDown) {
+  Widget mainScreen(
+      BuildContext context, bool box1, Point pointUp, Point pointDown) {
     final TextStyle textStyle = Theme.of(context)
         .textTheme
         .bodyText1
@@ -141,6 +191,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   keyboardType: TextInputType.text,
                   focusNode: customerNameFocusNode,
                   validator: (String value) {
+
                     if (value == null) {
                       return 'Vui lòng điền tên khách hàng';
                     }
@@ -161,6 +212,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   textEditingController: phoneNumberController,
                   keyboardType: TextInputType.number,
                   validator: (String value) {
+                    print('asssssssssssssssssss $value');
                     if (value == null) {
                       return 'Vui lòng điền số điện thoại';
                     }
@@ -173,6 +225,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
+
                 HalanTextFormField(
                   focusNode: emailFocusNode,
                   title: 'Email',
@@ -248,7 +301,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                       groupValue: box1,
                       value: true,
                       onTap: () {
-                        bloc.add(TickBoxesTicketDetailEvent(!box1,pickUp,dropOff,transshipmentUp,transshipmentDown));
+                        bloc.add(TickBoxesTicketDetailEvent(!box1, pickUp,
+                            dropOff, transshipmentUp, transshipmentDown));
                       },
                     ),
                     Text(
@@ -270,12 +324,27 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                     ),
                   ],
                 ),
-                Container(height: AppSize.getWidth(context, 16),),
+                Container(
+                  height: AppSize.getWidth(context, 16),
+                ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text('Tổng tiền',),
-                    if (widget.trip!=null && widget.listSeat!=null)
-                      Text('${calculatorPrice(widget.trip, widget.listSeat, pointUp, pointDown)}',)
+                    Text(
+                      'Tổng tiền',
+                      style: textStyle,
+                    ),
+                    if (widget.trip != null && widget.listSeat != null)
+                      Text(
+                        currencyFormat(
+                            calculatorPrice(widget.trip, widget.listSeat,
+                                    pointUp, pointDown)
+                                .toInt(),
+                            'đ'),
+                        style: textStyle.copyWith(
+                            color: HaLanColor.red100,
+                            fontWeight: FontWeight.bold),
+                      )
                   ],
                 )
               ],
@@ -287,27 +356,30 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               title: 'Tiếp tục',
               height: AppSize.getWidth(context, 48),
               width: AppSize.getWidth(context, 343),
-              onPressed: check==false?null:() {
-                if (myKey.currentState.validate()) {
-                  print('vào đây');
-//                  final Ticket ticket = Ticket(
-//                    createdDate: int.parse(convertTime('ddMMyyy', DateTime.now().millisecondsSinceEpoch, true)),
-//                    fullName: customerNameController.text,
-//                    phoneNumber: phoneNumberController.text,
-//                    ticketStatus: TicketStatus.booked,
-//                    getInTimePlan: widget.trip.startTime,
-//                    getOffTimePlan: widget.trip.startTime + widget.trip.runTime,
-//                    pointUp: widget.trip.pointUp,
-//                    pointDown: widget.trip.pointDown,
-//                    listSeatId: <String>[]
-//                  );
-                  Navigator.pushNamed(
-                      context, RoutesName.historyTicketDetailPage,
-                      arguments: <String, dynamic>{
-                        Constant.ticketCode: '201021-359735'
-                      });
-                }
-              },
+              onPressed: check == false
+                  ? null
+                  : () {
+//                      if (myKey.currentState.validate()) {
+                        print('vào đây');
+                      bloc.add(TicketDetailClickButtonEvent(
+                        phoneNumber: phoneNumberController.text,
+                        fullName: customerNameController.text,
+                        note: noteController.text,
+                        pointUp: pointUp,
+                        pointDown: pointDown,
+                        trip: widget.trip,
+                        seatSelected: widget.listSeat,
+                        totalPrice: calculatorPrice(widget.trip, widget.listSeat, pointUp, pointDown),
+                        email: emailController.text,
+                      ));
+
+//                        Navigator.pushNamed(
+//                            context, RoutesName.historyTicketDetailPage,
+//                            arguments: <String, dynamic>{
+//                              Constant.ticketCode: '201021-359735'
+//                            });
+                      },
+//                    },
               color: HaLanColor.primaryColor,
             ),
           ),
@@ -356,7 +428,6 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   ? transshipmentUp.name
                   : transshipmentDown.name,
               onPressed: () {
-
                 showModalBottomSheet<dynamic>(
                     context: context,
                     builder: (BuildContext context) {
@@ -370,8 +441,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                           } else {
                             transshipmentDown = transshipmentPoint;
                           }
-                          bloc.add(TickBoxesTicketDetailEvent(check,pickUp,dropOff,transshipmentUp,transshipmentDown));
-//                          print(transhipmentName);
+                          bloc.add(TickBoxesTicketDetailEvent(check, pickUp,
+                              dropOff, transshipmentUp, transshipmentDown));
                           Navigator.pop(context);
                         },
                       );
@@ -423,7 +494,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
         } else {
           dropOff = '$type tại bến';
         }
-        bloc.add(TickBoxesTicketDetailEvent(check,pickUp,dropOff,transshipmentUp,transshipmentDown));
+        bloc.add(TickBoxesTicketDetailEvent(
+            check, pickUp, dropOff, transshipmentUp, transshipmentDown));
         Navigator.pop(context);
       },
       child: Text(
@@ -444,7 +516,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               } else {
                 dropOff = '$type tại trung chuyển';
               }
-              bloc.add(TickBoxesTicketDetailEvent(check,pickUp,dropOff,transshipmentUp,transshipmentDown));
+              bloc.add(TickBoxesTicketDetailEvent(
+                  check, pickUp, dropOff, transshipmentUp, transshipmentDown));
               Navigator.pop(context);
             },
             child: Text(

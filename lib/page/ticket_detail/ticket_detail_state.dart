@@ -13,3 +13,14 @@ class TicketDetailChangeCheckBoxState extends TicketDetailState {
   final Point pointUp;
   final Point pointDown;
 }
+class TicketDetailLoadingState extends TicketDetailState{}
+class TicketDetailFailState extends TicketDetailState{
+  TicketDetailFailState(this.error);
+  final String error;
+}
+class TicketDetailDismissLoadingState extends TicketDetailState{}
+class TicketDetailNextPageState extends TicketDetailState{
+  TicketDetailNextPageState(this.ticketCode);
+  final String ticketCode;
+
+}
