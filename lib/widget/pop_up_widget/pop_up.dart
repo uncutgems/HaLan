@@ -18,7 +18,7 @@ class _PopUpWidgetState extends State<PopUpWidget> {
 
   @override
   void initState() {
-    popUpBloc.add(GatDataPopUpEvent());
+    popUpBloc.add(GetDataPopUpEvent());
     super.initState();
   }
 
@@ -36,16 +36,9 @@ class _PopUpWidgetState extends State<PopUpWidget> {
         if (state is DisplayPopUpState) {
           return popUpPromotion(context, state);
         } else if (state is LoadingPopUpState) {
-          return _loading(context);
+          return loadFail(context);
         } else if (state is FailPopUpState) {
-          Center(
-            child: FailWidget(
-              message: state.errorMessage,
-              onPressed: () {
-                popUpBloc.add(GatDataPopUpEvent());
-              },
-            ),
-          );
+           return loadFail(context);
         }
         return Container();
       },
@@ -106,9 +99,50 @@ class _PopUpWidgetState extends State<PopUpWidget> {
     );
   }
 
+  Widget loadFail(BuildContext context){
+    return Padding(
+      padding: EdgeInsets.only(
+        top: AppSize.getWidth(context, 0),
+        bottom: AppSize.getHeight(context, 32),
+      ),
+      child: Column(
+        children: <Widget>[
+          CarouselSlider.builder(
+            itemCount: 4,
+            options: CarouselOptions(
+                scrollDirection: Axis.horizontal,
+                enableInfiniteScroll: true,
+                enlargeCenterPage: true,
+                viewportFraction: 0.9,
+                aspectRatio: 16 / 9,
+                autoPlay: true,
+                height: AppSize.getWidth(context, 193),
+                autoPlayAnimationDuration: const Duration(seconds: 1),
+                onPageChanged: (int index, CarouselPageChangedReason reason) {
+//                    bloc.add(ChangedPagePopularFilmEvent(index, filmList));
+                }),
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                height: AppSize.getWidth(context, 193),
+                decoration: popUpBoxDecoration.copyWith(
+                  image:  DecorationImage(
+                    image: AssetImage(
+                      'assets/placeholder.gif',
+                    ),
+                    fit: BoxFit.fitWidth,
+                  )
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _loading(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
+      padding: EdgeInsets.only(left:AppSize.getWidth(context, 16),right:AppSize.getWidth(context, 16),top: AppSize.getWidth(context, 16), bottom: AppSize.getWidth(context, 193),),
       child: const Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),

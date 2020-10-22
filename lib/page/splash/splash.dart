@@ -6,10 +6,11 @@ import 'package:avwidget/avwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/page/splash/splash_bloc.dart';
-
+import 'package:halan/main.dart';
 class SplashPage extends StatefulWidget {
   @override
   _SplashPageState createState() => _SplashPageState();
@@ -23,6 +24,9 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   void initState() {
+//    if(prefs.containsKey(Constant.haveChoseSeat)) {
+//      prefs.setBool(Constant.haveChoseSeat, false);
+//    }
     splashBloc.add(SplashEventGetData());
     animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 3));
@@ -76,7 +80,7 @@ class _SplashPageState extends State<SplashPage>
             return false;
           }
           else if(state is SplashStateForward){
-            Navigator.pushNamed(context, RoutesName.homePage);
+            Navigator.pushReplacementNamed(context, RoutesName.busBookingPage);
             return false;
           }
           return true;

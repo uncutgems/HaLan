@@ -8,10 +8,12 @@ import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tool.dart';
+import 'package:halan/base/tools.dart' as tools;
  import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_bloc.dart';
 import 'package:halan/widget/pop_up_widget/pop_up.dart';
 import 'package:halan/widget/popular_route_widget/popular_route.dart';
+import 'package:halan/main.dart';
 
 class BusBookingPage extends StatefulWidget {
   @override
@@ -21,6 +23,7 @@ class BusBookingPage extends StatefulWidget {
 class _BusBookingPageState extends State<BusBookingPage> {
   List<Point> selectedPoints = <Point>[];
   DateTime dateTime=DateTime.now();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   BusBookingBloc bloc = BusBookingBloc();
   final RoundedRectangleBorder border = const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
@@ -35,57 +38,31 @@ class _BusBookingPageState extends State<BusBookingPage> {
       cubit: bloc,
       builder: (BuildContext context, BusBookingState state){
         if (state is DisplayDataBusBookingState){
-          return mainView(context,selectedPoints,dateTime);
+          return mainView(context, mainScreen(context,selectedPoints,dateTime),state,busBookingAppBar(context));
         }
+        else if (state is ChangeToHomeBusBookingState){
+        return  mainView(context, tools.homeStateTop(context,(){
+          bloc.add(GetDataBusBookingEvent(dateTime,selectedPoints));
+        }),state,homeAppBar(context));
+        }
+
         return  Container();
       },
     );
   }
 
 
-  Widget mainView(BuildContext context,List<Point> points, DateTime chosenDate){
+  Widget mainView(BuildContext context,Widget bodyPart, BusBookingState state,PreferredSizeWidget appBar){
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: AVColor.halanBackground,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AVColor.gray100),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        elevation: 0,
-        title: Text('Đặt vé xe',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(color: AVColor.gray100)
-                .copyWith(fontSize: AppSize.getFontSize(context, 18))
-                .copyWith(fontWeight: FontWeight.w600)),
-        centerTitle: true,
-        backgroundColor: AVColor.halanBackground,
-        actions: <Widget>[
-          Row(
-            children: <Widget>[
-              IconButton(
-                  icon: SvgPicture.asset(
-                    'assets/bell.svg',
-                    height: AppSize.getWidth(context, 19),
-                    width: AppSize.getWidth(context, 16),
-                  ),
-                  onPressed: () {}),
-              Container(
-                width: AppSize.getWidth(context, 8),
-              ),
-            ],
-          ),
-        ],
-      ),
+      appBar: appBar,
       body: ListView(
         children: <Widget>[
           Container(
             height: AppSize.getHeight(context, 8),
           ),
-          mainScreen(context,points,chosenDate),
+         bodyPart,
           Container(
             height: AppSize.getHeight(context, 16),
           ),
@@ -93,6 +70,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
           PopularRoute(),
         ],
       ),
+      drawer: state is ChangeToHomeBusBookingState?_drawer(context):null,
     );
   }
 
@@ -171,11 +149,13 @@ class _BusBookingPageState extends State<BusBookingPage> {
                     color: HaLanColor.white,
                   ),
                   onPressed: selectedPoints.isNotEmpty? () {
+
                     Navigator.pushNamed(context, RoutesName.busesListPage,arguments: <String,dynamic>{
                       Constant.startPoint: selectedPoints.first,
                       Constant.endPoint: selectedPoints.last,
                       Constant.dateTime: dateTime
                     });
+//                    bloc.add(ChangeToHomeBusBookingEvent());
                   }:null,
                 ),
               ),
@@ -217,60 +197,298 @@ class _BusBookingPageState extends State<BusBookingPage> {
     }
     return GestureDetector(
       onTap: onTap,
-      child: Material(
-        elevation: 2,
-        shape: border,
-        child: Container(
-          height: AppSize.getHeight(context, 40),
-          decoration: BoxDecoration(
-            color: AVColor.white,
-            borderRadius: BorderRadius.circular(AppSize.getWidth(context, 8)),
-          ),
-          child: Row(
-            children: <Widget>[
-              Container(
-                width: AppSize.getWidth(context, 13),
-              ),
-              icon ??
-                  const Icon(
-                    Icons.location_on,
-                    color: HaLanColor.gray80,
-                    size: 30,
-                  ),
-              Container(
-                width: AppSize.getWidth(context, 13),
-              ),
-              Column(
+      child: Container(
+        height: 48,
+        decoration: BoxDecoration(
+          color: HaLanColor.white,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          children: <Widget>[
+            Container(width: AppSize.getWidth(context, 8)),
+            icon ??
+                const Icon(
+                  Icons.location_on,
+                  color: HaLanColor.iconColor,
+                ),
+            Container(width: AppSize.getWidth(context, 8)),
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     title,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
-                        .copyWith(color: HaLanColor.disableColor)
-                        .copyWith(fontSize: AppSize.getFontSize(context, 12))
-                        .copyWith(fontWeight: FontWeight.w600),
+                        .bodyText2
+                        .copyWith(color: HaLanColor.disableColor,fontWeight: FontWeight.w600),
                   ),
-                  Container(
-                    height: AppSize.getWidth(context, 4),
+                  Text(text),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  PreferredSizeWidget homeAppBar(BuildContext context){
+    return AppBar(
+      leading: IconButton(
+        icon: SvgPicture.asset(
+          'assets/myicon.svg',
+          height: AppSize.getWidth(context, 12),
+          width: AppSize.getWidth(context, 16),
+        ),
+        onPressed: () {
+          _scaffoldKey.currentState.openDrawer();
+        },
+      ),
+      elevation: 0,
+      backgroundColor: AVColor.halanBackground,
+      title: Text(
+        'Xe khách Hà Lan',
+        style: Theme.of(context)
+            .textTheme
+            .bodyText1
+            .copyWith(color: AVColor.gray100)
+            .copyWith(fontSize: AppSize.getFontSize(context, 18))
+            .copyWith(fontWeight: FontWeight.w600),
+      ),
+      centerTitle: true,
+      actions: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(right: AppSize.getWidth(context, 16)),
+          child: Row(
+            children: <Widget>[
+              Stack(
+                children: <Widget>[
+                  SvgPicture.asset(
+                    'assets/bell.svg',
+                    height: AppSize.getWidth(context, 25),
                   ),
-                  Text(
-                    text,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        .copyWith(color: HaLanColor.black)
-                        .copyWith(fontSize: AppSize.getFontSize(context, 12))
-                        .copyWith(fontWeight: FontWeight.w600),
+                  Positioned(
+                    right: 0,
+                    child: Stack(
+                      children: <Widget>[
+                        SvgPicture.asset(
+                          'assets/red_circle.svg',
+                          height: AppSize.getWidth(context, 13),
+                          width: AppSize.getWidth(context, 13),
+                        ),
+                        Positioned(
+                          top: 2,
+                          right: 3,
+                          child: Text('24',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .copyWith(color: AVColor.white)
+                                  .copyWith(
+                                  fontSize:
+                                  AppSize.getFontSize(context, 6))
+                                  .copyWith(fontWeight: FontWeight.w600)),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ],
           ),
         ),
+      ],
+    );
+  }
+  Widget _drawer(BuildContext context) {
+
+    print('==========${prefs.getString(Constant.phoneNumber)}');
+    Widget login = AVButton(
+      height: AppSize.getHeight(context, 40),
+      width: AppSize.getHeight(context, 248),
+      title: 'Đăng nhập tài khoản',
+      color: AVColor.orange100,
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pushNamed(context, RoutesName.homeSignInPage);
+      },
+    );
+    if(prefs.getString(Constant.phoneNumber)!=null){
+      login = Container(
+        padding: EdgeInsets.all(AppSize.getWidth(context, 8)),
+        color: HaLanColor.lightOrange,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                CircleAvatar(
+                  radius: AppSize.getWidth(context, 20),
+                  backgroundImage:
+                  NetworkImage(prefs.getString(Constant.avatar)),
+                  backgroundColor: Colors.transparent,
+                ),
+                Container(width: AppSize.getWidth(context, 8),),
+                Text(prefs.getString(Constant.phoneNumber),style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: AppSize.getFontSize(context, 14)),),
+              ],
+            ),
+            GestureDetector(onTap: (){
+
+            },child: const Icon(Icons.arrow_forward,color: AVColor.orange100,))
+          ],
+        ),
+      );
+    }
+    return Drawer(
+      child: Padding(
+        padding: EdgeInsets.only(
+            left: AppSize.getWidth(context, 16),
+            right: AppSize.getWidth(context, 16)),
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: AppSize.getHeight(context, 32),
+            ),
+            SvgPicture.asset(
+              'assets/halan_logo.svg',
+              height: AppSize.getWidth(context, 64),
+              width: AppSize.getWidth(context, 138),
+            ),
+            Container(
+              height: AppSize.getHeight(context, 13),
+            ),
+            SvgPicture.asset(
+              'assets/separator.svg',
+              height: AppSize.getWidth(context, 3),
+            ),
+            Container(
+              height: AppSize.getHeight(context, 16),
+            ),
+            login,
+//            AVButton(
+//              height: AppSize.getHeight(context, 40),
+//              width: AppSize.getHeight(context, 248),
+//              title: 'Đăng nhập tài khoản',
+//              color: AVColor.orange100,
+//              onPressed: () {
+//                Navigator.pop(context);
+//                Navigator.pushNamed(context, RoutesName.homeSignInPage);
+//              },
+//            ),
+            Container(
+              height: AppSize.getHeight(context, 16),
+            ),
+            GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context,RoutesName.promotionPage);
+              },
+              child: customListTile(
+                context,
+                'Chương trình khuyến mãi',
+                SvgPicture.asset(
+                  'assets/promo.svg',
+                  height: AppSize.getWidth(context, 23),
+                  width: AppSize.getWidth(context, 23),
+                  color: AVColor.orange100,
+                ),
+              ),
+            ),
+            Container(
+              height: AppSize.getHeight(context, 16),
+            ),
+            customListTile(
+              context,
+              'Giới thiệu',
+              SvgPicture.asset(
+                'assets/about_icon.svg',
+                height: AppSize.getWidth(context, 23),
+                width: AppSize.getWidth(context, 23),
+                color: AVColor.orange100,
+              ),
+            ),
+            Container(
+              height: AppSize.getHeight(context, 16),
+            ),
+            Row(
+              children: <Widget>[
+                SvgPicture.asset(
+                  'assets/contact.svg',
+                  height: AppSize.getWidth(context, 23),
+                  width: AppSize.getWidth(context, 23),
+                  color: AVColor.orange100,
+                ),
+                Container(
+                  width: AppSize.getWidth(context, 20),
+                ),
+                Text(
+                  'Liên hệ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontWeight: FontWeight.w600)
+                      .copyWith(fontSize: AppSize.getFontSize(context, 12)),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
+    );
+  }
+  PreferredSizeWidget busBookingAppBar(BuildContext context){
+    return  AppBar(
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: AVColor.gray100),
+        onPressed: () {
+          bloc.add(ChangeToHomeBusBookingEvent());
+        },
+      ),
+      elevation: 0,
+      title: Text('Đặt vé xe',
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              .copyWith(color: AVColor.gray100)
+              .copyWith(fontSize: AppSize.getFontSize(context, 18))
+              .copyWith(fontWeight: FontWeight.w600)),
+      centerTitle: true,
+      backgroundColor: AVColor.halanBackground,
+      actions: <Widget>[
+        Row(
+          children: <Widget>[
+            IconButton(
+                icon: SvgPicture.asset(
+                  'assets/bell.svg',
+                  height: AppSize.getWidth(context, 19),
+                  width: AppSize.getWidth(context, 16),
+                ),
+                onPressed: () {}),
+            Container(
+              width: AppSize.getWidth(context, 8),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+  Widget customListTile(BuildContext context, String title, Widget icon) {
+    return Row(
+      children: <Widget>[
+        icon,
+        Container(
+          width: AppSize.getWidth(context, 16),
+        ),
+        Text(
+          title,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText2
+              .copyWith(fontWeight: FontWeight.w600)
+              .copyWith(fontSize: AppSize.getFontSize(context, 12)),
+        ),
+      ],
     );
   }
 }

@@ -44,6 +44,7 @@ class UserRepository {
           response.response[Constant.userInfo][Constant.phoneNumber] as String);
       prefs.setString(Constant.avatar,
           response.response[Constant.userInfo][Constant.avatar] as String);
+      print(prefs.getString(Constant.phoneNumber));
     } else {
       throw APIException(response);
     }

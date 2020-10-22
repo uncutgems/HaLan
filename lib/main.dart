@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.historyTicketDetailPage,
+      initialRoute: RoutesName.busBookingPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -77,10 +77,10 @@ MaterialPageRoute<dynamic> routeSettings(
         settings: const RouteSettings(name: RoutesName.splashPage),
       );
 
-    case RoutesName.homePage:
-      return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => HomePage(),
-          settings: const RouteSettings(name: RoutesName.homePage));
+//    case RoutesName.homePage:
+//      return MaterialPageRoute<dynamic>(
+//          builder: (BuildContext context) => HomePage(),
+//          settings: const RouteSettings(name: RoutesName.homePage));
 
     case RoutesName.calendarPage:
       return MaterialPageRoute<dynamic>(
@@ -128,10 +128,7 @@ MaterialPageRoute<dynamic> routeSettings(
           settings: const RouteSettings(name: RoutesName.homeOtpPage));
     case RoutesName.paymentHomePage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => PaymentHomePage(
-            ticketList: data[Constant.listTicket] as List<Ticket>,
-            totalPrice: data[Constant.totalPrice] as int,
-          ),
+          builder: (BuildContext context) => PaymentHomePage(),
           settings: const RouteSettings(name: RoutesName.paymentHomePage));
     case RoutesName.paymentSuccessPage:
       return MaterialPageRoute<dynamic>(
@@ -139,10 +136,7 @@ MaterialPageRoute<dynamic> routeSettings(
           settings: const RouteSettings(name: RoutesName.paymentSuccessPage));
     case RoutesName.paymentQRPage:
       return MaterialPageRoute<dynamic>(
-          builder: (BuildContext context) => PaymentQRHomePage(
-            listTicket: data[Constant.listTicket] as List<Ticket>,
-            totalPrice: data[Constant.totalPrice] as int,
-          ),
+          builder: (BuildContext context) => PaymentQRHomePage(),
           settings: const RouteSettings(name: RoutesName.paymentQRPage));
     case RoutesName.paymentATMPage:
       return MaterialPageRoute<dynamic>(
@@ -167,7 +161,7 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.historyTicketDetailPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HistoryTicketDetailPage(
-//                ticketCode: data[Constant.ticketCode] as String,
+//                ticket: data[Constant.ticket] as Ticket,
               ),
           settings:
               const RouteSettings(name: RoutesName.historyTicketDetailPage));
@@ -175,7 +169,6 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketDetailPage(
             trip: data[Constant.trip] as Trip,
-            listSeat: data[Constant.listSeat] as List<Seat>,
           ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
     default:
