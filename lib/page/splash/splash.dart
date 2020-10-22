@@ -24,9 +24,7 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   void initState() {
-//    if(prefs.containsKey(Constant.haveChoseSeat)) {
-//      prefs.setBool(Constant.haveChoseSeat, false);
-//    }
+
     splashBloc.add(SplashEventGetData());
     animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 3));

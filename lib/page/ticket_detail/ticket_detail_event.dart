@@ -4,8 +4,26 @@ part of 'ticket_detail_bloc.dart';
 abstract class TicketDetailEvent {}
 
 class TickBoxesTicketDetailEvent extends TicketDetailEvent {
-  TickBoxesTicketDetailEvent(this.box_1, this.box_2);
+  TickBoxesTicketDetailEvent(this.box_1, this.pickUp, this.dropDown, this.pointUp, this.pointDown);
 
   final bool box_1;
-  final bool box_2;
+
+  final String pickUp;
+  final String dropDown;
+  final Point pointUp;
+  final Point pointDown;
+}
+
+class TicketDetailClickButtonEvent extends TicketDetailEvent{
+  TicketDetailClickButtonEvent({this.trip, this.seatSelected, this.totalPrice, this.fullName, this.phoneNumber, this.pointUp, this.pointDown, this.note, this.email});
+  final Trip trip;
+  final List<Seat> seatSelected;
+  final double totalPrice;
+  final String fullName;
+  final String phoneNumber;
+  final Point pointUp;
+  final Point pointDown;
+  final String note;
+  final String email;
+
 }

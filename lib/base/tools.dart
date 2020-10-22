@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:avwidget/av_button_widget.dart';
@@ -7,12 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
+import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/model/enum.dart';
 import 'package:intl/intl.dart';
-
+import 'package:halan/main.dart';
 // chuyển thời gian từ millisecond sang định dạng format
 String convertTime(String format, int time, bool isUTC) {
   return DateFormat(format, 'vi')
@@ -459,4 +462,35 @@ Widget homeStateTop(BuildContext context,VoidCallback onPressed){
       ],
     ),
   );
+}
+double calculatorPrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point pointDown) {
+  double totalPrice = 0;
+  final List<RouteEntity> routes = <RouteEntity>[];
+  jsonDecode(prefs.getString(Constant.routes)).forEach((final dynamic itemJson) {
+    routes.add(RouteEntity.fromMap(itemJson as Map<String, dynamic>));
+  });
+//  print(routes);
+  RouteEntity trueRoute;
+  for(RouteEntity route in routes){
+    if(route.id==trip.route.id){
+      print(route.id);
+      trueRoute=route;
+    }
+  }
+  print(trueRoute.listPoint.length);
+
+  final int index = indexOfPoint(pointDown, trueRoute.listPoint);
+  printPoint(pointDown);
+  printPoint(pointUp);
+  print('haya $index');
+  if(index!=-1){
+    totalPrice+=pointUp.listPrice[index]*selectedSeats.length;
+  }
+  print(selectedSeats==null);
+  for(final Seat seat in selectedSeats){
+    print(seat.seatId);
+    totalPrice+=seat.extraPrice;
+  }
+
+  return totalPrice;
 }
