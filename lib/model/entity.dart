@@ -3153,3 +3153,4 @@ class PromotionObject {
   final double percent;
   final double minPriceApply;
 }
+

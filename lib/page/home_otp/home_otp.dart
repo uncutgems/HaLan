@@ -89,7 +89,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           Navigator.pop(context);
           return false;
         } else if (state is LogInSuccessfullyHomeOtpState) {
-          if (prefs.getBool(Constant.haveChoseSeat) == true ) {
+          if (prefs.getBool(Constant.haveChoseSeat) == true) {
             Navigator.popUntil(
                 context, ModalRoute.withName(RoutesName.ticketConfirmPage));
             return false;
