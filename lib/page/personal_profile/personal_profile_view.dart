@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
-import 'package:halan/model/entity.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/page/personal_profile/personal_profile_bloc.dart';
+
+import '../../main.dart';
 
 class PersonalProfile extends StatefulWidget {
   @override
@@ -33,14 +35,14 @@ class _PersonalProfileState extends State<PersonalProfile> {
       cubit: personalProfileBloc,
       builder: (BuildContext context,PersonalProfileState state) {
         if (state is PersonalProfileInitial){
-          return body(context, state.user);
+          return body(context);
         }
         return Container();
       },
     );
   }
 
-  Widget body(BuildContext context, User user){
+  Widget body(BuildContext context){
     return SafeArea(
       child: Scaffold(
         backgroundColor: HaLanColor.backgroundColor,
@@ -60,8 +62,8 @@ class _PersonalProfileState extends State<PersonalProfile> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              pictureAndName(user.avatar, user.fullName),
-              phoneNumber(user.phoneNumber),
+              pictureAndName(prefs.getString(Constant.avatar), prefs.getString(Constant.fullName)),
+              phoneNumber(prefs.getString(Constant.phoneNumber)),
             ],
           ),
         ),

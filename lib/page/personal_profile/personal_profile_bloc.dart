@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:halan/model/entity.dart';
 import 'package:halan/repository/user_repository.dart';
 import 'package:meta/meta.dart';
 

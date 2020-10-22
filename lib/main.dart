@@ -39,7 +39,6 @@ Future<void> main() async {
 
   runApp(MyApp());
   prefs = await SharedPreferences.getInstance();
-
 }
 
 class MyApp extends StatelessWidget {
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeData,
-      initialRoute: RoutesName.homeSignInPage,
+      initialRoute: RoutesName.splashPage,
       onGenerateRoute: (RouteSettings settings) => routeSettings(settings),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
@@ -60,7 +59,6 @@ class MyApp extends StatelessWidget {
         Locale('vi', 'VN'), // Viet Nam
       ],
     );
-
   }
 }
 
@@ -111,7 +109,7 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => BusesListPage(
           startPoint: data[Constant.startPoint] as Point,
-          endPoint:  data[Constant.endPoint] as Point,
+          endPoint: data[Constant.endPoint] as Point,
           date: data[Constant.dateTime] as DateTime,
         ),
         settings: const RouteSettings(name: RoutesName.busesListPage),
@@ -124,8 +122,8 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.homeOtpPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => HomeOtpPage(
-            phoneNumber: data[Constant.phoneNumber] as String,
-          ),
+                phoneNumber: data[Constant.phoneNumber] as String,
+              ),
           settings: const RouteSettings(name: RoutesName.homeOtpPage));
     case RoutesName.paymentHomePage:
       return MaterialPageRoute<dynamic>(
@@ -151,8 +149,8 @@ MaterialPageRoute<dynamic> routeSettings(
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketConfirmPage(
                 trip: data[Constant.trip] as Trip,
-            startPoint: data[Constant.startPoint] as Point,
-            endPoint: data[Constant.endPoint] as Point,
+                startPoint: data[Constant.startPoint] as Point,
+                endPoint: data[Constant.endPoint] as Point,
               ),
           settings: const RouteSettings(name: RoutesName.ticketConfirmPage));
     case RoutesName.historyHomePage:
@@ -169,13 +167,13 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.ticketDetailPage:
       return MaterialPageRoute<dynamic>(
           builder: (BuildContext context) => TicketDetailPage(
-            trip: data[Constant.trip] as Trip,
-          ),
+                trip: data[Constant.trip] as Trip,
+              ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
     case RoutesName.personalProfile:
       return MaterialPageRoute<dynamic>(
-        builder:  (BuildContext context) => PersonalProfile(),
-        settings: const RouteSettings(name: RoutesName.personalProfile));
+          builder: (BuildContext context) => PersonalProfile(),
+          settings: const RouteSettings(name: RoutesName.personalProfile));
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),
