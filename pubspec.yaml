@@ -41,7 +41,7 @@ dependencies:
     git: https://github.com/anvui/AVWidget.git
   url_launcher: ^5.7.5
   image_gallery_saver: ^1.6.1
-  
+
 
 
 
