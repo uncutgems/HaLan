@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:halan/model/entity.dart';
 import 'package:meta/meta.dart';
 
 part 'ticket_detail_event.dart';
@@ -15,7 +16,7 @@ class TicketDetailBloc extends Bloc<TicketDetailEvent, TicketDetailState> {
     TicketDetailEvent event,
   ) async* {
     if (event is TickBoxesTicketDetailEvent) {
-      yield ChangeCheckBoxStatusTicketDetailState(event.box_1, event.box_2);
+      yield TicketDetailChangeCheckBoxState(event.box_1,event.pickUp,event.dropDown,event.pointUp,event.pointDown);
     }
   }
 }

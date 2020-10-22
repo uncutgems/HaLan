@@ -2,14 +2,17 @@ import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/av_radio_widget.dart';
 import 'package:avwidget/avwidget.dart';
 import 'package:avwidget/testing_tff.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
+import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/ticket_detail/ticket_detail_bloc.dart';
+import 'package:halan/widget/transhipment_selection.dart';
 
 class TicketDetailPage extends StatefulWidget {
   const TicketDetailPage(
@@ -24,7 +27,7 @@ class TicketDetailPage extends StatefulWidget {
 }
 
 class _TicketDetailPageState extends State<TicketDetailPage> {
-  TicketDetailBloc ticketDetailBloc = TicketDetailBloc();
+  TicketDetailBloc bloc = TicketDetailBloc();
   GlobalKey<FormState> myKey = GlobalKey<FormState>();
 
   TextEditingController customerNameController = TextEditingController();
@@ -36,9 +39,22 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   FocusNode emailFocusNode = FocusNode();
   FocusNode phoneNumberFocusNode = FocusNode();
   FocusNode passportFocusNode = FocusNode();
+  String pickUp = 'Đón tại bến';
+  String dropOff = 'Trả tại bến';
+  Point transshipmentUp;
+  Point transshipmentDown;
+  bool check = false;
 
   @override
   void initState() {
+    if(widget.trip!=null){
+      if(widget.trip.pointUp.listTransshipmentPoint.isNotEmpty){
+        transshipmentUp= widget.trip.pointUp.listTransshipmentPoint.first;
+      }
+      if(widget.trip.pointDown.listTransshipmentPoint.isNotEmpty){
+        transshipmentDown= widget.trip.pointDown.listTransshipmentPoint.first;
+      }
+    }
     super.initState();
   }
 
@@ -48,32 +64,27 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     emailController.dispose();
     phoneNumberController.dispose();
     noteController.dispose();
-    ticketDetailBloc.close();
+    bloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TicketDetailBloc, TicketDetailState>(
-      cubit: ticketDetailBloc,
-//          buildWhen: (HomeState prev, HomeState state) {
-//            if (state is LoadingHomeState) {
-//              showDialog<dynamic>(
-//                  context: context,
-//                  builder: (BuildContext context) {
-//                    return const AVLoadingWidget();
-//                  });
-//              return false;
-//            } else if (state is DismissLoadingHomeState) {
-//              Navigator.pop(context);
-//            }
-//            return true;
-//          },
+      cubit: bloc,
       builder: (BuildContext context, TicketDetailState state) {
+
         if (state is TicketDetailInitial) {
-          return mainScreen(context, false, false);
-        } else if (state is ChangeCheckBoxStatusTicketDetailState) {
-          return mainScreen(context, state.firstBoxState, state.secondBoxState);
+          return mainScreen(context, false, widget.trip.pointUp,
+              widget.trip.pointDown);
+        } else if (state is TicketDetailChangeCheckBoxState) {
+          pickUp= state.pickUp;
+          dropOff=state.dropDown;
+          check=state.firstBoxState;
+          transshipmentUp=state.pointUp;
+          transshipmentDown=state.pointDown;
+          return mainScreen(context, state.firstBoxState,
+              widget.trip.pointUp, widget.trip.pointDown);
         }
 
         return Container();
@@ -81,7 +92,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     );
   }
 
-  Widget mainScreen(BuildContext context, bool box1, bool box2) {
+  Widget mainScreen(BuildContext context, bool box1, Point pointUp,
+      Point pointDown) {
     final TextStyle textStyle = Theme.of(context)
         .textTheme
         .bodyText1
@@ -207,22 +219,36 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 8),
                 ),
-                option(context, () {}, textStyle),
+                option(context, () {
+                  pickAndDropOptions(context, 'Đón', pointUp);
+                }, textStyle,
+                    optionText: pickUp,
+                    point: pointUp,
+                    transhipmentName: pointUp.listTransshipmentPoint.isNotEmpty
+                        ? transshipmentUp.name
+                        : null),
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
-                option(context, () {}, textStyle),
+                option(context, () {
+                  pickAndDropOptions(context, 'Trả', pointDown);
+                }, textStyle,
+                    optionText: dropOff,
+                    point: pointDown,
+                    transhipmentName:
+                        pointDown.listTransshipmentPoint.isNotEmpty
+                            ? transshipmentDown.name
+                            : null),
                 Container(
                   height: AppSize.getWidth(context, 19),
                 ),
                 Row(
                   children: <Widget>[
                     AVRadio<bool>(
-                      groupValue: box2,
+                      groupValue: box1,
                       value: true,
                       onTap: () {
-                        ticketDetailBloc
-                            .add(TickBoxesTicketDetailEvent(box1, !box2));
+                        bloc.add(TickBoxesTicketDetailEvent(!box1,pickUp,dropOff,transshipmentUp,transshipmentDown));
                       },
                     ),
                     Text(
@@ -244,6 +270,14 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                     ),
                   ],
                 ),
+                Container(height: AppSize.getWidth(context, 16),),
+                Row(
+                  children: <Widget>[
+                    Text('Tổng tiền',),
+                    if (widget.trip!=null && widget.listSeat!=null)
+                      Text('${calculatorPrice(widget.trip, widget.listSeat, pointUp, pointDown)}',)
+                  ],
+                )
               ],
             ),
           ),
@@ -253,7 +287,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               title: 'Tiếp tục',
               height: AppSize.getWidth(context, 48),
               width: AppSize.getWidth(context, 343),
-              onPressed: () {
+              onPressed: check==false?null:() {
                 if (myKey.currentState.validate()) {
                   print('vào đây');
 //                  final Ticket ticket = Ticket(
@@ -266,8 +300,6 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
 //                    pointUp: widget.trip.pointUp,
 //                    pointDown: widget.trip.pointDown,
 //                    listSeatId: <String>[]
-//
-//
 //                  );
                   Navigator.pushNamed(
                       context, RoutesName.historyTicketDetailPage,
@@ -285,30 +317,147 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       ),
     );
   }
-}
 
-Widget option(BuildContext context, VoidCallback onTap, TextStyle textStyle) {
-  return GestureDetector(
-    onTap: onTap,
-    child: Container(
-      padding: EdgeInsets.symmetric(
-          horizontal: AppSize.getWidth(context, 16),
-          vertical: AppSize.getWidth(context, 9)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'Đón tại bến',
-            style: textStyle,
+  Widget option(BuildContext context, VoidCallback onTap, TextStyle textStyle,
+      {String optionText, Point point, String transhipmentName}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+                horizontal: AppSize.getWidth(context, 16),
+                vertical: AppSize.getWidth(context, 9)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  optionText,
+                  style: textStyle,
+                ),
+                const Icon(Icons.expand_more),
+              ],
+            ),
+            height: AppSize.getWidth(context, 40),
+            decoration: BoxDecoration(
+              color: HaLanColor.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-          const Icon(Icons.expand_more),
-        ],
+        ),
+        if (optionText.contains('trung chuyển'))
+          Padding(
+            padding: EdgeInsets.only(top: AppSize.getWidth(context, 8)),
+            child: AVButton(
+              radius: 4,
+              width: MediaQuery.of(context).size.width,
+              title: optionText.toLowerCase().trim().contains('đón')
+                  ? transshipmentUp.name
+                  : transshipmentDown.name,
+              onPressed: () {
+
+                showModalBottomSheet<dynamic>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return TransshipmentSelections(
+                        point: point,
+                        transshipmentPoint: (Point transshipmentPoint) {
+                          print(transshipmentPoint.name);
+                          if (optionText.toLowerCase().trim().contains('đón')) {
+                            transshipmentUp = transshipmentPoint;
+                            print(transshipmentUp);
+                          } else {
+                            transshipmentDown = transshipmentPoint;
+                          }
+                          bloc.add(TickBoxesTicketDetailEvent(check,pickUp,dropOff,transshipmentUp,transshipmentDown));
+//                          print(transhipmentName);
+                          Navigator.pop(context);
+                        },
+                      );
+                    });
+              },
+            ),
+          ),
+      ],
+    );
+  }
+
+  void pickAndDropOptions(BuildContext context, String option, Point point) {
+    showModalBottomSheet<dynamic>(
+        context: context,
+        builder: (BuildContext context) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: AppSize.getWidth(context, 8),
+                vertical: AppSize.getWidth(context, 8)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Chọn hình thức ${option.toLowerCase()}',
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: AppSize.getFontSize(context, 18)),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
+                  child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: listOfOption(context, option, point)),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+  List<Widget> listOfOption(BuildContext context, String type, Point point) {
+    final List<Widget> result = <Widget>[];
+    result.add(GestureDetector(
+      onTap: () {
+        if (type.trim() == 'Đón') {
+          pickUp = '$type tại bến';
+        } else {
+          dropOff = '$type tại bến';
+        }
+        bloc.add(TickBoxesTicketDetailEvent(check,pickUp,dropOff,transshipmentUp,transshipmentDown));
+        Navigator.pop(context);
+      },
+      child: Text(
+        '$type tại bến',
+        style: Theme.of(context).textTheme.bodyText2.copyWith(
+              fontSize: AppSize.getFontSize(context, 16),
+            ),
       ),
-      height: AppSize.getWidth(context, 40),
-      decoration: BoxDecoration(
-        color: HaLanColor.white,
-        borderRadius: BorderRadius.circular(8),
-      ),
-    ),
-  );
+    ));
+    if (point.listTransshipmentPoint.isNotEmpty) {
+      result.add(
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: AppSize.getWidth(context, 8)),
+          child: GestureDetector(
+            onTap: () {
+              if (type.trim() == 'Đón') {
+                pickUp = '$type tại trung chuyển';
+              } else {
+                dropOff = '$type tại trung chuyển';
+              }
+              bloc.add(TickBoxesTicketDetailEvent(check,pickUp,dropOff,transshipmentUp,transshipmentDown));
+              Navigator.pop(context);
+            },
+            child: Text(
+              '$type tại trung chuyển',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText2
+                  .copyWith(fontSize: AppSize.getFontSize(context, 16)),
+            ),
+          ),
+        ),
+      );
+    }
+    return result;
+  }
 }

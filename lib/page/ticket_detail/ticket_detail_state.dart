@@ -5,9 +5,11 @@ abstract class TicketDetailState {}
 
 class TicketDetailInitial extends TicketDetailState {}
 
-class ChangeCheckBoxStatusTicketDetailState extends TicketDetailState {
-  ChangeCheckBoxStatusTicketDetailState(this.firstBoxState, this.secondBoxState);
-
+class TicketDetailChangeCheckBoxState extends TicketDetailState {
+  TicketDetailChangeCheckBoxState(this.firstBoxState, this.pickUp, this.dropDown, this.pointUp, this.pointDown);
   final bool firstBoxState;
-  final bool secondBoxState;
+  final String pickUp;
+  final String dropDown;
+  final Point pointUp;
+  final Point pointDown;
 }

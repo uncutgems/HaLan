@@ -20,6 +20,7 @@ class BusBookingPage extends StatefulWidget {
   _BusBookingPageState createState() => _BusBookingPageState();
 }
 
+
 class _BusBookingPageState extends State<BusBookingPage> {
   List<Point> selectedPoints = <Point>[];
   DateTime dateTime=DateTime.now();
@@ -30,6 +31,12 @@ class _BusBookingPageState extends State<BusBookingPage> {
       Radius.circular(8),
     ),
   );
+
+  @override
+  void initState() {
+    prefs.setBool(Constant.haveChoseSeat, false);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -304,7 +311,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
   }
   Widget _drawer(BuildContext context) {
 
-    print('==========${prefs.getString(Constant.phoneNumber)}');
+//    print('==========${prefs.getString(Constant.phoneNumber)}');
     Widget login = AVButton(
       height: AppSize.getHeight(context, 40),
       width: AppSize.getHeight(context, 248),
