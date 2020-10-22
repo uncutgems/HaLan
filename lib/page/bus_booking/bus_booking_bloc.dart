@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:halan/model/entity.dart';
+import 'package:halan/page/home_page/home_bloc.dart';
 import 'package:meta/meta.dart';
 
 part 'bus_booking_event.dart';
 part 'bus_booking_state.dart';
 
 class BusBookingBloc extends Bloc<BusBookingEvent, BusBookingState> {
-  BusBookingBloc() : super(DisplayDataBusBookingState(DateTime.now(),const <Point>[]));
+  BusBookingBloc() : super(ChangeToHomeBusBookingState());
 
   @override
   Stream<BusBookingState> mapEventToState(
@@ -17,5 +18,10 @@ class BusBookingBloc extends Bloc<BusBookingEvent, BusBookingState> {
     if(event is GetDataBusBookingEvent){
       yield DisplayDataBusBookingState(event.date,event.selectedPoints);
     }
+
+    else if (event is ChangeToHomeBusBookingEvent){
+      yield ChangeToHomeBusBookingState();
+    }
+
   }
 }

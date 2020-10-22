@@ -17,7 +17,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     HomeEvent event,
   ) async* {
     if (event is GetDataHomeEvent) {
-
       yield DisplayDataHomeState();
     }
   }

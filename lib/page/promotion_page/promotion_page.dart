@@ -93,11 +93,8 @@ class _PromotionPageState extends State<PromotionPage> {
         elevation: 0,
         centerTitle: true,
         backgroundColor: HaLanColor.backgroundColor,
-        title: Text(
+        title: const Text(
           'Chương trình khuyến mãi',
-          style: Theme.of(context).textTheme.bodyText2.copyWith(
-              fontSize: AppSize.getFontSize(context, 18),
-              color: HaLanColor.black),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
@@ -106,22 +103,22 @@ class _PromotionPageState extends State<PromotionPage> {
             Navigator.pop(context);
           },
         ),
-        actions: <Widget>[
-          IconButton(icon: const Icon(Icons.filter),onPressed: (){
-            showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context){
-              return BusesListFilter(
-                times: (List<int>times){
-                  print(times[1]);
-                },
-              );
-            },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24.0),
-              ),
-            );
-//          Navigator.of(context).push<dynamic>(SwipeRoute(page:SelectPlacePage()));
-          },)
-        ],
+//        actions: <Widget>[
+//          IconButton(icon: const Icon(Icons.filter),onPressed: (){
+//            showModalBottomSheet<dynamic>(context: context, builder: (BuildContext context){
+//              return BusesListFilter(
+//                times: (List<int>times){
+//                  print(times[1]);
+//                },
+//              );
+//            },
+//              shape: RoundedRectangleBorder(
+//                borderRadius: BorderRadius.circular(24.0),
+//              ),
+//            );
+////          Navigator.of(context).push<dynamic>(SwipeRoute(page:SelectPlacePage()));
+//          },)
+//        ],
       ),
       body: body
     );

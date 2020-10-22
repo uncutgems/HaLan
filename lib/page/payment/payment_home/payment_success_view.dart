@@ -89,7 +89,7 @@ class _PaymentSuccessPageState extends State<PaymentSuccessPage> {
               children: <Widget>[
                 Expanded(
                   child: AVButton(color: HaLanColor.primaryColor, title: 'Về trang chủ', onPressed: () {
-                    Navigator.popAndPushNamed(context, RoutesName.homePage);
+                    Navigator.popAndPushNamed(context, RoutesName.busBookingPage);
                   },),
                 ),
               ],
