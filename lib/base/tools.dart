@@ -463,7 +463,7 @@ Widget homeStateTop(BuildContext context,VoidCallback onPressed){
     ),
   );
 }
-double calculatorPrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point pointDown) {
+double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point pointDown) {
   double totalPrice = 0;
   final List<RouteEntity> routes = <RouteEntity>[];
   jsonDecode(prefs.getString(Constant.routes)).forEach((final dynamic itemJson) {

@@ -10,7 +10,6 @@ import 'package:halan/page/default_page.dart';
 import 'package:halan/page/history_home/history_home_view.dart';
 import 'package:halan/page/history_ticket_detail/history_ticket_detail_view.dart';
 import 'package:halan/page/home_otp/home_otp.dart';
-import 'package:halan/page/home_page/home_page.dart';
 import 'package:halan/page/log_in/home_signin.dart';
 import 'package:halan/page/payment/payment_atm/payment_atm_view.dart';
 import 'package:halan/page/payment/payment_home/payment_home_view.dart';
@@ -170,6 +169,7 @@ MaterialPageRoute<dynamic> routeSettings(
           builder: (BuildContext context) => TicketDetailPage(
             trip: data[Constant.trip] as Trip,
             listSeat: data[Constant.listSeat] as List<Seat>,
+            totalMoney: data[Constant.totalMoney] as int,
           ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
     default:

@@ -14,16 +14,17 @@ import 'package:halan/base/size.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/ticket_detail/ticket_detail_bloc.dart';
+import 'package:halan/widget/promotion/promotion_view.dart';
 import 'package:halan/widget/transhipment_selection.dart';
 
 class TicketDetailPage extends StatefulWidget {
   const TicketDetailPage(
-      {Key key, @required this.trip, @required this.listSeat})
+      {Key key, @required this.trip, @required this.listSeat, this.totalMoney})
       : super(key: key);
 
   final Trip trip;
   final List<Seat> listSeat;
-
+  final int totalMoney;
   @override
   _TicketDetailPageState createState() => _TicketDetailPageState();
 }
@@ -46,16 +47,22 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   Point transshipmentUp;
   Point transshipmentDown;
   bool check = false;
-
+  int totalMoney =0;
+  int extraUp=0;
+  int extraDown=0;
   @override
   void initState() {
     if (widget.trip != null) {
       if (widget.trip.pointUp.listTransshipmentPoint.isNotEmpty) {
         transshipmentUp = widget.trip.pointUp.listTransshipmentPoint.first;
+        extraUp = transshipmentUp.transshipmentPrice.toInt();
       }
       if (widget.trip.pointDown.listTransshipmentPoint.isNotEmpty) {
         transshipmentDown = widget.trip.pointDown.listTransshipmentPoint.first;
+        extraDown = transshipmentDown.transshipmentPrice.toInt();
       }
+      totalMoney = calculatePrice(widget.trip, widget.listSeat, widget.trip.pointUp, widget.trip.pointDown).toInt();
+
     }
     super.initState();
   }
@@ -112,7 +119,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                         pointDown: transshipmentDown,
                         trip: widget.trip,
                         seatSelected: widget.listSeat,
-                        totalPrice: calculatorPrice(widget.trip, widget.listSeat, transshipmentUp, transshipmentDown),
+                        totalPrice: calculatePrice(widget.trip, widget.listSeat, transshipmentUp, transshipmentDown),
                         email: emailController.text,
                       ));
                     },
@@ -128,6 +135,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           return mainScreen(
               context, false, widget.trip.pointUp, widget.trip.pointDown);
         } else if (state is TicketDetailChangeCheckBoxState) {
+          totalMoney = state.totalMoney;
           pickUp = state.pickUp;
           dropOff = state.dropDown;
           check = state.firstBoxState;
@@ -302,7 +310,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                       value: true,
                       onTap: () {
                         bloc.add(TickBoxesTicketDetailEvent(!box1, pickUp,
-                            dropOff, transshipmentUp, transshipmentDown));
+                            dropOff, transshipmentUp, transshipmentDown,totalMoney));
                       },
                     ),
                     Text(
@@ -337,16 +345,31 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                     if (widget.trip != null && widget.listSeat != null)
                       Text(
                         currencyFormat(
-                            calculatorPrice(widget.trip, widget.listSeat,
-                                    pointUp, pointDown)
-                                .toInt(),
+                           totalMoney,
                             'đ'),
                         style: textStyle.copyWith(
                             color: HaLanColor.red100,
                             fontWeight: FontWeight.bold),
                       )
                   ],
-                )
+                ),
+                PromotionWidget(
+                  routeId: widget.trip!=null?widget.trip.route.id:null,
+                  totalMoney:  widget.trip!=null&&widget.listSeat!=null?calculatePrice(widget.trip, widget.listSeat, pointUp, pointDown).toInt():null,
+                  promotionObject: (PromotionObject promotion){
+                    if(widget.trip!=null&&widget.listSeat!=null) {
+                      if (promotion.minPriceApply <totalMoney) {
+                        if(promotion.percent!=-1){
+                          totalMoney=(totalMoney - totalMoney*promotion.percent).toInt();
+                        }
+                        if(promotion.price!=-1){
+                          totalMoney = (totalMoney-promotion.price).toInt();
+                        }
+                        bloc.add(TickBoxesTicketDetailEvent(check, pickUp, dropOff, pointUp, pointDown, totalMoney));
+                      }
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -369,17 +392,10 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                         pointDown: pointDown,
                         trip: widget.trip,
                         seatSelected: widget.listSeat,
-                        totalPrice: calculatorPrice(widget.trip, widget.listSeat, pointUp, pointDown),
+                        totalPrice: totalMoney.toDouble(),
                         email: emailController.text,
                       ));
-
-//                        Navigator.pushNamed(
-//                            context, RoutesName.historyTicketDetailPage,
-//                            arguments: <String, dynamic>{
-//                              Constant.ticketCode: '201021-359735'
-//                            });
                       },
-//                    },
               color: HaLanColor.primaryColor,
             ),
           ),
@@ -435,14 +451,9 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                         point: point,
                         transshipmentPoint: (Point transshipmentPoint) {
                           print(transshipmentPoint.name);
-                          if (optionText.toLowerCase().trim().contains('đón')) {
-                            transshipmentUp = transshipmentPoint;
-                            print(transshipmentUp);
-                          } else {
-                            transshipmentDown = transshipmentPoint;
-                          }
+                          updateMoney(optionText, transshipmentPoint);
                           bloc.add(TickBoxesTicketDetailEvent(check, pickUp,
-                              dropOff, transshipmentUp, transshipmentDown));
+                              dropOff, transshipmentUp, transshipmentDown,totalMoney));
                           Navigator.pop(context);
                         },
                       );
@@ -453,7 +464,20 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       ],
     );
   }
-
+  void updateMoney(String optionText,Point transshipmentPoint){
+    if (optionText.toLowerCase().trim().contains('đón')) {
+      transshipmentUp = transshipmentPoint;
+      totalMoney = totalMoney-extraUp;
+      extraUp=transshipmentPoint.transshipmentPrice.toInt();
+      totalMoney = totalMoney+extraUp;
+      print(transshipmentUp);
+    } else {
+      transshipmentDown = transshipmentPoint;
+      totalMoney = totalMoney-extraDown;
+      extraDown = transshipmentPoint.transshipmentPrice.toInt();
+      totalMoney = totalMoney+extraDown;
+    }
+  }
   void pickAndDropOptions(BuildContext context, String option, Point point) {
     showModalBottomSheet<dynamic>(
         context: context,
@@ -491,11 +515,13 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       onTap: () {
         if (type.trim() == 'Đón') {
           pickUp = '$type tại bến';
+          totalMoney = totalMoney-extraUp;
         } else {
           dropOff = '$type tại bến';
+          totalMoney = totalMoney-extraDown;
         }
         bloc.add(TickBoxesTicketDetailEvent(
-            check, pickUp, dropOff, transshipmentUp, transshipmentDown));
+            check, pickUp, dropOff, transshipmentUp, transshipmentDown,totalMoney));
         Navigator.pop(context);
       },
       child: Text(
@@ -517,7 +543,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 dropOff = '$type tại trung chuyển';
               }
               bloc.add(TickBoxesTicketDetailEvent(
-                  check, pickUp, dropOff, transshipmentUp, transshipmentDown));
+                  check, pickUp, dropOff, transshipmentUp, transshipmentDown,totalMoney));
               Navigator.pop(context);
             },
             child: Text(

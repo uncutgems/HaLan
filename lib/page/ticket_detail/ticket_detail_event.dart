@@ -4,7 +4,7 @@ part of 'ticket_detail_bloc.dart';
 abstract class TicketDetailEvent {}
 
 class TickBoxesTicketDetailEvent extends TicketDetailEvent {
-  TickBoxesTicketDetailEvent(this.box_1, this.pickUp, this.dropDown, this.pointUp, this.pointDown);
+  TickBoxesTicketDetailEvent(this.box_1, this.pickUp, this.dropDown, this.pointUp, this.pointDown, this.totalMoney);
 
   final bool box_1;
 
@@ -12,6 +12,7 @@ class TickBoxesTicketDetailEvent extends TicketDetailEvent {
   final String dropDown;
   final Point pointUp;
   final Point pointDown;
+  final int totalMoney;
 }
 
 class TicketDetailClickButtonEvent extends TicketDetailEvent{
