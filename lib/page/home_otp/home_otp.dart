@@ -306,7 +306,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
                     controller: _controller,
                     onPressed: () {
                       phoneNumber = widget.phoneNumber;
-                      print('Fuck phuc $phoneNumber');
+                      print('Fuck $phoneNumber');
                       homeOtpBloc.add(ClickSendAgainHomeOtpEvent(phoneNumber));
                     },
                   ),

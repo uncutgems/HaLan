@@ -7,6 +7,7 @@ import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/default_page.dart';
+import 'package:halan/page/driver_location/driver_location_page.dart';
 import 'package:halan/page/history_home/history_home_view.dart';
 import 'package:halan/page/history_ticket_detail/history_ticket_detail_view.dart';
 import 'package:halan/page/home_otp/home_otp.dart';
@@ -172,6 +173,13 @@ MaterialPageRoute<dynamic> routeSettings(
             totalMoney: data[Constant.totalMoney] as int,
           ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
+    case RoutesName.driverLocationPage:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => DriverLocationPage(
+          trip: data[Constant.trip] as Trip,
+        ),
+        settings: const RouteSettings(name: RoutesName.driverLocationPage),
+      );
     default:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DefaultPage(),

@@ -317,4 +317,6 @@ class Constant {
   static const String listSeat = 'listSeat';
   static const String totalMoney = 'totalMoney';
   static const String avCompanyId = 'TC08Z1qHHZBxlNLt';
+  static const String location = 'location';
+  static const String returnSecureToken= 'returnSecureToken';
 }

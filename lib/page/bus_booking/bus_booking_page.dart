@@ -322,7 +322,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
         Navigator.pushNamed(context, RoutesName.homeSignInPage);
       },
     );
-    if(prefs.getString(Constant.phoneNumber)!=null){
+    if(prefs.getString(Constant.userId)!=null){
       login = Container(
         padding: EdgeInsets.all(AppSize.getWidth(context, 8)),
         color: HaLanColor.lightOrange,

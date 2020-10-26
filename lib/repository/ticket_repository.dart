@@ -62,7 +62,7 @@ class TicketRepository {
     body[Constant.informationsBySeats] = informationBySeats;
     final AVResponse result = await callPOST(path: URL.bookTicket, body: body);
 //    result.response[];
-    List<Ticket> tickets = <Ticket>[];
+    final List<Ticket> tickets = <Ticket>[];
     if (!result.isOK) {
       throw APIException(result);
     }

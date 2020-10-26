@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
@@ -6,11 +5,9 @@ import 'package:avwidget/avwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/page/splash/splash_bloc.dart';
-import 'package:halan/main.dart';
 class SplashPage extends StatefulWidget {
   @override
   _SplashPageState createState() => _SplashPageState();

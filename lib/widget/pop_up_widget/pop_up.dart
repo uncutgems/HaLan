@@ -1,11 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:halan/base/color.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/model/entity.dart';
-import 'package:halan/widget/fail_widget.dart';
 import 'package:halan/widget/pop_up_widget/pop_up_bloc.dart';
 
 class PopUpWidget extends StatefulWidget {
@@ -125,7 +123,7 @@ class _PopUpWidgetState extends State<PopUpWidget> {
               return Container(
                 height: AppSize.getWidth(context, 193),
                 decoration: popUpBoxDecoration.copyWith(
-                  image:  DecorationImage(
+                  image:  const DecorationImage(
                     image: AssetImage(
                       'assets/placeholder.gif',
                     ),
@@ -140,14 +138,14 @@ class _PopUpWidgetState extends State<PopUpWidget> {
     );
   }
 
-  Widget _loading(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left:AppSize.getWidth(context, 16),right:AppSize.getWidth(context, 16),top: AppSize.getWidth(context, 16), bottom: AppSize.getWidth(context, 193),),
-      child: const Center(
-        child: CircularProgressIndicator(
-          valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),
-        ),
-      ),
-    );
-  }
+//  Widget _loading(BuildContext context) {
+//    return Padding(
+//      padding: EdgeInsets.only(left:AppSize.getWidth(context, 16),right:AppSize.getWidth(context, 16),top: AppSize.getWidth(context, 16), bottom: AppSize.getWidth(context, 193),),
+//      child: const Center(
+//        child: CircularProgressIndicator(
+//          valueColor: AlwaysStoppedAnimation<Color>(HaLanColor.primaryColor),
+//        ),
+//      ),
+//    );
+//  }
 }
