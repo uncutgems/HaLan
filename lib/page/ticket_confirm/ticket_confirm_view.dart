@@ -94,7 +94,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
 
           ),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.message), onPressed: (){
+            IconButton(icon: const Icon(Icons.message), onPressed: (){
               Navigator.pushNamed(context, RoutesName.driverLocationPage,
                   arguments: <String,dynamic>{
                 Constant.trip:widget.trip

@@ -198,7 +198,7 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
                 Expanded(child:driver!=null? Text('${driver.fullName}  ( ${driver.phoneNumber} )',style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: HaLanColor.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: AppSize.getFontSize(context, 16)),): Text(''),),
+                    fontSize: AppSize.getFontSize(context, 16)),): const Text(''),),
                 CircleAvatar(child: IconButton(icon:const Icon(Icons.call), onPressed: (){},color: HaLanColor.white,),backgroundColor: HaLanColor.green,radius: AppSize.getWidth(context, 20) ,),
               ],
             ),

@@ -3,9 +3,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:halan/base/api_handler.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
@@ -34,7 +32,7 @@ class DriverLocationBloc extends Bloc<DriverLocationEvent, DriverLocationState> 
         if (data != null) {
           print('++++++++++++++++++++++++++++++++++++');
           print(data[Constant.tripInfo]);
-          Map<String,dynamic> jsonLocation = data[Constant.location] as Map<String,dynamic>;
+          final Map<String,dynamic> jsonLocation = data[Constant.location] as Map<String,dynamic>;
           Vehicle vehicle;
           LatLng busLocation;
           User driver;

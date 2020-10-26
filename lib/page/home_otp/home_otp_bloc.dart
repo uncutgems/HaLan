@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:halan/base/api_handler.dart';
-import 'package:halan/main.dart';
 import 'package:halan/repository/user_repository.dart';
 import 'package:meta/meta.dart';
 

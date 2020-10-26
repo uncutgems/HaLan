@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
-import 'package:halan/base/api_handler.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';

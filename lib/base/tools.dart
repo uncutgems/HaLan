@@ -11,7 +11,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
-import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';
@@ -473,7 +472,7 @@ double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point po
   });
 //  print(routes);
   RouteEntity trueRoute;
-  for(RouteEntity route in routes){
+  for(final RouteEntity route in routes){
     if(route.id==trip.route.id){
       print(route.id);
       trueRoute=route;

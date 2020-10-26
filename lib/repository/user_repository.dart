@@ -59,7 +59,7 @@ class UserRepository {
 
     final Response response = await post(
       'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDfTU9GbADEYoWtHs2JV951DbxFHybdM3c',
-      body: jsonEncode({"email": "ticketSeller@gmail.com", "password": "AnVui@2018", "returnSecureToken": true}),
+      body: jsonEncode(<String,dynamic>{'email': 'ticketSeller@gmail.com', 'password': 'AnVui@2018', 'returnSecureToken': true}),
     );
     if (response != null) print('response: ' + response.body);
     if (response.statusCode >= 200 && response.statusCode < 300) {
