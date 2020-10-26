@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:halan/base/api_handler.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/url.dart';
 import 'package:halan/model/entity.dart';
+import 'package:http/http.dart';
 
 import '../main.dart';
 
@@ -33,7 +36,6 @@ class UserRepository {
     final AVResponse response = await callPOST(path: URL.loginURL, body: body);
     if (response.isOK) {
       print('Login successfully');
-
       prefs.setString(Constant.userId,
           response.response[Constant.userInfo][Constant.id] as String);
       prefs.setString(Constant.token,
@@ -47,6 +49,25 @@ class UserRepository {
       print(prefs.getString(Constant.phoneNumber));
     } else {
       throw APIException(response);
+    }
+  }
+  Future<String> getTokenFirebase() async {
+    final Map<String, dynamic> body = <String, dynamic>{};
+    body[Constant.email]='ticketSeller@gmail.com';
+    body[Constant.password] = 'AnVui@2018';
+    body[Constant.returnSecureToken] = true;
+
+    final Response response = await post(
+      'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDfTU9GbADEYoWtHs2JV951DbxFHybdM3c',
+      body: jsonEncode({"email": "ticketSeller@gmail.com", "password": "AnVui@2018", "returnSecureToken": true}),
+    );
+    if (response != null) print('response: ' + response.body);
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final String idToken = jsonDecode(response.body)['idToken'] as String;
+      print('refresh $idToken');
+      return idToken;
+    } else {
+      return null;
     }
   }
 }

@@ -3,6 +3,7 @@ import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
@@ -90,7 +91,17 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
             onPressed: () {
               Navigator.pop(context);
             },
+
           ),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.message), onPressed: (){
+              Navigator.pushNamed(context, RoutesName.driverLocationPage,
+                  arguments: <String,dynamic>{
+                Constant.trip:widget.trip
+              },
+              );
+            }),
+          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
