@@ -359,7 +359,9 @@ class _BusBookingPageState extends State<BusBookingPage> {
               ],
             ),
             GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, RoutesName.personalProfile);
+                },
                 child: const Icon(
                   Icons.arrow_forward,
                   color: AVColor.orange100,

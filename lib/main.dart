@@ -7,6 +7,7 @@ import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/default_page.dart';
+import 'package:halan/page/edit_profile_page/edit_profile_view.dart';
 import 'package:halan/page/driver_location/driver_location_page.dart';
 import 'package:halan/page/history_home/history_home_view.dart';
 import 'package:halan/page/history_ticket_detail/history_ticket_detail_view.dart';
@@ -17,6 +18,7 @@ import 'package:halan/page/payment/payment_home/payment_home_view.dart';
 import 'package:halan/page/payment/payment_home/payment_success_view.dart';
 import 'package:halan/page/payment/payment_qr/payment_qr_home.dart';
 import 'package:halan/page/payment/payment_transfer/payment_transfer_view.dart';
+import 'package:halan/page/personal_profile/personal_profile_view.dart';
 import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/page/select_date/calendar_page.dart';
 import 'package:halan/page/select_place/select_place_page.dart';
@@ -38,7 +40,6 @@ Future<void> main() async {
 
   runApp(MyApp());
   prefs = await SharedPreferences.getInstance();
-
 }
 
 class MyApp extends StatelessWidget {
@@ -191,6 +192,18 @@ MaterialPageRoute<dynamic> routeSettings(
             totalMoney: data[Constant.totalMoney] as int,
           ),
           settings: const RouteSettings(name: RoutesName.ticketDetailPage));
+
+    case RoutesName.personalProfile:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => PersonalProfile(),
+        settings: const RouteSettings(name: RoutesName.personalProfile),
+      );
+    case RoutesName.editProfile:
+      return MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => EditProfile(),
+        settings: const RouteSettings(name: RoutesName.editProfile),
+      );
+
     case RoutesName.driverLocationPage:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DriverLocationPage(

@@ -19,5 +19,7 @@ class RoutesName {
   static const String historyHomePage = 'historyHomePage';
   static const String historyTicketDetailPage = 'historyTicketDetailPage';
   static const String ticketDetailPage = 'ticketDetailPage';
+  static const String personalProfile = 'personalProfile';
+  static const String editProfile = 'editProfile';
   static const String driverLocationPage = 'driverLocationPage';
 }

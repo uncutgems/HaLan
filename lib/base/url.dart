@@ -15,6 +15,6 @@ class URL {
   static const String checkPromotion = baseURL+'promotion/check';
   static const String checkTicketByCode = baseURL+ 'ticket/viewByCode';
   static const String generateQRCode = baseURL+ 'vnpay/qr/pay';
+  static const String updateUserInfo = baseURL + '/user/updateinfo';
   static const String bookTicket = baseURL+'ticket/book';
-
 }
