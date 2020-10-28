@@ -72,6 +72,7 @@ MaterialPageRoute<dynamic> routeSettings(
   if(data!=null){
     refreshPage = data[Constant.refreshPage] as bool;
   }
+
   switch (settings.name) {
     case RoutesName.splashPage:
       return MaterialPageRoute<dynamic>(
@@ -207,7 +208,7 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.driverLocationPage:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DriverLocationPage(
-          trip: data[Constant.trip] as Trip,
+
         ),
         settings: const RouteSettings(name: RoutesName.driverLocationPage),
       );

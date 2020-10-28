@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:avwidget/av_alert_dialog_widget.dart';
@@ -8,15 +9,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tools.dart';
+import 'package:halan/main.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/driver_location/driver_loctaion_bloc.dart';
 import 'package:location/location.dart';
 
 class DriverLocationPage extends StatefulWidget {
-  const DriverLocationPage({Key key, this.trip}) : super(key: key);
-  final Trip trip;
+//  const DriverLocationPage({Key key, this.trip}) : super(key: key);
+//  final Trip trip;
 
   @override
   _DriverLocationPageState createState() => _DriverLocationPageState();
@@ -31,12 +34,14 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
   PermissionStatus _permissionGranted;
   LocationData _locationData;
   LatLng currentLocation;
-
+  Trip trip=Trip();
   @override
   void initState() {
     fetchCurrentLocation();
     super.initState();
-    bloc.add(DriverLocationEventGetLocation(widget.trip));
+    trip = Trip.fromMap(jsonDecode(prefs.getString(Constant.trip)) as Map<String,dynamic>);
+
+    bloc.add(DriverLocationEventGetLocation(trip));
   }
 
   @override
@@ -65,7 +70,7 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
                     title: 'Thử lại',
                     onPressed: (){
                       Navigator.pop(context);
-                      bloc.add(DriverLocationEventGetLocation(widget.trip));
+                      bloc.add(DriverLocationEventGetLocation(trip));
                     },
                   ),
                 );
