@@ -16,6 +16,8 @@ import 'package:halan/widget/popular_route_widget/popular_route.dart';
 import 'package:halan/main.dart';
 
 class BusBookingPage extends StatefulWidget {
+  const BusBookingPage({Key key, this.refreshPage}) : super(key: key);
+  final bool refreshPage;
   @override
   _BusBookingPageState createState() => _BusBookingPageState();
 }
@@ -35,6 +37,11 @@ class _BusBookingPageState extends State<BusBookingPage> {
   @override
   void initState() {
     prefs.setBool(Constant.haveChoseSeat, false);
+    if(widget.refreshPage!=null){
+      if(widget.refreshPage==true) {
+        bloc.add(ChangeToHomeBusBookingEvent());
+      }
+    }
     super.initState();
   }
 
@@ -156,7 +163,6 @@ class _BusBookingPageState extends State<BusBookingPage> {
                     color: HaLanColor.white,
                   ),
                   onPressed: selectedPoints.isNotEmpty? () {
-
                     Navigator.pushNamed(context, RoutesName.busesListPage,arguments: <String,dynamic>{
                       Constant.startPoint: selectedPoints.first,
                       Constant.endPoint: selectedPoints.last,

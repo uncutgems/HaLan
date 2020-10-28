@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
+import 'package:avwidget/popup_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,7 +35,6 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
   @override
   void initState() {
     fetchCurrentLocation();
-
     super.initState();
     bloc.add(DriverLocationEventGetLocation(widget.trip));
   }
@@ -68,6 +68,15 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
                 );
               });
           return false;
+        }
+        else if (state is DriverLocationStateLoading){
+          showDialog<dynamic>(context: context,builder: (BuildContext context){
+            return const AVLoadingWidget();
+          });
+          return false;
+        }
+        if(prev is DriverLocationStateLoading){
+          Navigator.pop(context);
         }
         return true;
       },

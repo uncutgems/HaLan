@@ -96,6 +96,9 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           } else {
             Navigator.popUntil(
                 context, ModalRoute.withName(RoutesName.busBookingPage));
+            Navigator.popAndPushNamed(context, RoutesName.busBookingPage,arguments: <String,dynamic>{
+              Constant.refreshPage:true
+            });
             return false;
           }
         } else if (state is FailToLoginHomeOtpState) {

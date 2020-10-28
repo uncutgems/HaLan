@@ -12,3 +12,5 @@ class DriverLocationStateShowLocation extends DriverLocationState{
   final Uint8List markerIcon;
 }
 class DriverLocationStateFail extends DriverLocationState{}
+class DriverLocationStateLoading extends DriverLocationState{}
+class DriverLocationStateDismissLoading extends DriverLocationState{}

@@ -67,6 +67,10 @@ MaterialPageRoute<dynamic> routeSettings(
   RouteSettings settings,
 ) {
   final dynamic data = settings.arguments;
+   bool refreshPage = false;
+  if(data!=null){
+    refreshPage = data[Constant.refreshPage] as bool;
+  }
   switch (settings.name) {
     case RoutesName.splashPage:
       return MaterialPageRoute<dynamic>(
@@ -103,7 +107,9 @@ MaterialPageRoute<dynamic> routeSettings(
       );
     case RoutesName.busBookingPage:
       return MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => BusBookingPage(),
+        builder: (BuildContext context) => BusBookingPage(
+          refreshPage: refreshPage,
+        ),
         settings: const RouteSettings(name: RoutesName.busBookingPage),
       );
     case RoutesName.busesListPage:
