@@ -9,7 +9,7 @@ import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tool.dart';
 import 'package:halan/base/tools.dart' as tools;
- import 'package:halan/model/entity.dart';
+import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_bloc.dart';
 import 'package:halan/widget/pop_up_widget/pop_up.dart';
 import 'package:halan/widget/popular_route_widget/popular_route.dart';
@@ -18,14 +18,14 @@ import 'package:halan/main.dart';
 class BusBookingPage extends StatefulWidget {
   const BusBookingPage({Key key, this.refreshPage}) : super(key: key);
   final bool refreshPage;
+
   @override
   _BusBookingPageState createState() => _BusBookingPageState();
 }
 
-
 class _BusBookingPageState extends State<BusBookingPage> {
   List<Point> selectedPoints = <Point>[];
-  DateTime dateTime=DateTime.now();
+  DateTime dateTime = DateTime.now();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   BusBookingBloc bloc = BusBookingBloc();
   final RoundedRectangleBorder border = const RoundedRectangleBorder(
@@ -37,8 +37,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
   @override
   void initState() {
     prefs.setBool(Constant.haveChoseSeat, false);
-    if(widget.refreshPage!=null){
-      if(widget.refreshPage==true) {
+    if (widget.refreshPage != null) {
+      if (widget.refreshPage == true) {
         bloc.add(ChangeToHomeBusBookingEvent());
       }
     }
@@ -47,26 +47,32 @@ class _BusBookingPageState extends State<BusBookingPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return BlocBuilder<BusBookingBloc,BusBookingState>(
+    return BlocBuilder<BusBookingBloc, BusBookingState>(
       cubit: bloc,
-      builder: (BuildContext context, BusBookingState state){
-        if (state is DisplayDataBusBookingState){
-          return mainView(context, mainScreen(context,selectedPoints,dateTime),state,busBookingAppBar(context));
-        }
-        else if (state is ChangeToHomeBusBookingState){
-        return  mainView(context, tools.homeStateTop(context,(){
-          bloc.add(GetDataBusBookingEvent(dateTime,selectedPoints));
-        }),state,homeAppBar(context));
+      builder: (BuildContext context, BusBookingState state) {
+        if (state is DisplayDataBusBookingState) {
+          return mainView(
+              context,
+              mainScreen(context, selectedPoints, dateTime),
+              state,
+              busBookingAppBar(context));
+        } else if (state is ChangeToHomeBusBookingState) {
+          return mainView(
+              context,
+              tools.homeStateTop(context, () {
+                bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
+              }),
+              state,
+              homeAppBar(context));
         }
 
-        return  Container();
+        return Container();
       },
     );
   }
 
-
-  Widget mainView(BuildContext context,Widget bodyPart, BusBookingState state,PreferredSizeWidget appBar){
+  Widget mainView(BuildContext context, Widget bodyPart, BusBookingState state,
+      PreferredSizeWidget appBar) {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: AVColor.halanBackground,
@@ -76,7 +82,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
           Container(
             height: AppSize.getHeight(context, 8),
           ),
-         bodyPart,
+          bodyPart,
           Container(
             height: AppSize.getHeight(context, 16),
           ),
@@ -84,11 +90,12 @@ class _BusBookingPageState extends State<BusBookingPage> {
           PopularRoute(),
         ],
       ),
-      drawer: state is ChangeToHomeBusBookingState?_drawer(context):null,
+      drawer: state is ChangeToHomeBusBookingState ? _drawer(context) : null,
     );
   }
 
-  Widget mainScreen(BuildContext context,List<Point> points, DateTime chosenDate) {
+  Widget mainScreen(
+      BuildContext context, List<Point> points, DateTime chosenDate) {
     return Padding(
       padding: EdgeInsets.only(
           left: AppSize.getWidth(context, 16),
@@ -96,35 +103,40 @@ class _BusBookingPageState extends State<BusBookingPage> {
       child: Column(
         children: <Widget>[
           pickLocation(
-              context,1,
+              context,
+              1,
               const Icon(
                 Icons.location_on,
                 color: HaLanColor.gray80,
                 size: 25,
               ),
-              'Điểm khởi hành', () async{
-            selectedPoints = await Navigator.pushNamed(context, RoutesName.selectPlacePage,
-                arguments: <String, dynamic>{Constant.scenario: 1}) as List<Point>;
-            bloc.add(GetDataBusBookingEvent(dateTime,selectedPoints));
-
-          },points,chosenDate),
+              'Điểm khởi hành', () async {
+            selectedPoints = await Navigator.pushNamed(
+                    context, RoutesName.selectPlacePage,
+                    arguments: <String, dynamic>{Constant.scenario: 1})
+                as List<Point>;
+            bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
+          }, points, chosenDate),
           Container(
             height: AppSize.getWidth(context, 16),
           ),
           pickLocation(
-              context,2,
+              context,
+              2,
               const Icon(
                 Icons.location_on,
                 color: HaLanColor.gray80,
                 size: 25,
               ),
-              'Điểm đến', () async{
-            selectedPoints = await Navigator.pushNamed(context, RoutesName.selectPlacePage,
-                arguments: <String, dynamic>{Constant.scenario: 2}) as List<Point>;
+              'Điểm đến', () async {
+            selectedPoints = await Navigator.pushNamed(
+                    context, RoutesName.selectPlacePage,
+                    arguments: <String, dynamic>{Constant.scenario: 2})
+                as List<Point>;
             print('++++++++++++++++++++++++++++++');
             print(selectedPoints.first.name);
-            bloc.add(GetDataBusBookingEvent(dateTime,selectedPoints));
-          },points,chosenDate),
+            bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
+          }, points, chosenDate),
           Container(
             height: AppSize.getWidth(context, 16),
           ),
@@ -139,15 +151,16 @@ class _BusBookingPageState extends State<BusBookingPage> {
                       color: HaLanColor.gray80,
                       size: 25,
                     ),
-                    'Ngày khởi hành',
-                    () async{
-                      dateTime = await Navigator.pushNamed(context, RoutesName.calendarPage,arguments:<String,dynamic>{
+                    'Ngày khởi hành', () async {
+                  dateTime = await Navigator.pushNamed(
+                      context, RoutesName.calendarPage,
+                      arguments: <String, dynamic>{
                         Constant.dateTime: DateTime.now()
-                      } ) as DateTime;
-                      print('----------------------');
-                      print(dateTime.day);
-                      bloc.add(GetDataBusBookingEvent(dateTime,selectedPoints));
-                    },points,chosenDate),
+                      }) as DateTime;
+                  print('----------------------');
+                  print(dateTime.day);
+                  bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
+                }, points, chosenDate),
               ),
               Container(
                 width: AppSize.getWidth(context, 16),
@@ -162,14 +175,17 @@ class _BusBookingPageState extends State<BusBookingPage> {
                     size: 25,
                     color: HaLanColor.white,
                   ),
-                  onPressed: selectedPoints.isNotEmpty? () {
-                    Navigator.pushNamed(context, RoutesName.busesListPage,arguments: <String,dynamic>{
-                      Constant.startPoint: selectedPoints.first,
-                      Constant.endPoint: selectedPoints.last,
-                      Constant.dateTime: dateTime
-                    });
+                  onPressed: selectedPoints.isNotEmpty
+                      ? () {
+                          Navigator.pushNamed(context, RoutesName.busesListPage,
+                              arguments: <String, dynamic>{
+                                Constant.startPoint: selectedPoints.first,
+                                Constant.endPoint: selectedPoints.last,
+                                Constant.dateTime: dateTime
+                              });
 //                    bloc.add(ChangeToHomeBusBookingEvent());
-                  }:null,
+                        }
+                      : null,
                 ),
               ),
             ],
@@ -179,34 +195,23 @@ class _BusBookingPageState extends State<BusBookingPage> {
     );
   }
 
-  Widget pickLocation(
-    BuildContext context,
-    int type,
-    Widget icon,
-    String title,
-    VoidCallback onTap,
-      List<Point> points,
-      DateTime chosenDate
-  ) {
+  Widget pickLocation(BuildContext context, int type, Widget icon, String title,
+      VoidCallback onTap, List<Point> points, DateTime chosenDate) {
     String text = '';
-    if(type==1){
-      if(points.isNotEmpty){
+    if (type == 1) {
+      if (points.isNotEmpty) {
         text = points.first.name;
+      } else {
+        text = 'Chọn điểm khởi hành';
       }
-      else{
-        text='Chọn điểm khởi hành';
-      }
-    }
-    else if(type==2){
-      if(points.isNotEmpty){
+    } else if (type == 2) {
+      if (points.isNotEmpty) {
         text = points.last.name;
+      } else {
+        text = 'Chọn điểm đón';
       }
-      else{
-        text='Chọn điểm đón';
-      }
-    }
-    else if(type==3){
-        text = convertTime('dd/MM/yyyy', dateTime.millisecondsSinceEpoch, false);
+    } else if (type == 3) {
+      text = convertTime('dd/MM/yyyy', dateTime.millisecondsSinceEpoch, false);
     }
     return GestureDetector(
       onTap: onTap,
@@ -232,10 +237,9 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 children: <Widget>[
                   Text(
                     title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(color: HaLanColor.disableColor,fontWeight: FontWeight.w600),
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(
+                        color: HaLanColor.disableColor,
+                        fontWeight: FontWeight.w600),
                   ),
                   Text(text),
                 ],
@@ -247,7 +251,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
     );
   }
 
-  PreferredSizeWidget homeAppBar(BuildContext context){
+  PreferredSizeWidget homeAppBar(BuildContext context) {
     return AppBar(
       leading: IconButton(
         icon: SvgPicture.asset(
@@ -300,8 +304,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                                   .bodyText1
                                   .copyWith(color: AVColor.white)
                                   .copyWith(
-                                  fontSize:
-                                  AppSize.getFontSize(context, 6))
+                                      fontSize: AppSize.getFontSize(context, 6))
                                   .copyWith(fontWeight: FontWeight.w600)),
                         ),
                       ],
@@ -315,8 +318,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
       ],
     );
   }
-  Widget _drawer(BuildContext context) {
 
+  Widget _drawer(BuildContext context) {
 //    print('==========${prefs.getString(Constant.phoneNumber)}');
     Widget login = AVButton(
       height: AppSize.getHeight(context, 40),
@@ -328,7 +331,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
         Navigator.pushNamed(context, RoutesName.homeSignInPage);
       },
     );
-    if(prefs.getString(Constant.userId)!=null){
+    if (prefs.getString(Constant.token) != null) {
       login = Container(
         padding: EdgeInsets.all(AppSize.getWidth(context, 8)),
         color: HaLanColor.lightOrange,
@@ -340,16 +343,27 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 CircleAvatar(
                   radius: AppSize.getWidth(context, 20),
                   backgroundImage:
-                  NetworkImage(prefs.getString(Constant.avatar)),
+                      NetworkImage(prefs.getString(Constant.avatar)),
                   backgroundColor: Colors.transparent,
                 ),
-                Container(width: AppSize.getWidth(context, 8),),
-                Text(prefs.getString(Constant.phoneNumber),style: Theme.of(context).textTheme.bodyText1.copyWith(fontSize: AppSize.getFontSize(context, 14)),),
+                Container(
+                  width: AppSize.getWidth(context, 8),
+                ),
+                Text(
+                  prefs.getString(Constant.phoneNumber),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .copyWith(fontSize: AppSize.getFontSize(context, 14)),
+                ),
               ],
             ),
-            GestureDetector(onTap: (){
-
-            },child: const Icon(Icons.arrow_forward,color: AVColor.orange100,))
+            GestureDetector(
+                onTap: () {},
+                child: const Icon(
+                  Icons.arrow_forward,
+                  color: AVColor.orange100,
+                ))
           ],
         ),
       );
@@ -380,22 +394,12 @@ class _BusBookingPageState extends State<BusBookingPage> {
               height: AppSize.getHeight(context, 16),
             ),
             login,
-//            AVButton(
-//              height: AppSize.getHeight(context, 40),
-//              width: AppSize.getHeight(context, 248),
-//              title: 'Đăng nhập tài khoản',
-//              color: AVColor.orange100,
-//              onPressed: () {
-//                Navigator.pop(context);
-//                Navigator.pushNamed(context, RoutesName.homeSignInPage);
-//              },
-//            ),
             Container(
               height: AppSize.getHeight(context, 16),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.pushNamed(context,RoutesName.promotionPage);
+              onTap: () {
+                Navigator.pushNamed(context, RoutesName.promotionPage);
               },
               child: customListTile(
                 context,
@@ -445,13 +449,33 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 ),
               ],
             ),
+            if (prefs.getString(Constant.token) != null)
+              Padding(
+                padding:  EdgeInsets.only(top:AppSize.getWidth(context, 16)),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, RoutesName.historyHomePage);
+                  },
+                  child: customListTile(
+                    context,
+                    'Lịch sử',
+                    SvgPicture.asset(
+                      'assets/promo.svg',
+                      height: AppSize.getWidth(context, 23),
+                      width: AppSize.getWidth(context, 23),
+                      color: AVColor.orange100,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
     );
   }
-  PreferredSizeWidget busBookingAppBar(BuildContext context){
-    return  AppBar(
+
+  PreferredSizeWidget busBookingAppBar(BuildContext context) {
+    return AppBar(
       leading: IconButton(
         icon: const Icon(Icons.arrow_back, color: AVColor.gray100),
         onPressed: () {
@@ -486,6 +510,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
       ],
     );
   }
+
   Widget customListTile(BuildContext context, String title, Widget icon) {
     return Row(
       children: <Widget>[

@@ -51,6 +51,9 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
       cubit: bloc,
       buildWhen: (DriverLocationState prev,DriverLocationState state){
         if(state is DriverLocationStateFail){
+          if(prev is DriverLocationStateLoading){
+            Navigator.pop(context);
+          }
           showDialog<dynamic>(
               context: context,
               builder: (BuildContext context) {
@@ -83,7 +86,7 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
       builder: (BuildContext context, DriverLocationState state) {
         if (state is DriverLocationInitial) {
           print('Có sao ko');
-          return mainScreen(context, null, null,null,null,null);
+          return mainScreen(context, null, null,null,null,);
         } else if (state is DriverLocationStateShowLocation) {
 //          print('This is it ${state.busLocation}');
           if (state.busLocation != null) {
@@ -117,7 +120,10 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
               currentLocation = state.busLocation;
             }
           }
-          return mainScreen(context, state.busLocation, state.markerIcon,state.driver.avatar,state.driver,state.vehicle);
+          if(state.driver==null){
+            return mainScreen(context, state.busLocation, state.markerIcon,state.driver,state.vehicle);
+          }
+          return mainScreen(context, state.busLocation, state.markerIcon,state.driver,state.vehicle);
         }
         return Container();
       },
@@ -125,7 +131,7 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
   }
 
   Widget mainScreen(
-      BuildContext context, LatLng busLocation, Uint8List markerIcon,String imgUrl,User driver,Vehicle vehicle) {
+      BuildContext context, LatLng busLocation, Uint8List markerIcon,User driver,Vehicle vehicle) {
     LatLng location;
     if (busLocation == null) {
       location = const LatLng(21.027763, 105.834160);
@@ -135,6 +141,12 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
     print('This is it $location');
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(icon: const Icon(Icons.arrow_back),onPressed: (){
+          if(bloc.timer!=null){
+            bloc.timer.cancel();
+          }
+          Navigator.pop(context);
+        },),
         title: const Text('Vị trí xe'),
         centerTitle: true,
       ),
@@ -197,11 +209,11 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
           ),
         ],
       ),
-      bottomNavigationBar: bottomInformation(context,imgUrl,driver,vehicle),
+      bottomNavigationBar: bottomInformation(context,driver,vehicle),
     );
   }
 
-  Widget bottomInformation(BuildContext context, String imgUrl,User driver,Vehicle vehicle){
+  Widget bottomInformation(BuildContext context,User driver,Vehicle vehicle){
     return  Container(
       decoration:const BoxDecoration(color: HaLanColor.primaryColor,borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16),),),
       child: Padding(
@@ -223,7 +235,7 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
                   padding:  EdgeInsets.only(top:AppSize.getWidth(context, 16)),
                   child: CircleAvatar(
                     radius: AppSize.getWidth(context, 20),
-                    backgroundImage: imgUrl!=null? NetworkImage(imgUrl):null,
+                    backgroundImage: driver!=null? NetworkImage(driver.avatar):null,
                     backgroundColor: Colors.blue,
                   ),
                 ),
