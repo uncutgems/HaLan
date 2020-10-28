@@ -24,6 +24,7 @@ class DriverLocationBloc extends Bloc<DriverLocationEvent, DriverLocationState> 
   ) async* {
    if(event is DriverLocationEventGetLocation){
      final String tripId = event.trip.tripId;
+     yield DriverLocationStateLoading();
      try {
      final String token = await repository.getTokenFirebase();
 
@@ -68,7 +69,6 @@ class DriverLocationBloc extends Bloc<DriverLocationEvent, DriverLocationState> 
                      String,
                      dynamic>);
            }
-
            add(DriverLocationEventUpdateLocation(
              vehicle: vehicle,
              busLocation: busLocation,
