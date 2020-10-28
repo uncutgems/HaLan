@@ -2,7 +2,7 @@ class RoutesName {
   static const String splashPage = '/';
   static const String defaultPage = 'defaultPage';
   static const String loginPage = 'loginPage';
-  static const String homePage = 'homePage';
+//  static const String homePage = 'homePage';
   static const String calendarPage = 'calendarPage';
   static const String promotionPage = 'promotionPage';
   static const String selectPlacePage = 'selectPlacePage';
@@ -19,4 +19,7 @@ class RoutesName {
   static const String historyHomePage = 'historyHomePage';
   static const String historyTicketDetailPage = 'historyTicketDetailPage';
   static const String ticketDetailPage = 'ticketDetailPage';
+  static const String personalProfile = 'personalProfile';
+  static const String editProfile = 'editProfile';
+  static const String driverLocationPage = 'driverLocationPage';
 }

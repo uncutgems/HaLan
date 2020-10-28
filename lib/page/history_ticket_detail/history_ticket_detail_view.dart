@@ -17,9 +17,9 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HistoryTicketDetailPage extends StatefulWidget {
-  const HistoryTicketDetailPage({Key key, /*this.ticketCode*/}) : super(key: key);
+  const HistoryTicketDetailPage({Key key, this.ticketCode}) : super(key: key);
 
-//  final String ticketCode;
+ final String ticketCode;
 
   @override
   _HistoryTicketDetailPageState createState() =>
@@ -31,7 +31,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
 
   @override
   void initState() {
-    bloc.add(GetDataHistoryTicketDetailEvent('201021-359735'));
+    bloc.add(GetDataHistoryTicketDetailEvent(widget.ticketCode));
     super.initState();
   }
 
@@ -54,7 +54,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
             child: FailWidget(
               message: state.error,
               onPressed: () {
-                bloc.add(GetDataHistoryTicketDetailEvent('201021-359735'));
+                bloc.add(GetDataHistoryTicketDetailEvent(widget.ticketCode));
               },
             ),
           );

@@ -12,3 +12,7 @@ class DisplayPopularRouteState extends PopularRouteState {
 
   final List<RouteEntity> popularRouteList;
 }
+class PopularRouteFailState extends PopularRouteState{
+  PopularRouteFailState(this.error);
+  final String error;
+}

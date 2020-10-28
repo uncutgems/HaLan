@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/page/splash/splash_bloc.dart';
-
 class SplashPage extends StatefulWidget {
   @override
   _SplashPageState createState() => _SplashPageState();
@@ -23,6 +21,7 @@ class _SplashPageState extends State<SplashPage>
 
   @override
   void initState() {
+
     splashBloc.add(SplashEventGetData());
     animationController =
         AnimationController(vsync: this, duration: const Duration(seconds: 3));
@@ -76,7 +75,7 @@ class _SplashPageState extends State<SplashPage>
             return false;
           }
           else if(state is SplashStateForward){
-            Navigator.pushNamed(context, RoutesName.homePage);
+            Navigator.pushReplacementNamed(context, RoutesName.busBookingPage);
             return false;
           }
           return true;

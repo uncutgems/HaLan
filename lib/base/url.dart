@@ -6,7 +6,7 @@ class URL {
   static const String getSchedule = baseURL + 'planfortrip/searchForCustomer';
   static const String getPopUp = baseURL+'popup/get-list';
   static const String getRouteList = baseURL+'route/getList';
-  static const String getPopularRouteList = baseURL+'route/popular?companyId=${Constant.haLanCompanyId}';
+  static const String getPopularRouteList = baseURL+'route/popular?companyId=${Constant.interBusLinesCompanyId}';
   static const String getOTPCode = baseURL+'user/sendOTP';
   static const String loginURL = baseURL+'user/login';
   static const String getListTicket = baseURL+'ticket/getForCustomer';
@@ -15,5 +15,6 @@ class URL {
   static const String checkPromotion = baseURL+'promotion/check';
   static const String checkTicketByCode = baseURL+ 'ticket/viewByCode';
   static const String generateQRCode = baseURL+ 'vnpay/qr/pay';
-
+  static const String updateUserInfo = baseURL + '/user/updateinfo';
+  static const String bookTicket = baseURL+'ticket/book';
 }

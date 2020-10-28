@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
+import 'package:halan/base/tools.dart';
 import 'package:halan/page/home_page/home_bloc.dart';
 import 'package:halan/widget/pop_up_widget/pop_up.dart';
 import 'package:halan/widget/popular_route_widget/popular_route.dart';
@@ -131,48 +132,7 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         physics: const ClampingScrollPhysics(),
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: AVButton(
-                    leadingIcon: SvgPicture.asset(
-                      'assets/bus.svg',
-                      height: AppSize.getWidth(context, 16),
-                      width: AppSize.getWidth(context, 30),
-                    ),
-                    title: 'Đặt xe',
-                    width: AppSize.getWidth(context, 163),
-                    height: AppSize.getWidth(context, 64),
-                    color: AVColor.orange100,
-                    onPressed: () {
-                      Navigator.pushNamed(context, RoutesName.busBookingPage);
-                    },
-                  ),
-                ),
-                Container(
-                  width: AppSize.getWidth(context, 16),
-                ),
-                Expanded(
-                  child: AVButton(
-                    leadingIcon: SvgPicture.asset(
-                      'assets/taxi.svg',
-                      height: AppSize.getWidth(context, 16),
-                      width: AppSize.getWidth(context, 30),
-                    ),
-                    title: 'Đặt taxi',
-                    width: AppSize.getWidth(context, 163),
-                    height: AppSize.getWidth(context, 64),
-                    color: AVColor.orange100,
-                    onPressed: () {
-                      Navigator.pushNamed(context, RoutesName.ticketDetailPage);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+         homeStateTop(context,(){Navigator.pushNamed(context, RoutesName.busBookingPage);}),
           PopUpWidget(),
           PopularRoute(),
         ],
@@ -219,14 +179,19 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: AppSize.getHeight(context, 16),
             ),
-            customListTile(
-              context,
-              'Chương trình khuyến mãi',
-              SvgPicture.asset(
-                'assets/promo.svg',
-                height: AppSize.getWidth(context, 23),
-                width: AppSize.getWidth(context, 23),
-                color: AVColor.orange100,
+            GestureDetector(
+              onTap: (){
+                Navigator.pushNamed(context,RoutesName.promotionPage);
+              },
+              child: customListTile(
+                context,
+                'Chương trình khuyến mãi',
+                SvgPicture.asset(
+                  'assets/promo.svg',
+                  height: AppSize.getWidth(context, 23),
+                  width: AppSize.getWidth(context, 23),
+                  color: AVColor.orange100,
+                ),
               ),
             ),
             Container(

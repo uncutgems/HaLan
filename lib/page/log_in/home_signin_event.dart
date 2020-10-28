@@ -10,6 +10,5 @@ class ClickLogInButtonHomeSignInEvent extends HomeSignInEvent{
 
   final String phoneNumber;
 
-
 }
 

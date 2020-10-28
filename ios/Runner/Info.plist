@@ -26,6 +26,10 @@
 	<true/>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Cho phép ứng dụng truy cập vào Ảnh của bạn để lưu ảnh màn hình</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+    <string>Luôn cho phép ứng dụng truy cập vị trí của bạn ngay cả khi không dùng ứng dụng để thông báo cho khách hàng của bạn</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Cho phép ứng dụng truy cập vị trí của bạn khi sử dụng ứng dụng để thông báo cho khách hàng của bạn</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -43,5 +47,13 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow access to photo library</string>
+
+    <key>NSCameraUsageDescription</key>
+    <string>Allow access to camera to capture photos</string>
+
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Allow access to microphone</string>
 </dict>
 </plist>

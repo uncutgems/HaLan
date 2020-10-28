@@ -55,4 +55,23 @@ class TicketRepository {
       throw APIException(response);
     }
   }
+  Future<List<Ticket>> bookTicket(
+      String tripId, List<TicketOption> informationBySeats) async {
+    final Map<String, dynamic> body = <String, dynamic>{};
+    body[Constant.tripId] = tripId;
+    body[Constant.informationsBySeats] = informationBySeats;
+    final AVResponse result = await callPOST(path: URL.bookTicket, body: body);
+//    result.response[];
+    final List<Ticket> tickets = <Ticket>[];
+    if (!result.isOK) {
+      throw APIException(result);
+    }
+    else {
+      result.response[Constant.listTicket].forEach((dynamic itemJson) {
+      final Ticket ticket = Ticket.fromJson(itemJson as Map<String,dynamic>);
+      tickets.add(ticket);
+      });
+      return tickets;
+    }
+  }
 }

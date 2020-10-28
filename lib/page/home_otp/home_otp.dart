@@ -89,13 +89,16 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           Navigator.pop(context);
           return false;
         } else if (state is LogInSuccessfullyHomeOtpState) {
-          if (prefs.getBool(Constant.haveChoseSeat) == true ) {
+          if (prefs.getBool(Constant.haveChoseSeat) == true) {
             Navigator.popUntil(
                 context, ModalRoute.withName(RoutesName.ticketConfirmPage));
             return false;
           } else {
             Navigator.popUntil(
-                context, ModalRoute.withName(RoutesName.homePage));
+                context, ModalRoute.withName(RoutesName.busBookingPage));
+            Navigator.popAndPushNamed(context, RoutesName.busBookingPage,arguments: <String,dynamic>{
+              Constant.refreshPage:true
+            });
             return false;
           }
         } else if (state is FailToLoginHomeOtpState) {
@@ -306,7 +309,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
                     controller: _controller,
                     onPressed: () {
                       phoneNumber = widget.phoneNumber;
-                      print('Fuck phuc $phoneNumber');
+                      print('Fuck $phoneNumber');
                       homeOtpBloc.add(ClickSendAgainHomeOtpEvent(phoneNumber));
                     },
                   ),

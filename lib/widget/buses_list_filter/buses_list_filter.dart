@@ -35,7 +35,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
           }
           else if(state.time==3){
             const int start = 18*60*60*1000;
-            const int end = 24*60*60*1000;
+            const int end = 6*60*60*1000;
             timeList=<int>[start,end];
           }
           else if(state.time==-1){
@@ -150,6 +150,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
                         title: 'Áp dụng',
                         onPressed:timeList.isEmpty?null: () {
                           widget.times(timeList);
+                          Navigator.pop(context);
                         },
                         color: HaLanColor.primaryColor,))
                     ],

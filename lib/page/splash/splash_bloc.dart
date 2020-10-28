@@ -26,7 +26,7 @@ class SplashBloc extends Bloc<SplashEvent, SplashState> {
         for (final RouteEntity route in routes) {
           for (final Point point in route.listPoint) {
             if (point.name.trim() == 'Thái Nguyên') {
-              route.listPoint.forEach((element) {
+              route.listPoint.forEach((Point element) {
                 printPoint(element);
               });
             }

@@ -27,7 +27,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_svg: ^0.19.1
-  flutter_local_notifications: ^2.0.1+1
+  flutter_local_notifications: ^2.0.2
   cupertino_icons: ^1.0.0
   shared_preferences: ^0.5.12+2
   qr_flutter: ^3.2.0
@@ -37,10 +37,20 @@ dependencies:
   flutter_bloc: ^6.0.6
   carousel_slider: ^2.3.1
   date_util: ^0.1.4
+  image_picker: ^0.6.6+5
   avwidget:
     git: https://github.com/anvui/AVWidget.git
   url_launcher: ^5.7.5
   image_gallery_saver: ^1.6.1
+  google_maps_flutter: ^0.5.33
+  location: ^3.0.0
+  firebase_messaging: ^7.0.0
+  firebase_database: ^4.0.0
+  firebase_core: ^0.5.0
+  firebase_auth: ^0.18.0+1
+
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

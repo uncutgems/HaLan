@@ -29,6 +29,7 @@ class HomeOtpBloc extends Bloc<HomeOtpEvent, HomeOtpState> {
       try {
         await userRepository.loginOTP(event.phoneNumber, event.otpCode);
         yield DismissLoadingHomeOtpState();
+//        prefs.setString(Constant, value)
         yield LogInSuccessfullyHomeOtpState();
       } on APIException catch (e) {
         yield DismissLoadingHomeOtpState();
