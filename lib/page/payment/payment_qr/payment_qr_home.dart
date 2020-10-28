@@ -17,7 +17,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class PaymentQRHomePage extends StatefulWidget {
-  const PaymentQRHomePage({Key key, this.totalPrice, this.listTicket})
+  const PaymentQRHomePage({Key key, @required this.totalPrice, @required this.listTicket})
       : super(key: key);
 
   final int totalPrice;
