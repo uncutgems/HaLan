@@ -1,18 +1,22 @@
+import 'dart:convert';
 import 'dart:math';
-
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/avwidget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:halan/base/color.dart';
-import 'package:halan/base/routes.dart';
+import 'package:halan/base/constant.dart';
 import 'package:halan/base/size.dart';
+import 'package:halan/base/tool.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/model/enum.dart';
 import 'package:intl/intl.dart';
-
+import 'package:halan/main.dart';
 // chuyển thời gian từ millisecond sang định dạng format
 String convertTime(String format, int time, bool isUTC) {
   return DateFormat(format, 'vi')
@@ -459,4 +463,69 @@ Widget homeStateTop(BuildContext context,VoidCallback onPressed){
       ],
     ),
   );
+}
+double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point pointDown) {
+  double totalPrice = 0;
+  final List<RouteEntity> routes = <RouteEntity>[];
+  jsonDecode(prefs.getString(Constant.routes)).forEach((final dynamic itemJson) {
+    routes.add(RouteEntity.fromMap(itemJson as Map<String, dynamic>));
+  });
+//  print(routes);
+  RouteEntity trueRoute;
+  for(final RouteEntity route in routes){
+    if(route.id==trip.route.id){
+      print(route.id);
+      trueRoute=route;
+    }
+  }
+  print(trueRoute.listPoint.length);
+
+  final int index = indexOfPoint(pointDown, trueRoute.listPoint);
+  printPoint(pointDown);
+  printPoint(pointUp);
+  print('haya $index');
+  if(index!=-1){
+    totalPrice+=pointUp.listPrice[index]*selectedSeats.length;
+  }
+  print(selectedSeats==null);
+  for(final Seat seat in selectedSeats){
+    print(seat.seatId);
+    totalPrice+=seat.extraPrice;
+  }
+
+  return totalPrice;
+}
+Future<Uint8List> getBytesFromAsset(String path, int width) async {
+  final ByteData data = await rootBundle.load(path);
+  final ui.Codec codec = await ui
+      .instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+  final ui.FrameInfo fi = await codec.getNextFrame();
+  return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+      .buffer
+      .asUint8List();
+}
+  double getBearingBetweenTwoPoints1(LatLng latLng1, LatLng latLng2) {
+
+  final double lat1 = degreesToRadians(latLng1.latitude);
+  final double long1 = degreesToRadians(latLng1.longitude);
+  final double lat2 = degreesToRadians(latLng2.latitude);
+  final double long2 = degreesToRadians(latLng2.longitude);
+
+
+  final double dLon = long2 - long1;
+
+
+  final double y = sin(dLon) * cos(lat2);
+  final double x = cos(lat1) * sin(lat2) - sin(lat1)
+      * cos(lat2) * cos(dLon);
+
+  final double radiansBearing = atan2(y, x);
+
+  return radiansToDegrees(radiansBearing);
+}
+ double degreesToRadians(double degrees) {
+  return degrees * pi / 180.0;
+}
+ double radiansToDegrees(double radians) {
+  return radians * 180.0 / pi;
 }

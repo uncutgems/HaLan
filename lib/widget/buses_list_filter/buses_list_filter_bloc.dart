@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:halan/base/tool.dart';
-import 'package:halan/model/entity.dart';
-import 'package:halan/repository/route_repository.dart';
+
 import 'package:meta/meta.dart';
 
 part 'buses_list_filter_event.dart';

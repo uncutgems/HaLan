@@ -38,14 +38,14 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
       cubit: bloc,
       builder: (BuildContext context, TicketPaymentState state) {
         if (state is TicketPaymentInitial) {
-          return _body(context, state);
+          return _body(context, state, widget.trip);
         } else
           return Container();
       },
     );
   }
 
-  Widget _body(BuildContext context, TicketPaymentInitial state) {
+  Widget _body(BuildContext context, TicketPaymentInitial state, Trip trip) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -88,7 +88,9 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
                         if (prefs.getString(Constant.userId) != null) {
                           Navigator.pushNamed(
                               context, RoutesName.ticketDetailPage, arguments: <String, dynamic>{
-                                Constant.trip: widget.trip
+                                Constant.trip: trip,
+                            Constant.listSeat: state.listSeat,
+                            Constant.totalPrice: state.totalPrice
                           });
                         } else {
                           showDialog<dynamic>(

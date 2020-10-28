@@ -3,8 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/styles.dart';
+import 'package:halan/model/entity.dart';
 
 class PaymentTransferPage extends StatefulWidget {
+  const PaymentTransferPage({Key key, this.ticketList, this.totalPrice})
+      : super(key: key);
+
+  final List<Ticket> ticketList;
+  final int totalPrice;
+
   @override
   _PaymentTransferPageState createState() => _PaymentTransferPageState();
 }

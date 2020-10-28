@@ -16,9 +16,8 @@ class PersonalProfileBloc extends Bloc<PersonalProfileEvent, PersonalProfileStat
   Stream<PersonalProfileState> mapEventToState(
     PersonalProfileEvent event,
   ) async* {
-    // TODO: implement mapEventToState
     if(event is CallAPIPersonalProfileEvent){
-      yield PersonalProfileInitial();
+      yield PersonalProfileUpdated();
     }
   }
 }

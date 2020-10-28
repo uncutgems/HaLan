@@ -4,3 +4,4 @@ part of 'personal_profile_bloc.dart';
 abstract class PersonalProfileState {}
 
 class PersonalProfileInitial extends PersonalProfileState {}
+class PersonalProfileUpdated extends PersonalProfileState {}

@@ -25,14 +25,21 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     // TODO: implement mapEventToState
     if (event is ClickSaveChangeEditProfileEvent) {
       try {
-        userRepository.updateUserInfo(
-            prefs.getString(Constant.id),
-            event.fullName,
-            prefs.getString(Constant.phoneNumber),
-            await userRepository.uploadImageUrl(event.image));
-        yield MakeChangeEditProfileState(
-            fullName: event.fullName,
-            image: event.image);
+        yield LoadingEditProfileState();
+        if (event.image != null) {
+          await userRepository.updateUserInfo(
+              prefs.getString(Constant.userId),
+              event.fullName,
+              prefs.getString(Constant.phoneNumber),
+              imageURL: await userRepository.uploadImageUrl(event.image));
+          yield MakeChangeEditProfileState(
+              fullName: event.fullName, image: event.image);
+        }
+        else{
+          await userRepository.updateUserInfo(prefs.getString(Constant.userId), event.fullName, prefs.getString(Constant.phoneNumber));
+          yield MakeChangeEditProfileState(
+              fullName: event.fullName);
+        }
       } on APIException catch (e) {
         yield FailToUploadEditProfileState(e.message());
       }
@@ -40,10 +47,10 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
     if (event is ChangeAvatarEditProfileEvent) {
       yield CameraOrGalleryEditProfileState();
     }
-    if (event is TakePictureEditProfileEvent){
+    if (event is TakePictureEditProfileEvent) {
       yield CameraEditProfileState(event.image);
     }
-    if (event is ChooseExistingImageEditProfileEvent){
+    if (event is ChooseExistingImageEditProfileEvent) {
       yield GalleryEditProfileState(event.image);
     }
   }

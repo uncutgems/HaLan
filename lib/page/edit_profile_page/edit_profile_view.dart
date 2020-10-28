@@ -33,6 +33,7 @@ class _EditProfileState extends State<EditProfile> {
     // TODO: implement initState
     super.initState();
     EditProfileInitial();
+    nameController.text = prefs.getString(Constant.fullName);
   }
 
   @override
@@ -67,9 +68,21 @@ class _EditProfileState extends State<EditProfile> {
           return false;
         }
         if (current is LoadingEditProfileState) {
-          const Center(
-            child: CircularProgressIndicator(),
-          );
+          print('hello its me');
+          showDialog<dynamic>(
+              context: context,
+              builder: (BuildContext context) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              });
+          return false;
+        }
+        if (current is MakeChangeEditProfileState) {
+          if (previous is LoadingEditProfileState) {
+            Navigator.pop(context);
+          }
+          Navigator.pop(context, true);
           return false;
         }
         return true;
@@ -111,22 +124,23 @@ class _EditProfileState extends State<EditProfile> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: HaLanColor.gray80.withOpacity(0.8),
-                  ),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    alignment: Alignment.center,
+                 Stack(
+                   alignment: Alignment.center,
                     children: <Widget>[
                       if (_image == null)
-                        Image(
-                            image: AssetImage(prefs.getString(Constant.avatar)))
+                        CircleAvatar(radius: 40,
+                            backgroundImage:
+                                NetworkImage(prefs.getString(Constant.avatar)))
                       else
-                        Image(image: FileImage(_image)),
+                        CircleAvatar(radius: 40,backgroundImage: FileImage(_image)),
+                      Container(
+                        width: 80,
+                        height: 80,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: HaLanColor.gray80.withOpacity(0.8),
+                        ),
+                      ),
                       IconButton(
                         icon: const Icon(Icons.camera_alt),
                         color: HaLanColor.white,
@@ -136,7 +150,6 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ],
                   ),
-                ),
                 HalanTextFormField(
                   title: 'Tên',
                   keyboardType: TextInputType.text,
@@ -154,9 +167,14 @@ class _EditProfileState extends State<EditProfile> {
               ),
               child: RaisedButton(
                 onPressed: () {
-                  editProfileBloc.add(ClickSaveChangeEditProfileEvent(
-                      fullName: nameController.text, image: _image));
-                  Navigator.pop(context);
+                  if (_image != null) {
+                    editProfileBloc.add(ClickSaveChangeEditProfileEvent(
+                        fullName: nameController.text, image: _image));
+                  } else {
+                    editProfileBloc.add(ClickSaveChangeEditProfileEvent(
+                        fullName: nameController.text));
+                  }
+                  // Navigator.pop(context);
                 },
                 child: const Text(
                   'Lưu thay đổi',
@@ -183,9 +201,7 @@ class _EditProfileState extends State<EditProfile> {
         .getImage(source: ImageSource.gallery, imageQuality: 50);
     File image = File(file.path);
     _image = image;
-    editProfileBloc
-        .add(ChooseExistingImageEditProfileEvent(_image));
-
+    editProfileBloc.add(ChooseExistingImageEditProfileEvent(_image));
   }
 
   void _showPicker(BuildContext context) {

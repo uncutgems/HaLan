@@ -37,6 +37,10 @@ class _PersonalProfileState extends State<PersonalProfile> {
         if (state is PersonalProfileInitial) {
           return body(context);
         }
+        else if (state is PersonalProfileUpdated) {
+          print('updated');
+          return body(context);
+        }
         return Container();
       },
     );
@@ -74,7 +78,10 @@ class _PersonalProfileState extends State<PersonalProfile> {
         margin: const EdgeInsets.fromLTRB(16, 0, 16, 24),
         height: 48,
         child: RaisedButton(
-          onPressed: (){},
+          onPressed: (){
+            prefs.clear();
+            Navigator.pushNamed(context, RoutesName.busBookingPage);
+          },
           color: HaLanColor.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -103,7 +110,7 @@ class _PersonalProfileState extends State<PersonalProfile> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: AssetImage(image),
+                    image: NetworkImage(image),
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -125,9 +132,12 @@ class _PersonalProfileState extends State<PersonalProfile> {
           height: 32,
           width: 32,
           child: IconButton(
-            onPressed: () {
-              reloadUserInfo();
-              personalProfileBloc.add(CallAPIPersonalProfileEvent());
+            onPressed: () async {
+              final bool refresh = await Navigator.pushNamed(context, RoutesName.editProfile) as bool;
+              if(refresh==true) {
+                print('assssssssssssssss');
+                personalProfileBloc.add(CallAPIPersonalProfileEvent());
+              }
             },
             icon: const ImageIcon(AssetImage('assets/edit_icon.png'), color: HaLanColor.primaryColor,),
           ),
