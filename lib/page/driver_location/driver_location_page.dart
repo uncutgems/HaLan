@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:avwidget/av_alert_dialog_widget.dart';
+import 'package:avwidget/av_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,6 +49,28 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<DriverLocationBloc, DriverLocationState>(
       cubit: bloc,
+      buildWhen: (DriverLocationState prev,DriverLocationState state){
+        if(state is DriverLocationStateFail){
+          showDialog<dynamic>(
+              context: context,
+              builder: (BuildContext context) {
+                return AVAlertDialogWidget(
+                  title: 'Lỗi',
+                  context: context,
+                  content: 'Có vấn đề xảy ra vui lòng thử lại',
+                  bottomWidget: AVButton(
+                    title: 'Thử lại',
+                    onPressed: (){
+                      Navigator.pop(context);
+                      bloc.add(DriverLocationEventGetLocation(widget.trip));
+                    },
+                  ),
+                );
+              });
+          return false;
+        }
+        return true;
+      },
       builder: (BuildContext context, DriverLocationState state) {
         if (state is DriverLocationInitial) {
           print('Có sao ko');
