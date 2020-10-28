@@ -321,22 +321,27 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                             dropOff, transshipmentUp, transshipmentDown,totalMoney));
                       },
                     ),
-                    Text(
-                      'Tôi đồng ý với',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14))
-                          .copyWith(fontWeight: FontWeight.w500),
-                    ),
-                    Text(
-                      ' điều khoản của Văn Minh',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1
-                          .copyWith(fontSize: AppSize.getFontSize(context, 14))
-                          .copyWith(fontWeight: FontWeight.w500)
-                          .copyWith(color: HaLanColor.blue),
+                    Expanded(
+                      child: RichText(
+                        text: TextSpan(
+                            text: 'Tôi đồng ý với',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .copyWith(fontSize: AppSize.getFontSize(context, 14))
+                                .copyWith(fontWeight: FontWeight.w500),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text:  ' điều khoản của Văn Minh',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1
+                                    .copyWith(fontSize: AppSize.getFontSize(context, 14))
+                                    .copyWith(fontWeight: FontWeight.w500)
+                                    .copyWith(color: HaLanColor.blue),
+                              )
+                            ]),
+                      ),
                     ),
                   ],
                 ),
