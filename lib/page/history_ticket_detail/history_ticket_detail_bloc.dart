@@ -12,7 +12,7 @@ part 'history_ticket_detail_state.dart';
 
 class HistoryTicketDetailBloc
     extends Bloc<HistoryTicketDetailEvent, HistoryTicketDetailState> {
-  HistoryTicketDetailBloc() : super(HistoryTicketDetailInitial());
+  HistoryTicketDetailBloc() : super(SuccessGetDataTicketDetailState(const <Ticket>[], 0));
 
   final TicketRepository _ticketRepository = TicketRepository();
 

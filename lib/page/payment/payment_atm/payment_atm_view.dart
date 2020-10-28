@@ -4,8 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
+import 'package:halan/base/tool.dart';
+import 'package:halan/model/entity.dart';
 
 class PaymentATMPage extends StatefulWidget {
+  const PaymentATMPage({Key key, this.ticketList, this.totalPrice})
+      : super(key: key);
+
+  final List<Ticket> ticketList;
+  final int totalPrice;
+
   @override
   _PaymentATMPageState createState() => _PaymentATMPageState();
 }
@@ -29,7 +37,7 @@ class _PaymentATMPageState extends State<PaymentATMPage> {
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Center(
                 child: Text(
-              'Số tiền cần thanh toán là',
+              'Số tiền cần thanh toán là ${currencyFormat(widget.totalPrice, 'Đ')}',
               style: textTheme.subtitle1.copyWith(
                   color: HaLanColor.primaryColor,
                   fontWeight: FontWeight.w600,
@@ -64,23 +72,25 @@ class _PaymentATMPageState extends State<PaymentATMPage> {
               children: <Widget>[
                 _atmCard(context, 'assets/techcombank_logo.png', () {
                   print('techcom');
-                }),_atmCard(context, 'assets/vietcombank_logo.png', () {
+                }),
+                _atmCard(context, 'assets/vietcombank_logo.png', () {
                   print('techcom');
-                }),_atmCard(context, 'assets/techcombank_logo.png', () {
+                }),
+                _atmCard(context, 'assets/techcombank_logo.png', () {
                   print('techcom');
-                }),_atmCard(context, 'assets/techcombank_logo.png', () {
+                }),
+                _atmCard(context, 'assets/techcombank_logo.png', () {
                   print('techcom');
-                }),_atmCard(context, 'assets/techcombank_logo.png', () {
+                }),
+                _atmCard(context, 'assets/techcombank_logo.png', () {
                   print('techcom');
-                }), _atmCard(context, 'assets/techcombank_logo.png', () {
+                }),
+                _atmCard(context, 'assets/techcombank_logo.png', () {
                   print('techcom');
                 }),
               ],
             ),
-
           ),
-
-
         ],
       ),
     );
@@ -99,7 +109,6 @@ class _PaymentATMPageState extends State<PaymentATMPage> {
             borderRadius: BorderRadius.circular(4),
             image: DecorationImage(
               fit: BoxFit.fitWidth,
-
               image: AssetImage(atmImage),
             ),
           ),
