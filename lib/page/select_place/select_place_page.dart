@@ -9,6 +9,7 @@ import 'package:halan/model/entity.dart';
 import 'package:halan/page/select_place/select_place_bloc.dart';
 import 'package:halan/widget/fail_widget.dart';
 
+
 class SelectPlacePage extends StatefulWidget {
   const SelectPlacePage({Key key, this.scenario}) : super(key: key);
   final int scenario;
