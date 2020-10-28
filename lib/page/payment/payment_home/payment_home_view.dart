@@ -66,24 +66,37 @@ class _PaymentHomePageState extends State<PaymentHomePage> {
               children: <Widget>[
                 _paymentType(
                     context, Image.asset('assets/qr_code.png'), 'QR Code', () {
-                  Navigator.pushNamed(context, RoutesName.paymentQRPage, arguments: <String, dynamic> {
-                    Constant.totalPrice: widget.totalPrice,
-                    Constant.listTicket: widget.ticketList,
-                  });
+                  Navigator.pushNamed(context, RoutesName.paymentQRPage,
+                      arguments: <String, dynamic>{
+                        Constant.totalPrice: widget.totalPrice,
+                        Constant.listTicket: widget.ticketList,
+                      });
                 }),
                 _paymentType(context, Image.asset('assets/atm_card.png'),
                     'Internet Banking', () {
-                  Navigator.pushNamed(context, RoutesName.paymentATMPage);
+                  Navigator.pushNamed(context, RoutesName.paymentATMPage,
+                      arguments: <String, dynamic>{
+                        Constant.listTicket: widget.ticketList,
+                        Constant.totalPrice: widget.totalPrice
+                      });
                 }),
                 _paymentType(
                     context, Image.asset('assets/visa.png'), 'VISA/Master Card',
                     () {
-                  Navigator.pushNamed(context, RoutesName.paymentATMPage);
+                  Navigator.pushNamed(context, RoutesName.paymentATMPage,
+                      arguments: <String, dynamic>{
+                        Constant.listTicket: widget.ticketList,
+                        Constant.totalPrice: widget.totalPrice
+                      });
                 }),
                 _paymentType(
                     context, Image.asset('assets/bank.png'), 'Chuyển khoản',
                     () {
-                  Navigator.pushNamed(context, RoutesName.paymentTransferPage);
+                  Navigator.pushNamed(context, RoutesName.paymentTransferPage,
+                      arguments: <String, dynamic>{
+                        Constant.listTicket: widget.ticketList,
+                        Constant.totalPrice: widget.totalPrice
+                      });
                 }),
               ],
             ),
