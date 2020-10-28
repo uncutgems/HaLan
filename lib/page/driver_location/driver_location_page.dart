@@ -135,6 +135,10 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
     print('This is it $location');
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(icon: const Icon(Icons.arrow_back),onPressed: (){
+          Navigator.pop(context);
+          bloc.close();
+        },),
         title: const Text('Vị trí xe'),
         centerTitle: true,
       ),

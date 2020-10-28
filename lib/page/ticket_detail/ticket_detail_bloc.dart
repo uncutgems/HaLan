@@ -49,12 +49,11 @@ class TicketDetailBloc extends Bloc<TicketDetailEvent, TicketDetailState> {
       yield TicketDetailLoadingState();
       try {
         final List<Ticket> tickets = await repository.bookTicket(event.trip.tripId, informationBySeats);
-
-        yield TicketDetailDismissLoadingState();
+//        yield TicketDetailDismissLoadingState();
         yield TicketDetailNextPageState(tickets.first.ticketCode);
       }
       on APIException catch(e){
-        yield TicketDetailDismissLoadingState();
+//        yield TicketDetailDismissLoadingState();
         yield TicketDetailFailState(e.message());
       }
     }

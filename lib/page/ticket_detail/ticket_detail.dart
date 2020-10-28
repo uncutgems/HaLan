@@ -91,16 +91,24 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               });
           return false;
         }
-        else if (state is TicketDetailDismissLoadingState){
-          Navigator.pop(context);
-          return false;
-        }
+//        else if (state is TicketDetailDismissLoadingState){
+//          Navigator.pop(context);
+//          return false;
+//        }
         else if(state is TicketDetailNextPageState){
+          if(prev is TicketDetailLoadingState){
+            Navigator.pop(context);
+          }
+          print('phuc oi on ko');
           Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,arguments: <String,dynamic>{
             Constant.ticketCode:state.ticketCode
           });
+          return false;
         }
         else if (state is TicketDetailFailState){
+          if(prev is TicketDetailLoadingState){
+            Navigator.pop(context);
+          }
           showDialog<dynamic>(
               context: context,
               builder: (BuildContext context) {
