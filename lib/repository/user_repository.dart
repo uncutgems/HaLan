@@ -65,6 +65,9 @@ class UserRepository {
       imageURL =
           json[Constant.results]['listImages'][0]['gcsServingUrl'].toString();
     }
+    else{
+      throw Exception(rep);
+    }
 
     print('CHECKING OUTPUT ===========$imageURL');
     return imageURL;

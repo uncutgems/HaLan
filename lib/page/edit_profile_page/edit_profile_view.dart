@@ -2,13 +2,15 @@ import 'dart:io';
 
 import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
+import 'package:avwidget/size_tool.dart';
 import 'package:avwidget/testing_tff.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
-import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
+import 'package:halan/base/styles.dart';
 import 'package:halan/main.dart';
 import 'package:halan/page/edit_profile_page/edit_profile_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,6 +35,7 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     EditProfileInitial();
     nameController.text = prefs.getString(Constant.fullName);
+    print(nameController.text);
   }
 
   @override
@@ -42,17 +45,17 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocBuilder<EditProfileBloc, EditProfileState>(
       cubit: editProfileBloc,
       builder: (BuildContext context, EditProfileState state) {
         if (state is EditProfileInitial) {
-          return body(context);
+          return _body(context);
         }
         if (state is CameraEditProfileState) {
-          return body(context);
+          return _body(context);
         }
         if (state is GalleryEditProfileState) {
-          return body(context);
+          return _body(context);
         }
         return Container();
       },
@@ -62,11 +65,13 @@ class _EditProfileState extends State<EditProfile> {
           return false;
         }
         if (current is FailToUploadEditProfileState) {
-          _catchError(context, current.error);
-          return false;
+          if (previous is LoadingEditProfileState) {
+            Navigator.pop(context);
+            _catchError(context, current.error);
+            return false;
+          }
         }
         if (current is LoadingEditProfileState) {
-          print('hello its me');
           showDialog<dynamic>(
               context: context,
               builder: (BuildContext context) {
@@ -88,14 +93,11 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  // Container(
-  // alignment: Alignment.topCenter,
-  // padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
-  // color: const Color(0xffE5E5E5),
-  // child:
-  Widget body(BuildContext context) {
+  Widget _body(BuildContext context) {
     return GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+        onTap: () {FocusScope.of(context).requestFocus(FocusNode());
+        print('detect duoc rui nhe');
+        },
         child: Scaffold(
           backgroundColor: HaLanColor.backgroundColor,
           appBar: AppBar(
@@ -116,8 +118,8 @@ class _EditProfileState extends State<EditProfile> {
           ),
           body: Container(
             alignment: Alignment.topCenter,
-            padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
-            color: const Color(0xffE5E5E5),
+            padding: EdgeInsets.fromLTRB(AVSize.getSize(context, 16), AVSize.getSize(context, 24), AVSize.getSize(context, 16), 0),
+            color: HaLanColor.backgroundColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,14 +128,14 @@ class _EditProfileState extends State<EditProfile> {
                    alignment: Alignment.center,
                     children: <Widget>[
                       if (_image == null)
-                        CircleAvatar(radius: 40,
+                        CircleAvatar(radius: AVSize.getSize(context, 40),
                             backgroundImage:
                                 NetworkImage(prefs.getString(Constant.avatar)))
                       else
-                        CircleAvatar(radius: 40,backgroundImage: FileImage(_image)),
+                        CircleAvatar(radius: AVSize.getSize(context, 40),backgroundImage: FileImage(_image)),
                       Container(
-                        width: 80,
-                        height: 80,
+                        width: AVSize.getSize(context, 80),
+                        height: AVSize.getSize(context, 80),
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: HaLanColor.gray80.withOpacity(0.8),
@@ -148,6 +150,9 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                     ],
                   ),
+                Container(
+                  height: AVSize.getSize(context, 25),
+                ),
                 HalanTextFormField(
                   title: 'Tên',
                   keyboardType: TextInputType.text,
@@ -157,11 +162,11 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
           bottomNavigationBar: Container(
-              height: 48,
-              margin: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+              height: AVSize.getSize(context, 48),
+              margin: EdgeInsets.fromLTRB(AVSize.getSize(context, 16), 0, AVSize.getSize(context, 16), AVSize.getSize(context, 24)),
               decoration: BoxDecoration(
                 color: HaLanColor.primaryColor,
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(AVSize.getSize(context, 8)),
               ),
               child: RaisedButton(
                 onPressed: () {
@@ -174,30 +179,26 @@ class _EditProfileState extends State<EditProfile> {
                   }
                   // Navigator.pop(context);
                 },
-                child: const Text(
+                child: Text(
                   'Lưu thay đổi',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: HaLanColor.white,
-                  ),
+                  style: textTheme.subtitle1.copyWith(fontWeight: FontWeight.w500),
                 ),
               )),
         ));
   }
 
   Future<void> _imageFromCamera() async {
-    PickedFile file = await ImagePicker()
+    final PickedFile file = await ImagePicker()
         .getImage(source: ImageSource.camera, imageQuality: 50);
-    File image = File(file.path);
+    final File image = File(file.path);
     _image = image;
     editProfileBloc.add(TakePictureEditProfileEvent(_image));
   }
 
   Future<void> _imageFromGallery() async {
-    PickedFile file = await ImagePicker()
+    final PickedFile file = await ImagePicker()
         .getImage(source: ImageSource.gallery, imageQuality: 50);
-    File image = File(file.path);
+    final File image = File(file.path);
     _image = image;
     editProfileBloc.add(ChooseExistingImageEditProfileEvent(_image));
   }
@@ -242,11 +243,13 @@ class _EditProfileState extends State<EditProfile> {
             content: 'Không thể cập nhật thông tin vì $error',
             bottomWidget: Center(
               child: AVButton(
+                height: AppSize.getWidth(context, 40),
+                // width: AVSize.getSize(context, 40),
                 color: HaLanColor.primaryColor,
-                title: 'Thử lại?',
+                title: 'Thử lại',
                 onPressed: () {
-                  Navigator.popUntil(
-                      context, ModalRoute.withName(RoutesName.homeSignInPage));
+                  Navigator.pop(context);
+                  editProfileBloc.add(ClickSaveChangeEditProfileEvent());
                 },
               ),
             ),

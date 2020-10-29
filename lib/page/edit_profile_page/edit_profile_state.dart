@@ -33,3 +33,5 @@ class FailToUploadEditProfileState extends EditProfileState{
 
   final String error;
 }
+
+class NoInternetConnection extends EditProfileState{}
