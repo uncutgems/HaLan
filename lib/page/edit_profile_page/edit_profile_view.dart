@@ -1,7 +1,5 @@
 import 'dart:io';
-
-import 'package:avwidget/av_alert_dialog_widget.dart';
-import 'package:avwidget/av_button_widget.dart';
+import 'package:avwidget/popup_loading_widget.dart';
 import 'package:avwidget/size_tool.dart';
 import 'package:avwidget/testing_tff.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
-import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
+import 'package:halan/base/tools.dart';
 import 'package:halan/main.dart';
 import 'package:halan/page/edit_profile_page/edit_profile_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -64,21 +62,14 @@ class _EditProfileState extends State<EditProfile> {
           _showPicker(context);
           return false;
         }
-        if (current is FailToUploadEditProfileState) {
-          if (previous is LoadingEditProfileState) {
-            Navigator.pop(context);
-            _catchError(context, current.error);
-            return false;
-          }
+        if (current is FailToUploadEditProfileState &&
+            previous is LoadingEditProfileState) {
+          Navigator.pop(context);
+          showMessage(context: context, message: current.error);
+          return false;
         }
         if (current is LoadingEditProfileState) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              });
+          showPopupLoading(context);
           return false;
         }
         if (current is MakeChangeEditProfileState) {
@@ -95,19 +86,16 @@ class _EditProfileState extends State<EditProfile> {
 
   Widget _body(BuildContext context) {
     return GestureDetector(
-        onTap: () {FocusScope.of(context).requestFocus(FocusNode());
-        print('detect duoc rui nhe');
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          print('detect duoc rui nhe');
         },
         child: Scaffold(
           backgroundColor: HaLanColor.backgroundColor,
           appBar: AppBar(
-            title: const Text(
-              'Thông tin cá nhân',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
+            title: Text('Thông tin cá nhân',
+                style: textTheme.subtitle1
+                    .copyWith(fontWeight: FontWeight.w600, fontSize: 18)),
             centerTitle: true,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
@@ -118,38 +106,42 @@ class _EditProfileState extends State<EditProfile> {
           ),
           body: Container(
             alignment: Alignment.topCenter,
-            padding: EdgeInsets.fromLTRB(AVSize.getSize(context, 16), AVSize.getSize(context, 24), AVSize.getSize(context, 16), 0),
+            padding: EdgeInsets.fromLTRB(AVSize.getSize(context, 16),
+                AVSize.getSize(context, 24), AVSize.getSize(context, 16), 0),
             color: HaLanColor.backgroundColor,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                 Stack(
-                   alignment: Alignment.center,
-                    children: <Widget>[
-                      if (_image == null)
-                        CircleAvatar(radius: AVSize.getSize(context, 40),
-                            backgroundImage:
-                                NetworkImage(prefs.getString(Constant.avatar)))
-                      else
-                        CircleAvatar(radius: AVSize.getSize(context, 40),backgroundImage: FileImage(_image)),
-                      Container(
-                        width: AVSize.getSize(context, 80),
-                        height: AVSize.getSize(context, 80),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: HaLanColor.gray80.withOpacity(0.8),
-                        ),
+                Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    if (_image == null)
+                      CircleAvatar(
+                          radius: AVSize.getSize(context, 40),
+                          backgroundImage:
+                              NetworkImage(prefs.getString(Constant.avatar)))
+                    else
+                      CircleAvatar(
+                          radius: AVSize.getSize(context, 40),
+                          backgroundImage: FileImage(_image)),
+                    Container(
+                      width: AVSize.getSize(context, 80),
+                      height: AVSize.getSize(context, 80),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: HaLanColor.gray80.withOpacity(0.8),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.camera_alt),
-                        color: HaLanColor.white,
-                        onPressed: () {
-                          editProfileBloc.add(ChangeAvatarEditProfileEvent());
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.camera_alt),
+                      color: HaLanColor.white,
+                      onPressed: () {
+                        editProfileBloc.add(ChangeAvatarEditProfileEvent());
+                      },
+                    ),
+                  ],
+                ),
                 Container(
                   height: AVSize.getSize(context, 25),
                 ),
@@ -163,7 +155,8 @@ class _EditProfileState extends State<EditProfile> {
           ),
           bottomNavigationBar: Container(
               height: AVSize.getSize(context, 48),
-              margin: EdgeInsets.fromLTRB(AVSize.getSize(context, 16), 0, AVSize.getSize(context, 16), AVSize.getSize(context, 24)),
+              margin: EdgeInsets.fromLTRB(AVSize.getSize(context, 16), 0,
+                  AVSize.getSize(context, 16), AVSize.getSize(context, 24)),
               decoration: BoxDecoration(
                 color: HaLanColor.primaryColor,
                 borderRadius: BorderRadius.circular(AVSize.getSize(context, 8)),
@@ -181,7 +174,8 @@ class _EditProfileState extends State<EditProfile> {
                 },
                 child: Text(
                   'Lưu thay đổi',
-                  style: textTheme.subtitle1.copyWith(fontWeight: FontWeight.w500),
+                  style:
+                      textTheme.subtitle1.copyWith(fontWeight: FontWeight.w500),
                 ),
               )),
         ));
@@ -227,30 +221,6 @@ class _EditProfileState extends State<EditProfile> {
                     },
                   ),
                 ],
-              ),
-            ),
-          );
-        });
-  }
-
-  void _catchError(BuildContext context, String error) {
-    showDialog<dynamic>(
-        context: context,
-        builder: (BuildContext context) {
-          return AVAlertDialogWidget(
-            title: 'Lỗi khi cập nhật thông tin',
-            context: context,
-            content: 'Không thể cập nhật thông tin vì $error',
-            bottomWidget: Center(
-              child: AVButton(
-                height: AppSize.getWidth(context, 40),
-                // width: AVSize.getSize(context, 40),
-                color: HaLanColor.primaryColor,
-                title: 'Thử lại',
-                onPressed: () {
-                  Navigator.pop(context);
-                  editProfileBloc.add(ClickSaveChangeEditProfileEvent());
-                },
               ),
             ),
           );
