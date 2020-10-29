@@ -11,7 +11,7 @@ import '../main.dart';
 class UserRepository {
   Future<void> getOTPCode(String phoneNumber) async {
     final Map<String, dynamic> body = <String, dynamic>{};
-    body[Constant.companyId] = 'TC1OHntfnujP';
+    body[Constant.companyId] = Constant.haLanCompanyId;
     body[Constant.phoneNumber] = phoneNumber;
     body[Constant.stateCode] = 84;
 
@@ -123,6 +123,51 @@ class UserRepository {
     } else {
       throw Exception(response);
 //      return null;
+    }
+  }
+  Future<PhoneNumber> call(String phoneNumber,int stateCode,String companyId) async {
+    final Map<String,dynamic> body = <String,dynamic>{};
+    body['phoneNumber']=phoneNumber;
+    body['stateCode'] = stateCode;
+    body['companyId'] = companyId;
+
+    final AVResponse response = await callPOST(path: URL.sendOTPCall,body: body);
+    if (response.isOK) {
+//      print('response is here ${response.response[Constant.data]}');
+      final PhoneNumber phoneNumber = PhoneNumber.fromMap(response.response[Constant.data] as Map<String,dynamic>);
+//        print('Hello ${phoneNumber.id}');
+      return phoneNumber;
+    }
+    else {
+      throw APIException(response);
+    }
+  }
+  Future<PinNumber> validatePin(String id,int stateCode,String companyId,String pin) async {
+    final Map<String,dynamic> body = <String,dynamic>{};
+    body['id']=id;
+    body['stateCode'] = stateCode;
+    body['companyId'] = companyId;
+    body['pin'] = pin;
+    final AVResponse response = await callPOST(path: URL.loginOTPCall,body: body);
+    if (response.isOK) {
+      print('response is here ${response.response[Constant.userInfo]}');
+      prefs.setString(Constant.userId,
+          response.response[Constant.userInfo][Constant.id] as String);
+      prefs.setString(Constant.token,
+          response.response[Constant.token][Constant.tokenKey] as String);
+      prefs.setString(Constant.fullName,
+          response.response[Constant.userInfo][Constant.fullName] as String);
+      prefs.setString(Constant.phoneNumber,
+          response.response[Constant.userInfo][Constant.phoneNumber] as String);
+      prefs.setString(Constant.avatar,
+          response.response[Constant.userInfo][Constant.avatar] as String);
+      print(prefs.getString(Constant.phoneNumber));
+      final PinNumber pinNumber = PinNumber.fromMap(response.response[Constant.userInfo] as Map<String,dynamic>);
+      print('Hello ${pinNumber.id}');
+      return pinNumber;
+    }
+    else {
+      throw APIException(response);
     }
   }
 }

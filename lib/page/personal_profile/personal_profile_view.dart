@@ -31,7 +31,7 @@ class _PersonalProfileState extends State<PersonalProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocBuilder<PersonalProfileBloc,PersonalProfileState>(
       cubit: personalProfileBloc,
       builder: (BuildContext context, PersonalProfileState state) {
         if (state is PersonalProfileInitial) {
@@ -80,6 +80,7 @@ class _PersonalProfileState extends State<PersonalProfile> {
         child: RaisedButton(
           onPressed: (){
             prefs.clear();
+            Navigator.popUntil(context, ModalRoute.withName(RoutesName.splashPage));
             Navigator.pushNamed(context, RoutesName.busBookingPage);
           },
           color: HaLanColor.white,

@@ -8,7 +8,7 @@ class RouteRepository {
     final List<RouteEntity> routeList = <RouteEntity>[];
 
     final Map<String, dynamic> body = <String, dynamic>{};
-    body[Constant.companyId] = 'TC0FR1szrRt37fiR';
+    body[Constant.companyId] = Constant.haLanCompanyId;
 
     final AVResponse response =
         await callPOST(path: URL.getRouteList, body: <String, dynamic>{});
