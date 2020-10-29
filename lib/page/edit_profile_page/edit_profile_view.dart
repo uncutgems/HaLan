@@ -30,7 +30,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     EditProfileInitial();
     nameController.text = prefs.getString(Constant.fullName);
@@ -38,7 +37,6 @@ class _EditProfileState extends State<EditProfile> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -99,7 +97,7 @@ class _EditProfileState extends State<EditProfile> {
     return GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: Scaffold(
-          backgroundColor: const Color(0xffE5E5E5),
+          backgroundColor: HaLanColor.backgroundColor,
           appBar: AppBar(
             title: const Text(
               'Thông tin cá nhân',

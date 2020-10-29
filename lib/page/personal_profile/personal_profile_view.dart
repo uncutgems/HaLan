@@ -1,9 +1,12 @@
+import 'package:avwidget/size_tool.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
+import 'package:halan/base/styles.dart';
 import 'package:halan/page/personal_profile/personal_profile_bloc.dart';
 
 import '../../main.dart';
@@ -18,20 +21,18 @@ class _PersonalProfileState extends State<PersonalProfile> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     PersonalProfileInitial();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder(
+    return BlocBuilder<PersonalProfileBloc, PersonalProfileState>(
       cubit: personalProfileBloc,
       builder: (BuildContext context, PersonalProfileState state) {
         if (state is PersonalProfileInitial) {
@@ -48,7 +49,7 @@ class _PersonalProfileState extends State<PersonalProfile> {
 
   Widget body(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffE5E5E5),
+      backgroundColor: HaLanColor.backgroundColor,
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
@@ -57,13 +58,11 @@ class _PersonalProfileState extends State<PersonalProfile> {
             Navigator.pop(context);
           },
         ),
-        title: const Text(
-          'Thông tin cá nhân',
-        ),
+        title: const Text('Thông tin cá nhân',),
       ),
       body: Container(
         alignment: Alignment.topCenter,
-        padding: const EdgeInsets.fromLTRB(24, 24, 16, 0),
+        padding: EdgeInsets.fromLTRB(AVSize.getSize(context, 16), AVSize.getSize(context, 24), AVSize.getSize(context, 16), 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,8 +74,8 @@ class _PersonalProfileState extends State<PersonalProfile> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-        height: 48,
+        margin: EdgeInsets.fromLTRB(AppSize.getWidth(context, 16), 0, AppSize.getWidth(context, 16), AppSize.getHeight(context, 16)),
+        height: AppSize.getHeight(context, 48),
         child: RaisedButton(
           onPressed: (){
             prefs.clear();
@@ -84,14 +83,9 @@ class _PersonalProfileState extends State<PersonalProfile> {
           },
           color: HaLanColor.white,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(AVSize.getSize(context, 8)),
           ),
-          child: const Text('Đăng xuất', style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-            color: HaLanColor.red100,
-          ),
-          ),
+          child: Text('Đăng xuất', style: textTheme.button),
         ),
       )
     );
@@ -105,8 +99,8 @@ class _PersonalProfileState extends State<PersonalProfile> {
           child: Row(
             children: <Widget>[
               Container(
-                width: 80,
-                height: 80,
+                width: AVSize.getSize(context, 80),
+                height: AVSize.getSize(context, 80),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -116,30 +110,27 @@ class _PersonalProfileState extends State<PersonalProfile> {
                 ),
               ),
               Container(
-                width: 16,
+                width: AVSize.getSize(context, 16),
               ),
               Text(
                 fullName,
-                style: const TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 18
+                style: textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600, fontSize: 18)
                 ),
-              ),
             ],
           ),
         ),
         Container(
-          height: 32,
-          width: 32,
+          height: AVSize.getSize(context, 32),
+          width: AVSize.getSize(context, 32),
           child: IconButton(
             onPressed: () async {
               final bool refresh = await Navigator.pushNamed(context, RoutesName.editProfile) as bool;
-              if(refresh==true) {
+              if(refresh) {
                 print('assssssssssssssss');
                 personalProfileBloc.add(CallAPIPersonalProfileEvent());
               }
             },
-            icon: const ImageIcon(AssetImage('assets/edit_icon.png'), color: HaLanColor.primaryColor,),
+            icon: ImageIcon(const AssetImage('assets/edit_icon.png'), color: HaLanColor.primaryColor,size: AVSize.getSize(context, 16), ),
           ),
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
@@ -152,7 +143,7 @@ class _PersonalProfileState extends State<PersonalProfile> {
 
   Widget phoneNumber(String number) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(3.5, 18, 0, 0),
+      margin: EdgeInsets.fromLTRB(AVSize.getSize(context, 3.5), AVSize.getSize(context, 18), 0, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
@@ -161,14 +152,11 @@ class _PersonalProfileState extends State<PersonalProfile> {
             color: HaLanColor.iconColor,
           ),
           Container(
-            width: 12,
+            width: AVSize.getSize(context, 12),
           ),
           Text(
             number,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+            style: textTheme.subtitle2
           ),
         ],
       ),
@@ -178,14 +166,5 @@ class _PersonalProfileState extends State<PersonalProfile> {
   Future<void> reloadUserInfo() async{
     await Navigator.pushNamed(context, RoutesName.editProfile);
   }
-
-// Widget balance(int balance){
-//   return Row(
-//     mainAxisAlignment: MainAxisAlignment.start,
-//     children: <Widget>[
-//       const Icon(Icons.attach_money),
-//       Text('Số dư: $balance VND'),
-//     ],
-//   );
-// }
+  
 }
