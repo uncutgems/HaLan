@@ -93,7 +93,6 @@ class _PromotionWidgetState extends State<PromotionWidget> {
               width: AVSize.getSize(context, 8),
             ),
             AVButton(
-              width: 94,
               height: 48,
               color: HaLanColor.blue,
               title: !isLoading ? 'Áp dụng' : '',

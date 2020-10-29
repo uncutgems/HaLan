@@ -52,7 +52,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
   String pin_5;
   String pin_6;
 
-  int loginType = LoginType.sendMessage;
+  LoginType loginType = LoginType.call;
   final RoundedRectangleBorder listTileBorder = const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(12),

@@ -529,3 +529,17 @@ Future<Uint8List> getBytesFromAsset(String path, int width) async {
  double radiansToDegrees(double radians) {
   return radians * 180.0 / pi;
 }
+Point setUpPointType(String text,Point point){
+  if(text.contains('bến')){
+    print('cccc');
+    point= point.copyWith(pointType: TransportType.station);
+    print(point.pointType);
+  }
+  else if(text.contains('nhà')){
+    point= point.copyWith(pointType: TransportType.home);
+  }
+  else if(text.contains('trung chuyển')){
+    point = point.copyWith(pointType: TransportType.transshipment);
+  }
+  return point;
+}

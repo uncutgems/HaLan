@@ -42,7 +42,7 @@ class TicketDetailBloc extends Bloc<TicketDetailEvent, TicketDetailState> {
         print('=========================================== ${ticketOption.ticketStatus}');
         print('=========================================== ${ticketOption.pointDown.name}');
         print('=========================================== ${ticketOption.pointUp.name}');
-        print('=========================================== ${ticketOption.seatId}');
+        print('=========================================== ${ticketOption.pointUp.pointType}');
         print('=========================================== ${ticketOption.originalPrice}');
         informationBySeats.add(ticketOption);
       }

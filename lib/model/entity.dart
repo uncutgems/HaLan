@@ -376,7 +376,8 @@ class Point {
       this.regionInfo,
       this.listTransshipmentPoint,
       this.listPrice,
-      this.completedTransshipment});
+      this.completedTransshipment,
+      this.allowPickingAnddropingAtHomeByPlatform});
 
   factory Point.fromMap(Map<String, dynamic> data) {
     if (data == null) {
@@ -400,6 +401,7 @@ class Point {
           parseListPoint(Constant.listTransshipmentPoint, data),
       listPrice: getListDouble(Constant.listPrice, data),
       completedTransshipment: getBool(Constant.completedTransshipment, data),
+      allowPickingAnddropingAtHomeByPlatform: getListInt(Constant.allowPickingAnddropingAtHomeByPlatform, data)
     );
   }
 
@@ -418,7 +420,7 @@ class Point {
   final List<Point> listTransshipmentPoint;
   final List<double> listPrice;
   final bool completedTransshipment;
-
+  final List<int>allowPickingAnddropingAtHomeByPlatform;
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       Constant.address: address,
@@ -435,7 +437,8 @@ class Point {
       Constant.regionInfo: regionInfo != null ? regionInfo.toJson() : null,
       Constant.listTransshipmentPoint: listTransshipmentPoint,
       Constant.listPrice: listPrice,
-      Constant.completedTransshipment: completedTransshipment
+      Constant.completedTransshipment: completedTransshipment,
+      Constant.allowPickingAnddropingAtHomeByPlatform: allowPickingAnddropingAtHomeByPlatform
     };
   }
 
@@ -455,6 +458,7 @@ class Point {
     List<Point> listTransshipmentPoint,
     List<double> listPrice,
     bool completedTransshipment,
+    List<int> allowPickingAnddropingAtHomeByPlatform,
   }) {
     if ((address == null || identical(address, this.address)) &&
         (district == null || identical(district, this.district)) &&
@@ -475,11 +479,14 @@ class Point {
             identical(listTransshipmentPoint, this.listTransshipmentPoint)) &&
         (listPrice == null || identical(listPrice, this.listPrice)) &&
         (completedTransshipment == null ||
-            identical(completedTransshipment, this.completedTransshipment))) {
+            identical(completedTransshipment, this.completedTransshipment)) &&
+        (allowPickingAnddropingAtHomeByPlatform == null || identical(
+            allowPickingAnddropingAtHomeByPlatform,
+            this.allowPickingAnddropingAtHomeByPlatform))) {
       return this;
     }
 
-    return Point(
+    return  Point(
       address: address ?? this.address,
       district: district ?? this.district,
       id: id ?? this.id,
@@ -492,13 +499,17 @@ class Point {
       transshipmentId: transshipmentId ?? this.transshipmentId,
       transshipmentPrice: transshipmentPrice ?? this.transshipmentPrice,
       regionInfo: regionInfo ?? this.regionInfo,
-      listTransshipmentPoint:
-          listTransshipmentPoint ?? this.listTransshipmentPoint,
+      listTransshipmentPoint: listTransshipmentPoint ??
+          this.listTransshipmentPoint,
       listPrice: listPrice ?? this.listPrice,
-      completedTransshipment:
-          completedTransshipment ?? this.completedTransshipment,
+      completedTransshipment: completedTransshipment ??
+          this.completedTransshipment,
+      allowPickingAnddropingAtHomeByPlatform: allowPickingAnddropingAtHomeByPlatform ??
+          this.allowPickingAnddropingAtHomeByPlatform,
     );
   }
+
+
 }
 
 @JsonSerializable(nullable: false)

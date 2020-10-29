@@ -95,6 +95,7 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
                             Constant.listSeat: state.listSeat,
                             Constant.totalPrice: state.totalPrice
                           });
+                          print('van ôiiiiiiiiiiiiiiiiiiiiiiii');
                         } else {
                           showDialog<dynamic>(
                               context: context,
