@@ -3154,3 +3154,41 @@ class PromotionObject {
   final double minPriceApply;
 }
 
+@JsonSerializable(nullable: false)
+class PhoneNumber{
+  PhoneNumber({this.id});
+  factory PhoneNumber.fromMap(final Map<String, dynamic> data) {
+    print('This is data  $data');
+    if (data == null){
+      return PhoneNumber();
+    }
+    return PhoneNumber(
+      id: getString(Constant.id, data),
+    );
+  }
+  final String id;
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      Constant.id: id,
+    };
+  }
+}
+@JsonSerializable(nullable: false)
+class PinNumber{
+  PinNumber({this.id});
+  factory PinNumber.fromMap(final Map<String, dynamic> data) {
+    print('This is data  $data');
+    if (data == null){
+      return PinNumber();
+    }
+    return PinNumber(
+      id: getString(Constant.id, data),
+    );
+  }
+  final String id;
+  Map<String, dynamic> toJson() {
+    return <String, dynamic>{
+      Constant.id: id,
+    };
+  }
+}

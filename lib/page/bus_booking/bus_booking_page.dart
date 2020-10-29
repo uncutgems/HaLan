@@ -11,6 +11,7 @@ import 'package:halan/base/tool.dart';
 import 'package:halan/base/tools.dart' as tools;
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_bloc.dart';
+import 'package:halan/page/promotion_page/promotion_page.dart';
 import 'package:halan/widget/pop_up_widget/pop_up.dart';
 import 'package:halan/widget/popular_route_widget/popular_route.dart';
 import 'package:halan/main.dart';
@@ -169,7 +170,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 child: AVButton(
                   color: HaLanColor.primaryColor,
                   height: AppSize.getHeight(context, 40),
-                  title: 'Tìm chuyến xe',
+                  title: 'Tìm chuyến',
                   trailingIcon: const Icon(
                     Icons.search,
                     size: 25,
@@ -275,47 +276,47 @@ class _BusBookingPageState extends State<BusBookingPage> {
             .copyWith(fontWeight: FontWeight.w600),
       ),
       centerTitle: true,
-      actions: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(right: AppSize.getWidth(context, 16)),
-          child: Row(
-            children: <Widget>[
-              Stack(
-                children: <Widget>[
-                  SvgPicture.asset(
-                    'assets/bell.svg',
-                    height: AppSize.getWidth(context, 25),
-                  ),
-                  Positioned(
-                    right: 0,
-                    child: Stack(
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          'assets/red_circle.svg',
-                          height: AppSize.getWidth(context, 13),
-                          width: AppSize.getWidth(context, 13),
-                        ),
-                        Positioned(
-                          top: 2,
-                          right: 3,
-                          child: Text('24',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .copyWith(color: AVColor.white)
-                                  .copyWith(
-                                      fontSize: AppSize.getFontSize(context, 6))
-                                  .copyWith(fontWeight: FontWeight.w600)),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
+//      actions: <Widget>[
+//        Padding(
+//          padding: EdgeInsets.only(right: AppSize.getWidth(context, 16)),
+//          child: Row(
+//            children: <Widget>[
+//              Stack(
+//                children: <Widget>[
+//                  SvgPicture.asset(
+//                    'assets/bell.svg',
+//                    height: AppSize.getWidth(context, 25),
+//                  ),
+//                  Positioned(
+//                    right: 0,
+//                    child: Stack(
+//                      children: <Widget>[
+//                        SvgPicture.asset(
+//                          'assets/red_circle.svg',
+//                          height: AppSize.getWidth(context, 13),
+//                          width: AppSize.getWidth(context, 13),
+//                        ),
+//                        Positioned(
+//                          top: 2,
+//                          right: 3,
+//                          child: Text('24',
+//                              style: Theme.of(context)
+//                                  .textTheme
+//                                  .bodyText1
+//                                  .copyWith(color: AVColor.white)
+//                                  .copyWith(
+//                                      fontSize: AppSize.getFontSize(context, 6))
+//                                  .copyWith(fontWeight: FontWeight.w600)),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                ],
+//              ),
+//            ],
+//          ),
+//        ),
+//      ],
     );
   }
 
@@ -401,7 +402,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, RoutesName.promotionPage);
+                Navigator.push<dynamic>(context, SwipeRoute(page: PromotionPage()));
               },
               child: customListTile(
                 context,

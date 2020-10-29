@@ -410,7 +410,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            //TODO: Nối sang màn hình vị trí tài
+                            Navigator.pushNamed(context, RoutesName.driverLocationPage);
                           },
                           child: Container(
                             child: Center(

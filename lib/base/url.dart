@@ -17,4 +17,6 @@ class URL {
   static const String generateQRCode = baseURL+ 'vnpay/qr/pay';
   static const String updateUserInfo = baseURL + '/user/updateinfo';
   static const String bookTicket = baseURL+'ticket/book';
+  static const String sendOTPCall = baseURL+'checkmobi/send';
+  static const String loginOTPCall = baseURL+'checkmobi/validate';
 }

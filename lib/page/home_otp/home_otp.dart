@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/config.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/main.dart';
@@ -51,6 +52,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
   String pin_5;
   String pin_6;
 
+  int loginType = LoginType.sendMessage;
   final RoundedRectangleBorder listTileBorder = const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(12),
@@ -96,9 +98,8 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           } else {
             Navigator.popUntil(
                 context, ModalRoute.withName(RoutesName.busBookingPage));
-            Navigator.popAndPushNamed(context, RoutesName.busBookingPage,arguments: <String,dynamic>{
-              Constant.refreshPage:true
-            });
+            Navigator.popAndPushNamed(context, RoutesName.busBookingPage,
+                arguments: <String, dynamic>{Constant.refreshPage: true});
             return false;
           }
         } else if (state is FailToLoginHomeOtpState) {
@@ -176,91 +177,11 @@ class _HomeOtpPageState extends State<HomeOtpPage>
               Container(
                 height: AppSize.getHeight(context, 16),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  customTextFormField(
-                    firstPinController,
-                    firstFocusNode,
-                    () {
-                      FocusScope.of(context).requestFocus(secondFocusNode);
-                    },
-                    (String pin) {
-                      if (pin.length == 1) {
-                        FocusScope.of(context).requestFocus(secondFocusNode);
-                        pin_1 = pin;
-                      } else if (pin.isEmpty) {
-                        FocusScope.of(context).requestFocus(firstFocusNode);
-                      }
-                    },
-                  ),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(secondPinController, secondFocusNode, () {
-                    FocusScope.of(context).requestFocus(thirdFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(thirdFocusNode);
-                      pin_2 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(firstFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(thirdPinController, thirdFocusNode, () {
-                    FocusScope.of(context).requestFocus(forthFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(forthFocusNode);
-                      pin_3 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(secondFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(forthPinController, forthFocusNode, () {
-                    FocusScope.of(context).requestFocus(fifthFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(fifthFocusNode);
-                      pin_4 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(thirdFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(fifthPinController, fifthFocusNode, () {
-                    FocusScope.of(context).requestFocus(sixthFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(sixthFocusNode);
-                      pin_5 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(forthFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(sixthPinController, sixthFocusNode,
-                      () => FocusScope.of(context).requestFocus(FocusNode()),
-                      (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      pin_6 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(fifthFocusNode);
-                    }
-                  }),
-                ],
-              ),
+              if(loginType==LoginType.call)
+              callOTP(context),
+              if (loginType==LoginType.sendMessage)
+              messageOTP(context),
+
               Container(
                 height: AppSize.getHeight(context, 16),
               ),
@@ -269,12 +190,13 @@ class _HomeOtpPageState extends State<HomeOtpPage>
                 title: 'Đăng nhập',
                 color: AVColor.orange100,
                 onPressed: checkPinCode(
-                        fifthPinController.text,
-                        secondPinController.text,
-                        thirdPinController.text,
-                        forthPinController.text,
-                        fifthPinController.text,
-                        sixthPinController.text)
+                  pin1: firstPinController.text,
+                  pin2: secondPinController.text,
+                  pin3: thirdPinController.text,
+                  pin4: forthPinController.text,
+                  pin5: fifthPinController.text,
+                  pin6: sixthPinController.text,
+                )
                     ? () {
                         phoneNumber = widget.phoneNumber;
 
@@ -322,8 +244,13 @@ class _HomeOtpPageState extends State<HomeOtpPage>
     );
   }
 
-  bool checkPinCode(String pin1, String pin2, String pin3, String pin4,
-      String pin5, String pin6) {
+  bool checkPinCode(
+      {String pin1,
+      String pin2,
+      String pin3,
+      String pin4,
+      String pin5,
+      String pin6}) {
     if (pin1.isEmpty ||
         pin1 == null ||
         pin2.isEmpty ||
@@ -331,15 +258,163 @@ class _HomeOtpPageState extends State<HomeOtpPage>
         pin3.isEmpty ||
         pin3 == null ||
         pin4.isEmpty ||
-        pin4 == null ||
-        pin5.isEmpty ||
-        pin5 == null ||
-        pin6.isEmpty ||
-        pin6 == null) {
+        pin4 == null) {
+      print('asssssssssssssss');
+      if (loginType == LoginType.sendMessage) {
+        if (pin5.isEmpty || pin5 == null || pin6.isEmpty || pin6 == null) {
+          return false;
+        }
+      }
       return false;
     } else {
       return true;
     }
+  }
+
+  Widget messageOTP(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        customTextFormField(
+          firstPinController,
+          firstFocusNode,
+          () {
+            FocusScope.of(context).requestFocus(secondFocusNode);
+          },
+          (String pin) {
+            if (pin.length == 1) {
+              print('aaaaaaaaaaaaaaa');
+              FocusScope.of(context).requestFocus(secondFocusNode);
+              pin_1 = pin;
+            } else if (pin.isEmpty) {
+              FocusScope.of(context).requestFocus(firstFocusNode);
+            }
+          },
+        ),
+        Container(
+          width: AppSize.getWidth(context, 8),
+        ),
+        customTextFormField(secondPinController, secondFocusNode, () {
+          FocusScope.of(context).requestFocus(thirdFocusNode);
+        }, (String pin) {
+          if (pin.length == 1) {
+            FocusScope.of(context).requestFocus(thirdFocusNode);
+            pin_2 = pin;
+          } else if (pin.isEmpty) {
+            FocusScope.of(context).requestFocus(firstFocusNode);
+          }
+        }),
+        Container(
+          width: AppSize.getWidth(context, 8),
+        ),
+        customTextFormField(thirdPinController, thirdFocusNode, () {
+          FocusScope.of(context).requestFocus(forthFocusNode);
+        }, (String pin) {
+          if (pin.length == 1) {
+            FocusScope.of(context).requestFocus(forthFocusNode);
+            pin_3 = pin;
+          } else if (pin.isEmpty) {
+            FocusScope.of(context).requestFocus(secondFocusNode);
+          }
+        }),
+        Container(
+          width: AppSize.getWidth(context, 8),
+        ),
+        customTextFormField(forthPinController, forthFocusNode, () {
+          FocusScope.of(context).requestFocus(fifthFocusNode);
+        }, (String pin) {
+          if (pin.length == 1) {
+            FocusScope.of(context).requestFocus(fifthFocusNode);
+            pin_4 = pin;
+          } else if (pin.isEmpty) {
+            FocusScope.of(context).requestFocus(thirdFocusNode);
+          }
+        }),
+        Container(
+          width: AppSize.getWidth(context, 8),
+        ),
+        customTextFormField(fifthPinController, fifthFocusNode, () {
+          FocusScope.of(context).requestFocus(sixthFocusNode);
+        }, (String pin) {
+          if (pin.length == 1) {
+            FocusScope.of(context).requestFocus(sixthFocusNode);
+            pin_5 = pin;
+          } else if (pin.isEmpty) {
+            FocusScope.of(context).requestFocus(forthFocusNode);
+          }
+        }),
+        Container(
+          width: AppSize.getWidth(context, 8),
+        ),
+        customTextFormField(sixthPinController, sixthFocusNode,
+            () => FocusScope.of(context).requestFocus(FocusNode()),
+            (String pin) {
+          if (pin.length == 1) {
+            FocusScope.of(context).requestFocus(FocusNode());
+            pin_6 = pin;
+          } else if (pin.isEmpty) {
+            FocusScope.of(context).requestFocus(fifthFocusNode);
+          }
+        }),
+      ],
+    );
+  }
+
+  Widget callOTP(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      customTextFormField(
+        firstPinController,
+        firstFocusNode,
+        () {
+          FocusScope.of(context).requestFocus(secondFocusNode);
+        },
+        (String pin) {
+          if (pin.length == 1) {
+            FocusScope.of(context).requestFocus(secondFocusNode);
+            pin_1 = pin;
+          } else if (pin.isEmpty) {
+            FocusScope.of(context).requestFocus(firstFocusNode);
+          }
+        },
+      ),
+      Container(
+        width: AppSize.getWidth(context, 8),
+      ),
+      customTextFormField(secondPinController, secondFocusNode, () {
+        FocusScope.of(context).requestFocus(thirdFocusNode);
+      }, (String pin) {
+        if (pin.length == 1) {
+          FocusScope.of(context).requestFocus(thirdFocusNode);
+          pin_2 = pin;
+        } else if (pin.isEmpty) {
+          FocusScope.of(context).requestFocus(firstFocusNode);
+        }
+      }),
+      Container(
+        width: AppSize.getWidth(context, 8),
+      ),
+      customTextFormField(thirdPinController, thirdFocusNode, () {
+        FocusScope.of(context).requestFocus(forthFocusNode);
+      }, (String pin) {
+        if (pin.length == 1) {
+          FocusScope.of(context).requestFocus(forthFocusNode);
+          pin_3 = pin;
+        } else if (pin.isEmpty) {
+          FocusScope.of(context).requestFocus(secondFocusNode);
+        }
+      }),
+      Container(
+        width: AppSize.getWidth(context, 8),
+      ),
+      customTextFormField(forthPinController, forthFocusNode,
+          () => FocusScope.of(context).requestFocus(FocusNode()), (String pin) {
+        if (pin.length == 1) {
+          pin_4 = pin;
+        } else if (pin.isEmpty) {
+          FocusScope.of(context).requestFocus(thirdFocusNode);
+        }
+      }),
+    ]);
   }
 
   Widget customTextFormField(

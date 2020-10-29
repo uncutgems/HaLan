@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:avwidget/popup_loading_widget.dart';
 import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
+import 'package:halan/main.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_confirm/payment/ticket_payment_bloc.dart';
@@ -95,11 +98,8 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
           ),
           actions: <Widget>[
             IconButton(icon: const Icon(Icons.message), onPressed: (){
-              Navigator.pushNamed(context, RoutesName.driverLocationPage,
-                  arguments: <String,dynamic>{
-                Constant.trip:widget.trip
-              },
-              );
+              prefs.setString(Constant.trip, jsonEncode(widget.trip));
+              Navigator.pushNamed(context, RoutesName.driverLocationPage,);
             }),
           ],
         ),
