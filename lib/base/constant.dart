@@ -320,4 +320,5 @@ class Constant {
   static const String location = 'location';
   static const String returnSecureToken= 'returnSecureToken';
   static const String refreshPage='refreshPage';
+  static const String phoneNumberId = 'phoneNumberId';
 }
