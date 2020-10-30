@@ -467,9 +467,12 @@ Widget homeStateTop(BuildContext context,VoidCallback onPressed){
 double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point pointDown) {
   double totalPrice = 0;
   final List<RouteEntity> routes = <RouteEntity>[];
+  print('tttttttttttttt ${pointUp.listPrice}');
+//  print(prefs.get(Constant.routes));
   jsonDecode(prefs.getString(Constant.routes)).forEach((final dynamic itemJson) {
     routes.add(RouteEntity.fromMap(itemJson as Map<String, dynamic>));
   });
+
 //  print(routes);
   RouteEntity trueRoute;
   for(final RouteEntity route in routes){
@@ -482,10 +485,11 @@ double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point po
 
   final int index = indexOfPoint(pointDown, trueRoute.listPoint);
   printPoint(pointDown);
-  printPoint(pointUp);
   print('haya $index');
+
   if(index!=-1){
     totalPrice+=pointUp.listPrice[index]*selectedSeats.length;
+//    print('tttttttttttttt ${pointUp.listPrice}');
   }
   print(selectedSeats==null);
   for(final Seat seat in selectedSeats){
@@ -494,7 +498,10 @@ double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point po
   }
 
   return totalPrice;
+
 }
+
+
 Future<Uint8List> getBytesFromAsset(String path, int width) async {
   final ByteData data = await rootBundle.load(path);
   final ui.Codec codec = await ui
@@ -529,17 +536,14 @@ Future<Uint8List> getBytesFromAsset(String path, int width) async {
  double radiansToDegrees(double radians) {
   return radians * 180.0 / pi;
 }
-Point setUpPointType(String text,Point point){
+Point setUpPointType(String text,Point point,{String homeAddress,Point transshipment}){
   if(text.contains('bến')){
     print('cccc');
     point= point.copyWith(pointType: TransportType.station);
     print(point.pointType);
   }
   else if(text.contains('nhà')){
-    point= point.copyWith(pointType: TransportType.home);
-  }
-  else if(text.contains('trung chuyển')){
-    point = point.copyWith(pointType: TransportType.transshipment);
+    point= point.copyWith(pointType: TransportType.home,address:homeAddress??point.address);
   }
   return point;
 }

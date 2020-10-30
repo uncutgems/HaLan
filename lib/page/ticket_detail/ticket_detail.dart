@@ -14,6 +14,7 @@ import 'package:halan/base/size.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/main.dart';
 import 'package:halan/model/entity.dart';
+import 'package:halan/model/enum.dart';
 import 'package:halan/page/ticket_detail/ticket_detail_bloc.dart';
 import 'package:halan/widget/promotion/promotion_view.dart';
 import 'package:halan/widget/transhipment_selection.dart';
@@ -39,7 +40,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController noteController = TextEditingController();
-
+  TextEditingController homePickUpController = TextEditingController();
+  TextEditingController homeDropOffController = TextEditingController();
   FocusNode customerNameFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
   FocusNode phoneNumberFocusNode = FocusNode();
@@ -50,13 +52,15 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   Point transshipmentDown;
   bool check = false;
   int totalMoney = 0;
+
   int extraUp = 0;
   int extraDown = 0;
 
   @override
   void initState() {
     if (widget.trip != null) {
-      print('sssssssssssssssss ${widget.trip.pointDown.allowPickingAnddropingAtHomeByPlatform.contains(prefs.getInt(Constant.platform))}');
+      print(
+          'sssssssssssssssss ${widget.trip.pointDown.allowPickingAnddropingAtHomeByPlatform.contains(prefs.getInt(Constant.platform))}');
       if (widget.trip.pointUp.listTransshipmentPoint.isNotEmpty) {
         transshipmentUp = widget.trip.pointUp.listTransshipmentPoint.first;
         extraUp = transshipmentUp.transshipmentPrice.toInt();
@@ -65,6 +69,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
         transshipmentDown = widget.trip.pointDown.listTransshipmentPoint.first;
         extraDown = transshipmentDown.transshipmentPrice.toInt();
       }
+
       totalMoney = calculatePrice(widget.trip, widget.listSeat,
               widget.trip.pointUp, widget.trip.pointDown)
           .toInt();
@@ -82,6 +87,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     emailFocusNode.dispose();
     phoneNumberFocusNode.dispose();
     noteFocusNode.dispose();
+    homeDropOffController.dispose();
+    homePickUpController.dispose();
     bloc.close();
     super.dispose();
   }
@@ -125,6 +132,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           check = state.firstBoxState;
           transshipmentUp = state.pointUp;
           transshipmentDown = state.pointDown;
+          print('kkkkkkkkkkkkkkkkkkk ${transshipmentUp.id}');
           return mainScreen(context, state.firstBoxState, widget.trip.pointUp,
               widget.trip.pointDown);
         }
@@ -136,6 +144,34 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
 
   Widget mainScreen(
       BuildContext context, bool box1, Point pointUp, Point pointDown) {
+    if (pickUp.contains('trung chuyển')) {
+      pointUp = pointUp.copyWith(
+        pointType: TransportType.transshipment,
+        transshipmentId: transshipmentUp.id,
+        name: transshipmentUp.name,
+        address: transshipmentUp.address,
+        transshipmentPrice: extraUp.toDouble(),
+      );
+    } else if (!pickUp.contains('trung chuyển')) {
+      pointUp = setUpPointType(pickUp, pointUp,
+          homeAddress: homePickUpController.text);
+      print(pointUp.listPrice);
+      print(widget.trip.pointUp.listPrice);
+    }
+    if (dropOff.contains('trung chuyển')) {
+      pointDown = pointDown.copyWith(
+          pointType: TransportType.transshipment,
+          transshipmentId: transshipmentDown.id,
+          name: transshipmentDown.name,
+          address: transshipmentDown.address,
+        transshipmentPrice: extraDown.toDouble(),
+      );
+    } else if (!dropOff.contains('trung chuyển')) {
+      pointDown = setUpPointType(dropOff, pointDown,
+          homeAddress: homeDropOffController.text);
+    }
+
+
     final TextStyle textStyle = Theme.of(context)
         .textTheme
         .bodyText1
@@ -215,24 +251,6 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                     FocusScope.of(context).requestFocus(emailFocusNode);
                   },
                 ),
-//                HalanTextFormField(
-//                  title: 'Số điện thoại',
-//                  titleStyle: textStyle,
-//                  isRequired: true,
-//                  focusNode: phoneNumberFocusNode,
-//                  textEditingController: phoneNumberController,
-//                  keyboardType: TextInputType.number,
-//                  validator: (String value) {
-//                    print('asssssssssssssssssss $value');
-//                    if (value == null) {
-//                      return 'Vui lòng điền số điện thoại';
-//                    }
-//                    return null;
-//                  },
-//                  onEditingComplete: () {
-//                    FocusScope.of(context).requestFocus(passportFocusNode);
-//                  },
-//                ),
                 Container(
                   height: AppSize.getWidth(context, 16),
                 ),
@@ -278,9 +296,15 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                 Container(
                   height: AppSize.getWidth(context, 8),
                 ),
-                if(pickUp.contains('nhà'))
-                  AVTextFormFieldBox(hintText: 'Địa chỉ nhà', keyboardType: TextInputType.text,),
-               Container( height: AppSize.getWidth(context, 8),),
+                if (pickUp.contains('nhà'))
+                  AVTextFormFieldBox(
+                    hintText: 'Địa chỉ nhà',
+                    keyboardType: TextInputType.text,
+                    textEditingController: homePickUpController,
+                  ),
+                Container(
+                  height: AppSize.getWidth(context, 8),
+                ),
                 option(context, () {
                   pickAndDropOptions(context, 'Trả', pointDown);
                 }, textStyle,
@@ -290,9 +314,15 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                         pointDown.listTransshipmentPoint.isNotEmpty
                             ? transshipmentDown.name
                             : null),
-                Container( height: AppSize.getWidth(context, 8),),
-                if(dropOff.contains('nhà'))
-                  AVTextFormFieldBox(hintText: 'Địa chỉ nhà', keyboardType: TextInputType.text,),
+                Container(
+                  height: AppSize.getWidth(context, 8),
+                ),
+                if (dropOff.contains('nhà'))
+                  AVTextFormFieldBox(
+                    hintText: 'Địa chỉ nhà',
+                    keyboardType: TextInputType.text,
+                    textEditingController: homeDropOffController,
+                  ),
                 Container(
                   height: AppSize.getWidth(context, 19),
                 ),
@@ -308,7 +338,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                             dropOff,
                             transshipmentUp,
                             transshipmentDown,
-                            totalMoney));
+                            calculatePrice(widget.trip, widget.listSeat, pointUp, pointDown).toInt()));
                       },
                     ),
                     Expanded(
@@ -360,20 +390,24 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                           .toInt()
                       : null,
                   promotionObject: (PromotionObject promotion) {
-                    if (widget.trip != null && widget.listSeat != null) {
-                      if (promotion.minPriceApply < totalMoney) {
-                        if (promotion.percent != -1) {
-                          totalMoney =
-                              (totalMoney - totalMoney * promotion.percent)
-                                  .toInt();
+                      if (widget.trip != null && widget.listSeat != null) {
+                        if(promotion.minPriceApply!=null) {
+                          if (promotion.minPriceApply < totalMoney) {
+                            if (promotion.percent != -1) {
+                              totalMoney =
+                                  (totalMoney - totalMoney * promotion.percent)
+                                      .toInt();
+                            }
+                            if (promotion.price != -1) {
+                              totalMoney =
+                                  (totalMoney - promotion.price).toInt();
+                            }
+                            bloc.add(TickBoxesTicketDetailEvent(check, pickUp,
+                                dropOff, pointUp, pointDown, totalMoney));
+                          }
                         }
-                        if (promotion.price != -1) {
-                          totalMoney = (totalMoney - promotion.price).toInt();
-                        }
-                        bloc.add(TickBoxesTicketDetailEvent(check, pickUp,
-                            dropOff, pointUp, pointDown, totalMoney));
                       }
-                    }
+
                   },
                 ),
               ],
@@ -389,20 +423,20 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   ? null
                   : () {
                       if (myKey.currentState.validate()) {
-                      print('vào đây');
-                      bloc.add(TicketDetailClickButtonEvent(
-                        phoneNumber: phoneNumberController.text,
-                        fullName: customerNameController.text,
-                        note: noteController.text,
-                        pointUp: setUpPointType(pickUp, pointUp),
-                        pointDown: setUpPointType(dropOff, pointDown),
-                        trip: widget.trip,
-                        seatSelected: widget.listSeat,
-                        totalPrice: totalMoney.toDouble(),
-                        email: emailController.text,
-                      ));
-                    }},
-
+                        print('vào đây');
+                        bloc.add(TicketDetailClickButtonEvent(
+                          phoneNumber: phoneNumberController.text,
+                          fullName: customerNameController.text,
+                          note: noteController.text,
+                          pointUp: pointUp,
+                          pointDown: pointDown,
+                          trip: widget.trip,
+                          seatSelected: widget.listSeat,
+                          totalPrice: totalMoney.toDouble(),
+                          email: emailController.text,
+                        ));
+                      }
+                    },
               color: HaLanColor.primaryColor,
             ),
           ),
@@ -480,15 +514,15 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   void updateMoney(String optionText, Point transshipmentPoint) {
     if (optionText.toLowerCase().trim().contains('đón')) {
       transshipmentUp = transshipmentPoint;
-      totalMoney = totalMoney - extraUp;
+//      totalMoney = totalMoney - extraUp;
       extraUp = transshipmentPoint.transshipmentPrice.toInt();
-      totalMoney = totalMoney + extraUp;
+//      totalMoney = totalMoney + extraUp;
       print(transshipmentUp);
     } else {
       transshipmentDown = transshipmentPoint;
-      totalMoney = totalMoney - extraDown;
+//      totalMoney = totalMoney - extraDown;
       extraDown = transshipmentPoint.transshipmentPrice.toInt();
-      totalMoney = totalMoney + extraDown;
+//      totalMoney = totalMoney + extraDown;
     }
   }
 
@@ -529,10 +563,10 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       onTap: () {
         if (type.trim() == 'Đón') {
           pickUp = '$type tại bến';
-          totalMoney = totalMoney - extraUp;
+//          totalMoney = totalMoney - extraUp;
         } else {
           dropOff = '$type tại bến';
-          totalMoney = totalMoney - extraDown;
+//          totalMoney = totalMoney - extraDown;
         }
         bloc.add(TickBoxesTicketDetailEvent(check, pickUp, dropOff,
             transshipmentUp, transshipmentDown, totalMoney));
@@ -576,13 +610,13 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           .contains(prefs.getInt(Constant.platform))) {
         result.add(
           GestureDetector(
-            onTap: (){
+            onTap: () {
               if (type.trim() == 'Đón') {
                 pickUp = '$type tại nhà';
-                totalMoney = totalMoney - extraUp;
+//                totalMoney = totalMoney - extraUp;
               } else {
                 dropOff = '$type tại nhà';
-                totalMoney = totalMoney - extraDown;
+//                totalMoney = totalMoney - extraDown;
               }
               bloc.add(TickBoxesTicketDetailEvent(check, pickUp, dropOff,
                   transshipmentUp, transshipmentDown, totalMoney));
@@ -599,7 +633,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     }
     return result;
   }
-  void fail(BuildContext context,String error){
+
+  void fail(BuildContext context, String error) {
     showDialog<dynamic>(
         context: context,
         builder: (BuildContext context) {
