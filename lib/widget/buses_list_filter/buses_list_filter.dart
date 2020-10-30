@@ -92,7 +92,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
                               onPressed: () {
                                 bloc.add(BusesListFilterEventClickTime(1));
                               },
-                              title: 'Sáng (6h - 12h)',
+                              title: 'Sáng (6h-12h)',
                               textColor:state.time==1?HaLanColor.white: HaLanColor.black,
 //                      width: AppSize.getWidth(context, 107),
                               fontSize: 12,
@@ -107,7 +107,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
                                 bloc.add(BusesListFilterEventClickTime(2));
 
                               },
-                              title: 'Trưa (12h - 18h)',
+                              title: 'Trưa (12h-18h)',
                               textColor: state.time==2?HaLanColor.white: HaLanColor.black,
 //                      width: AppSize.getWidth(context, 113),
                               fontSize: 12,
@@ -121,7 +121,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
                               onPressed: () {
                                 bloc.add(BusesListFilterEventClickTime(3));
                               },
-                              title: 'Tối (18h - 6h)',
+                              title: 'Tối (18h-6h)',
                               textColor: state.time==3?HaLanColor.white:HaLanColor.black,
 //                      width: AppSize.getWidth(context, 97),
                               fontSize: 12,
