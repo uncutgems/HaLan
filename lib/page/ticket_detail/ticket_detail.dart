@@ -258,7 +258,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   focusNode: emailFocusNode,
                   hintText: 'Email',
                   textEditingController: emailController,
-                  keyboardType: TextInputType.text,
+                  keyboardType: TextInputType.emailAddress,
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(noteFocusNode);
                   },
