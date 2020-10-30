@@ -80,6 +80,8 @@ class _PersonalProfileState extends State<PersonalProfile> {
         child: RaisedButton(
           onPressed: (){
             prefs.remove(Constant.token);
+            prefs.remove(Constant.userId);
+            prefs.setBool(Constant.haveChoseSeat,false);
             Navigator.popUntil(context, ModalRoute.withName(RoutesName.splashPage));
             Navigator.pushNamed(context, RoutesName.busBookingPage);
           },

@@ -24,12 +24,12 @@ class _BusesListFilterState extends State<BusesListFilter> {
       builder:(BuildContext context,BusesListFilterState state) {
         if(state is BusesListFilterInitial) {
           if(state.time==1){
-            const int start = 0;
-            const int end = 6*60*60*1000;
+            const int start = 6*60*60*1000;
+            const int end = 12*60*60*1000;
             timeList=<int>[start,end];
           }
           else if(state.time==2){
-            const int start = 6*60*60*1000;
+            const int start = 12*60*60*1000;
             const int end = 18*60*60*1000;
             timeList=<int>[start,end];
           }
@@ -105,7 +105,6 @@ class _BusesListFilterState extends State<BusesListFilter> {
                             child: AVButton(color: state.time==2?HaLanColor.primaryColor: HaLanColor.gray30,
                               onPressed: () {
                                 bloc.add(BusesListFilterEventClickTime(2));
-
                               },
                               title: 'Trưa (12h-18h)',
                               textColor: state.time==2?HaLanColor.white: HaLanColor.black,
