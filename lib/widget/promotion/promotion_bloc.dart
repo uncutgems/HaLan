@@ -32,6 +32,7 @@ class PromotionWidgetBloc
         yield CallBackPromotionState(promotionObject);
         yield SuccessCheckPromotionState(promotionObject);
       } on APIException catch (e) {
+        print('ak4777777777777777777777777');
         yield CallBackPromotionState(PromotionObject());
         yield FailCheckPromotionState(e.message());
       }

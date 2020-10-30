@@ -321,4 +321,5 @@ class Constant {
   static const String returnSecureToken= 'returnSecureToken';
   static const String refreshPage='refreshPage';
   static const String phoneNumberId = 'phoneNumberId';
+  static const String allowPickingAnddropingAtHomeByPlatform='allowPickingAnddropingAtHomeByPlatform';
 }

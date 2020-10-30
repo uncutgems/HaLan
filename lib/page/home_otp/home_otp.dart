@@ -52,7 +52,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
   String pin_5;
   String pin_6;
 
-  int loginType = LoginType.sendMessage;
+  LoginType loginType = LoginType.call;
   final RoundedRectangleBorder listTileBorder = const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(12),
@@ -372,8 +372,6 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           if (pin.length == 1) {
             FocusScope.of(context).requestFocus(secondFocusNode);
             pin_1 = pin;
-          } else if (pin.isEmpty) {
-            FocusScope.of(context).requestFocus(firstFocusNode);
           }
         },
       ),
@@ -383,11 +381,13 @@ class _HomeOtpPageState extends State<HomeOtpPage>
       customTextFormField(secondPinController, secondFocusNode, () {
         FocusScope.of(context).requestFocus(thirdFocusNode);
       }, (String pin) {
-        if (pin.length == 1) {
+        if (pin.length ==1) {
           FocusScope.of(context).requestFocus(thirdFocusNode);
           pin_2 = pin;
         } else if (pin.isEmpty) {
+          print('WTF');
           FocusScope.of(context).requestFocus(firstFocusNode);
+
         }
       }),
       Container(
@@ -446,7 +446,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           focusNode: focusNode,
           controller: textEditingController,
           textAlign: TextAlign.center,
-          cursorColor: HaLanColor.white,
+          cursorColor: HaLanColor.black,
           inputFormatters: <TextInputFormatter>[
             LengthLimitingTextInputFormatter(1),
           ],
