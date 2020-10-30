@@ -16,7 +16,7 @@ part 'home_signin_state.dart';
 class HomeSignInBloc extends Bloc<HomeSignInEvent, HomeSignInState> {
   HomeSignInBloc() : super(HomeSignInInitial());
   UserRepository userRepository = UserRepository();
-  int login = LoginType.sendMessage;
+  LoginType login = LoginType.call;
   @override
   Stream<HomeSignInState> mapEventToState(
     HomeSignInEvent event,

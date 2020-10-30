@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/model/entity.dart';
+import 'package:halan/model/enum.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/default_page.dart';
@@ -40,6 +43,12 @@ Future<void> main() async {
 
   runApp(MyApp());
   prefs = await SharedPreferences.getInstance();
+  if(Platform.isIOS){
+    prefs.setInt(Constant.platform,PlatformType.iOS);
+  }
+  else if(Platform.isAndroid ){
+    prefs.setInt(Constant.platform,PlatformType.android);
+  }
 }
 
 class MyApp extends StatelessWidget {
