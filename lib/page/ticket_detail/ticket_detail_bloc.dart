@@ -18,7 +18,7 @@ class TicketDetailBloc extends Bloc<TicketDetailEvent, TicketDetailState> {
     TicketDetailEvent event,
   ) async* {
     if (event is TickBoxesTicketDetailEvent) {
-      yield TicketDetailChangeCheckBoxState(event.box_1,event.pickUp,event.dropDown,event.pointUp,event.pointDown,event.totalMoney);
+      yield TicketDetailChangeCheckBoxState(event.box,event.pickUp,event.dropDown,event.pointUp,event.pointDown,event.totalMoney);
     }
     else if (event is TicketDetailClickButtonEvent){
       final List<TicketOption> informationBySeats= <TicketOption>[];

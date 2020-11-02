@@ -53,8 +53,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   bool check = false;
   int totalMoney = 0;
 
-  int extraUp = 0;
-  int extraDown = 0;
+  int transshipmentUpPrice = 0;
+  int transshipmentDownPrice = 0;
 
   @override
   void initState() {
@@ -63,11 +63,11 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           'sssssssssssssssss ${widget.trip.pointDown.allowPickingAnddropingAtHomeByPlatform.contains(prefs.getInt(Constant.platform))}');
       if (widget.trip.pointUp.listTransshipmentPoint.isNotEmpty) {
         transshipmentUp = widget.trip.pointUp.listTransshipmentPoint.first;
-        extraUp = transshipmentUp.transshipmentPrice.toInt();
+        transshipmentUpPrice = transshipmentUp.transshipmentPrice.toInt();
       }
       if (widget.trip.pointDown.listTransshipmentPoint.isNotEmpty) {
         transshipmentDown = widget.trip.pointDown.listTransshipmentPoint.first;
-        extraDown = transshipmentDown.transshipmentPrice.toInt();
+        transshipmentDownPrice = transshipmentDown.transshipmentPrice.toInt();
       }
 
       totalMoney = calculatePrice(widget.trip, widget.listSeat,
@@ -109,7 +109,6 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           Navigator.pop(context);
           return false;
         } else if (state is TicketDetailNextPageState) {
-          print('phuc oi on ko');
           Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,
               arguments: <String, dynamic>{
                 Constant.ticketCode: state.ticketCode
@@ -150,7 +149,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
         transshipmentId: transshipmentUp.id,
         name: transshipmentUp.name,
         address: transshipmentUp.address,
-        transshipmentPrice: extraUp.toDouble(),
+        transshipmentPrice: transshipmentUpPrice.toDouble(),
       );
     } else if (!pickUp.contains('trung chuyển')) {
       pointUp = setUpPointType(pickUp, pointUp,
@@ -164,7 +163,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           transshipmentId: transshipmentDown.id,
           name: transshipmentDown.name,
           address: transshipmentDown.address,
-        transshipmentPrice: extraDown.toDouble(),
+        transshipmentPrice: transshipmentDownPrice.toDouble(),
       );
     } else if (!dropOff.contains('trung chuyển')) {
       pointDown = setUpPointType(dropOff, pointDown,
@@ -515,13 +514,13 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
     if (optionText.toLowerCase().trim().contains('đón')) {
       transshipmentUp = transshipmentPoint;
 //      totalMoney = totalMoney - extraUp;
-      extraUp = transshipmentPoint.transshipmentPrice.toInt();
+      transshipmentUpPrice = transshipmentPoint.transshipmentPrice.toInt();
 //      totalMoney = totalMoney + extraUp;
       print(transshipmentUp);
     } else {
       transshipmentDown = transshipmentPoint;
 //      totalMoney = totalMoney - extraDown;
-      extraDown = transshipmentPoint.transshipmentPrice.toInt();
+      transshipmentDownPrice = transshipmentPoint.transshipmentPrice.toInt();
 //      totalMoney = totalMoney + extraDown;
     }
   }
@@ -563,10 +562,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       onTap: () {
         if (type.trim() == 'Đón') {
           pickUp = '$type tại bến';
-//          totalMoney = totalMoney - extraUp;
         } else {
           dropOff = '$type tại bến';
-//          totalMoney = totalMoney - extraDown;
         }
         bloc.add(TickBoxesTicketDetailEvent(check, pickUp, dropOff,
             transshipmentUp, transshipmentDown, totalMoney));

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/tool.dart';
+import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/select_place/select_place_bloc.dart';
 import 'package:halan/widget/fail_widget.dart';
@@ -70,34 +71,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
           scenario = state.scenario;
           return mainView(context,points);
         } else if (state is SelectPlaceStateFail) {
-          return Scaffold(
-              backgroundColor: HaLanColor.backgroundColor,
-              appBar: AppBar(
-                elevation: 0,
-                centerTitle: true,
-                backgroundColor: HaLanColor.backgroundColor,
-                title: Text(
-                  'Chọn địa điểm',
-                  style: Theme.of(context).textTheme.bodyText2.copyWith(
-                      fontSize: AppSize.getFontSize(context, 18),
-                      color: HaLanColor.black),
-                ),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  color: HaLanColor.black,
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-              body: Center(
-                child: FailWidget(
-                  message: state.error,
-                  onPressed: () {
-                    bloc.add(SelectPlaceEventGetData());
-                  },
-                ),
-              ));
+          return fail(context, state.error);
         }
         else if (state is SelectPlaceStateShowStartPoint){
 //          start = state.startPoint;
@@ -133,7 +107,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
       body: ListView(
         padding: EdgeInsets.all(AppSize.getWidth(context, 16)),
         children: <Widget>[
-          _searchBox(
+          searchBox(
               context: context,
               title: 'Điểm khởi hành',
               content: start==null?'Chọn điểm khởi hành':start.name,
@@ -144,7 +118,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
               }:null),
 
           Container(height: AppSize.getWidth(context, 8)),
-          _searchBox(
+          searchBox(
               context: context,
               title: 'Điểm đến',
               content: end==null?'Chọn điểm đến':end.name,
@@ -175,52 +149,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
     );
   }
 
-  Widget _searchBox({
-    @required BuildContext context,
-    @required String title,
-    @required String content,
-    @required VoidCallback onTap,
-    Color color,
-    Widget icon,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: HaLanColor.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(width: AppSize.getWidth(context, 8)),
-            icon ??
-                Icon(
-                  Icons.location_on,
-                  color: color ?? HaLanColor.iconColor,
-                ),
-            Container(width: AppSize.getWidth(context, 8)),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(color: color ?? HaLanColor.disableColor,fontWeight: FontWeight.w600),
-                  ),
-                  Text(content),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   List<Widget> provinceExpansionTile(BuildContext context, List<Point> points) {
     final List<Widget> result = <Widget>[];
@@ -327,5 +256,35 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
       ));
     }
     return result;
+  }
+  Widget fail(BuildContext context, String error){
+    return Scaffold(
+        backgroundColor: HaLanColor.backgroundColor,
+        appBar: AppBar(
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: HaLanColor.backgroundColor,
+          title: Text(
+            'Chọn địa điểm',
+            style: Theme.of(context).textTheme.bodyText2.copyWith(
+                fontSize: AppSize.getFontSize(context, 18),
+                color: HaLanColor.black),
+          ),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: HaLanColor.black,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        body: Center(
+          child: FailWidget(
+            message: error,
+            onPressed: () {
+              bloc.add(SelectPlaceEventGetData());
+            },
+          ),
+        ));
   }
 }
