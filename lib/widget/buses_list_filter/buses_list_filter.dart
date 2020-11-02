@@ -24,12 +24,12 @@ class _BusesListFilterState extends State<BusesListFilter> {
       builder:(BuildContext context,BusesListFilterState state) {
         if(state is BusesListFilterInitial) {
           if(state.time==1){
-            const int start = 0;
-            const int end = 6*60*60*1000;
+            const int start = 6*60*60*1000;
+            const int end = 12*60*60*1000;
             timeList=<int>[start,end];
           }
           else if(state.time==2){
-            const int start = 6*60*60*1000;
+            const int start = 12*60*60*1000;
             const int end = 18*60*60*1000;
             timeList=<int>[start,end];
           }
@@ -92,7 +92,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
                               onPressed: () {
                                 bloc.add(BusesListFilterEventClickTime(1));
                               },
-                              title: 'Sáng (6h - 12h)',
+                              title: 'Sáng (6h-12h)',
                               textColor:state.time==1?HaLanColor.white: HaLanColor.black,
 //                      width: AppSize.getWidth(context, 107),
                               fontSize: 12,
@@ -105,9 +105,8 @@ class _BusesListFilterState extends State<BusesListFilter> {
                             child: AVButton(color: state.time==2?HaLanColor.primaryColor: HaLanColor.gray30,
                               onPressed: () {
                                 bloc.add(BusesListFilterEventClickTime(2));
-
                               },
-                              title: 'Trưa (12h - 18h)',
+                              title: 'Trưa (12h-18h)',
                               textColor: state.time==2?HaLanColor.white: HaLanColor.black,
 //                      width: AppSize.getWidth(context, 113),
                               fontSize: 12,
@@ -121,7 +120,7 @@ class _BusesListFilterState extends State<BusesListFilter> {
                               onPressed: () {
                                 bloc.add(BusesListFilterEventClickTime(3));
                               },
-                              title: 'Tối (18h - 6h)',
+                              title: 'Tối (18h-6h)',
                               textColor: state.time==3?HaLanColor.white:HaLanColor.black,
 //                      width: AppSize.getWidth(context, 97),
                               fontSize: 12,
