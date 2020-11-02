@@ -274,7 +274,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
             icon: const Icon(Icons.arrow_back),
             color: HaLanColor.black,
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context,<Point>[]);
             },
           ),
         ),

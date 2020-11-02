@@ -65,7 +65,6 @@ class _BusBookingPageState extends State<BusBookingPage> {
               state,
               homeAppBar(context));
         }
-
         return Container();
       },
     );
@@ -137,8 +136,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
                           context, RoutesName.selectPlacePage,
                           arguments: <String, dynamic>{Constant.scenario: 2})
                       as List<Point>;
-                  print('++++++++++++++++++++++++++++++');
-                  print(selectedPoints.first.name);
+//                  print('++++++++++++++++++++++++++++++');
+//                  print(selectedPoints.first.name);
                   bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
                 }, points, chosenDate),
                 Container(
@@ -430,22 +429,6 @@ class _BusBookingPageState extends State<BusBookingPage> {
               .copyWith(fontWeight: FontWeight.w600)),
       centerTitle: true,
       backgroundColor: AVColor.halanBackground,
-      actions: <Widget>[
-        Row(
-          children: <Widget>[
-            IconButton(
-                icon: SvgPicture.asset(
-                  'assets/bell.svg',
-                  height: AppSize.getWidth(context, 19),
-                  width: AppSize.getWidth(context, 16),
-                ),
-                onPressed: () {}),
-            Container(
-              width: AppSize.getWidth(context, 8),
-            ),
-          ],
-        ),
-      ],
     );
   }
 
