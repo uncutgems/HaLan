@@ -19,4 +19,6 @@ class URL {
   static const String bookTicket = baseURL+'ticket/book';
   static const String sendOTPCall = baseURL+'checkmobi/send';
   static const String loginOTPCall = baseURL+'checkmobi/validate';
+  static const String getListNotification = baseURL + 'notification/getList';
+  static const String readNotification = baseURL + 'notification/read';
 }
