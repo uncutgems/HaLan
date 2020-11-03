@@ -58,6 +58,14 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
 
   @override
   void initState() {
+    if(prefs!=null){
+      if(prefs.containsKey(Constant.fullName)){
+        customerNameController.text = prefs.getString(Constant.fullName);
+      }
+      if(prefs.containsKey(Constant.phoneNumber)){
+        phoneNumberController.text = prefs.getString(Constant.phoneNumber);
+      }
+    }
     if (widget.trip != null) {
       print(
           'sssssssssssssssss ${widget.trip.pointDown.allowPickingAnddropingAtHomeByPlatform.contains(prefs.getInt(Constant.platform))}');
@@ -99,11 +107,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       cubit: bloc,
       buildWhen: (TicketDetailState prev, TicketDetailState state) {
         if (state is TicketDetailLoadingState) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AVLoadingWidget();
-              });
+          showPopupLoading(context);
           return false;
         } else if (state is TicketDetailDismissLoadingState) {
           Navigator.pop(context);

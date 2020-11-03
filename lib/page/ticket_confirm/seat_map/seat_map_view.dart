@@ -62,7 +62,7 @@ class _SeatMapWidgetState extends State<SeatMapWidget> {
       },
       buildWhen: (SeatMapState prev, SeatMapState current) {
         if (current is TurnOnLoadingSeatMapState) {
-          _showLoading(context);
+          showPopupLoading(context);
           return false;
         } else if (current is TurnOffLoadingSeatMapState) {
           Navigator.pop(context);
@@ -296,11 +296,5 @@ class _SeatMapWidgetState extends State<SeatMapWidget> {
         break;
     }
     return HaLanColor.iconColor;
-  }
-
-  void _showLoading(BuildContext context) {
-    showDialog<dynamic>(
-        context: context,
-        builder: (BuildContext context) => const AVLoadingWidget());
   }
 }
