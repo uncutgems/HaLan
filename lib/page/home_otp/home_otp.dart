@@ -35,12 +35,6 @@ class _HomeOtpPageState extends State<HomeOtpPage>
 
   AnimationController _controller;
 
-  String pin_1;
-  String pin_2;
-  String pin_3;
-  String pin_4;
-  String pin_5;
-  String pin_6;
 
   LoginType loginType = LoginType.call;
   final RoundedRectangleBorder listTileBorder = const RoundedRectangleBorder(
@@ -325,7 +319,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
         bottomWidget: ButtonBar(
           children: <Widget>[
             AVButton(
-              height: AppSize.getHeight(context, 28),
+              height: AppSize.getHeight(context, 40),
               title: 'Đóng',
               onPressed: () {
                 Navigator.of(context).pop();

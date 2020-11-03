@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
 import 'package:halan/main.dart';
 import 'package:halan/page/edit_profile_page/edit_profile_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -245,6 +246,7 @@ class _EditProfileState extends State<EditProfile> {
             bottomWidget: Center(
               child: AVButton(
                 color: HaLanColor.primaryColor,
+                height: AppSize.getWidth(context, 40),
                 title: 'Thử lại?',
                 onPressed: () {
                   Navigator.popUntil(

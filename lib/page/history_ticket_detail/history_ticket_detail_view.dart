@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
@@ -82,7 +83,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
       appBar: AppBar(
         title: const Text('Chi tiết vé'),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
           ),
           onPressed: () => Navigator.popUntil(
@@ -456,6 +457,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                                       bottomWidget: Center(
                                         child: AVButton(
                                           color: HaLanColor.primaryColor,
+                                          height: AppSize.getWidth(context,40),
                                           title: 'Hủy',
                                           onPressed: () {
                                             Navigator.pop(context);
