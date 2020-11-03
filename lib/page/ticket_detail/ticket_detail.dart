@@ -107,11 +107,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
       cubit: bloc,
       buildWhen: (TicketDetailState prev, TicketDetailState state) {
         if (state is TicketDetailLoadingState) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AVLoadingWidget();
-              });
+          showPopupLoading(context);
           return false;
         } else if (state is TicketDetailDismissLoadingState) {
           Navigator.pop(context);

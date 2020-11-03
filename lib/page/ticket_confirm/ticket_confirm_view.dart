@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:avwidget/popup_loading_widget.dart';
 import 'package:avwidget/size_tool.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +58,7 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
         },
         buildWhen: (TicketConfirmState prev, TicketConfirmState current) {
           if (current is TurnOnLoadingTicketConfirmState) {
-            _showLoading(context);
+            showPopupLoading(context);
             return false;
           } else if (current is TurnOffLoadingTicketConfirmState) {
             Navigator.pop(context);
@@ -302,9 +300,4 @@ class _TicketConfirmPageState extends State<TicketConfirmPage> {
     );
   }
 
-  void _showLoading(BuildContext context) {
-    showDialog<dynamic>(
-        context: context,
-        builder: (BuildContext context) => const AVLoadingWidget());
-  }
 }

@@ -60,11 +60,7 @@ class _HomeSignInPageState extends State<HomeSignInPage> {
               });
           return false;
         } else if (current is LoadingHomeSignInState) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AVLoadingWidget();
-              });
+          showPopupLoading(context);
           return false;
         }
 

@@ -72,11 +72,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
       cubit: homeOtpBloc,
       buildWhen: (HomeOtpState prev, HomeOtpState state) {
         if (state is LoadingHomeOtpState) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AVLoadingWidget();
-              });
+          showPopupLoading(context);
           return false;
         } else if (state is DismissLoadingHomeOtpState) {
           Navigator.pop(context);

@@ -48,7 +48,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
               appBar: AppBar(
                 title: const Text('Chi tiết vé'),
                 leading: IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.arrow_back,
                   ),
                   onPressed: () => Navigator.popUntil(
