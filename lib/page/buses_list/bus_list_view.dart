@@ -1,4 +1,3 @@
-import 'package:avwidget/popup_loading_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
@@ -61,7 +60,11 @@ class _BusesListWidgetState extends State<BusesListWidget> {
                 child: FailWidget(
               message: state.error,
               onPressed: () {
-                bloc.add(GetDataBusListEvent());
+                bloc.add(GetDataBusListEvent(
+                  endPoint: widget.endPoint.id,
+                  startPoint: widget.startPoint.id,
+                  date: DateTime.now()
+                ));
               },
             )),
           );
@@ -134,13 +137,7 @@ class _BusesListWidgetState extends State<BusesListWidget> {
     );
   }
 
-  void showLoading(BuildContext context) {
-    showDialog<dynamic>(
-        context: context,
-        builder: (BuildContext context) => const AVLoadingWidget(
-              color: HaLanColor.white,
-            ));
-  }
+
 
   bool _handleScrollNotification(ScrollNotification notification) {
     if (notification is ScrollEndNotification) {

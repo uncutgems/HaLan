@@ -15,7 +15,7 @@ part 'home_otp_state.dart';
 class HomeOtpBloc extends Bloc<HomeOtpEvent, HomeOtpState> {
   HomeOtpBloc() : super(HomeOtpInitial());
   UserRepository userRepository = UserRepository();
-  int loginType = LoginType.sendMessage;
+  LoginType loginType = LoginType.call;
   @override
   Stream<HomeOtpState> mapEventToState(
     HomeOtpEvent event,

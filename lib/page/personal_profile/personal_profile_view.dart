@@ -79,7 +79,9 @@ class _PersonalProfileState extends State<PersonalProfile> {
         height: 48,
         child: RaisedButton(
           onPressed: (){
-            prefs.clear();
+            prefs.remove(Constant.token);
+            prefs.remove(Constant.userId);
+            prefs.setBool(Constant.haveChoseSeat,false);
             Navigator.popUntil(context, ModalRoute.withName(RoutesName.splashPage));
             Navigator.pushNamed(context, RoutesName.busBookingPage);
           },

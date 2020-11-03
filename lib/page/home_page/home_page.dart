@@ -38,11 +38,7 @@ class _HomePageState extends State<HomePage> {
       cubit: homeBloc,
       buildWhen: (HomeState prev, HomeState state) {
         if (state is LoadingHomeState) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AVLoadingWidget();
-              });
+          showPopupLoading(context);
           return false;
         } else if (state is DismissLoadingHomeState) {
           Navigator.pop(context);
@@ -130,6 +126,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: _drawer(context),
       body: ListView(
+        physics: const ClampingScrollPhysics(),
         children: <Widget>[
          homeStateTop(context,(){Navigator.pushNamed(context, RoutesName.busBookingPage);}),
           PopUpWidget(),

@@ -52,7 +52,7 @@ void showMessage(
     @required String message,
     List<Widget> actions}) {
   actions ??= <Widget>[];
-  actions.add(AVButton(title: 'Đóng', onPressed: () => Navigator.pop(context)));
+  actions.add(AVButton(color: HaLanColor.primaryColor,title: 'Đóng', onPressed: () => Navigator.pop(context)));
   showDialog<dynamic>(
     context: context,
     builder: (BuildContext context) {
@@ -467,9 +467,12 @@ Widget homeStateTop(BuildContext context,VoidCallback onPressed){
 double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point pointDown) {
   double totalPrice = 0;
   final List<RouteEntity> routes = <RouteEntity>[];
+  print('tttttttttttttt ${pointUp.listPrice}');
+//  print(prefs.get(Constant.routes));
   jsonDecode(prefs.getString(Constant.routes)).forEach((final dynamic itemJson) {
     routes.add(RouteEntity.fromMap(itemJson as Map<String, dynamic>));
   });
+
 //  print(routes);
   RouteEntity trueRoute;
   for(final RouteEntity route in routes){
@@ -482,10 +485,11 @@ double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point po
 
   final int index = indexOfPoint(pointDown, trueRoute.listPoint);
   printPoint(pointDown);
-  printPoint(pointUp);
   print('haya $index');
+
   if(index!=-1){
     totalPrice+=pointUp.listPrice[index]*selectedSeats.length;
+//    print('tttttttttttttt ${pointUp.listPrice}');
   }
   print(selectedSeats==null);
   for(final Seat seat in selectedSeats){
@@ -494,7 +498,10 @@ double calculatePrice(Trip trip, List<Seat> selectedSeats,Point pointUp,Point po
   }
 
   return totalPrice;
+
 }
+
+
 Future<Uint8List> getBytesFromAsset(String path, int width) async {
   final ByteData data = await rootBundle.load(path);
   final ui.Codec codec = await ui
@@ -528,4 +535,116 @@ Future<Uint8List> getBytesFromAsset(String path, int width) async {
 }
  double radiansToDegrees(double radians) {
   return radians * 180.0 / pi;
+}
+Point setUpPointType(String text,Point point,{String homeAddress,Point transshipment}){
+  if(text.contains('bến')){
+    print('cccc');
+    point= point.copyWith(pointType: TransportType.station);
+    print(point.pointType);
+  }
+  else if(text.contains('nhà')){
+    point= point.copyWith(pointType: TransportType.home,address:homeAddress??point.address);
+  }
+  return point;
+}
+Widget searchBox({
+  @required BuildContext context,
+  @required String title,
+  @required String content,
+  @required VoidCallback onTap,
+  Color color,
+  Widget icon,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      height: 48,
+      decoration: BoxDecoration(
+        color: HaLanColor.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: <Widget>[
+          Container(width: AppSize.getWidth(context, 8)),
+          icon ??
+              Icon(
+                Icons.location_on,
+                color: color ?? HaLanColor.iconColor,
+              ),
+          Container(width: AppSize.getWidth(context, 8)),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .copyWith(color: color ?? HaLanColor.disableColor,fontWeight: FontWeight.w600),
+                ),
+                Text(content),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+Widget pickLocation(BuildContext context, int type, Widget icon, String title,
+    VoidCallback onTap, List<Point> points, DateTime chosenDate) {
+  String text = '';
+  if (type == 1) {
+    if (points.isNotEmpty) {
+      text = points.first.name;
+    } else {
+      text = 'Chọn điểm khởi hành';
+    }
+  } else if (type == 2) {
+    if (points.isNotEmpty) {
+      text = points.last.name;
+    } else {
+      text = 'Chọn điểm đón';
+    }
+  } else if (type == 3) {
+    text = convertTime('dd/MM/yyyy', chosenDate.millisecondsSinceEpoch, false);
+  }
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      height: 48,
+      decoration: BoxDecoration(
+        color: HaLanColor.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: <Widget>[
+          Container(width: AppSize.getWidth(context, 8)),
+          icon ??
+              const Icon(
+                Icons.location_on,
+                color: HaLanColor.iconColor,
+              ),
+          Container(width: AppSize.getWidth(context, 8)),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: HaLanColor.disableColor,
+                      fontWeight: FontWeight.w600),
+                ),
+                Text(text,maxLines: 1,),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

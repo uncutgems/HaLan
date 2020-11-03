@@ -9,6 +9,8 @@ import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
+import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
 import 'package:halan/main.dart';
 import 'package:halan/page/edit_profile_page/edit_profile_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -226,4 +228,29 @@ class _EditProfileState extends State<EditProfile> {
           );
         });
   }
+
+
+  void _catchError(BuildContext context, String error) {
+    showDialog<dynamic>(
+        context: context,
+        builder: (BuildContext context) {
+          return AVAlertDialogWidget(
+            title: 'Lỗi khi cập nhật thông tin',
+            context: context,
+            content: 'Không thể cập nhật thông tin vì $error',
+            bottomWidget: Center(
+              child: AVButton(
+                color: HaLanColor.primaryColor,
+                height: AppSize.getWidth(context, 40),
+                title: 'Thử lại?',
+                onPressed: () {
+                  Navigator.popUntil(
+                      context, ModalRoute.withName(RoutesName.homeSignInPage));
+                },
+              ),
+            ),
+          );
+        });
+  }
+
 }

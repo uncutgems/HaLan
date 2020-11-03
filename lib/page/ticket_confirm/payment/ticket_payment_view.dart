@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/main.dart';
@@ -95,6 +96,7 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
                             Constant.listSeat: state.listSeat,
                             Constant.totalPrice: state.totalPrice
                           });
+//                          print('van ôiiiiiiiiiiiiiiiiiiiiiiii');
                         } else {
                           showDialog<dynamic>(
                               context: context,
@@ -105,6 +107,7 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
                                         Expanded(
                                           child: AVButton(
                                             color: HaLanColor.primaryColor,
+                                            height: AppSize.getWidth(context, 40),
                                             title: 'Đồng ý',
                                             onPressed: widget.navigate,
                                           ),

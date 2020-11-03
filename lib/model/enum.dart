@@ -25,3 +25,18 @@ class SeatType {
   static const int wc = 5;
   static const int astSeat = 5;
 }
+
+class PlatformType {
+  static const int webAdmin = 1;
+  static const int online = 2;
+  static const int iOS = 3;
+  static const int android = 4;
+  static const int agency = 5;
+}
+
+class TransportType{
+  static const int station =0;
+  static const int home =1;
+  static const int road=2;
+  static const int transshipment=3;
+}

@@ -96,7 +96,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 .bodyText2
                 .copyWith(color: AVColor.orange100,
                 fontSize: AppSize.getFontSize(context, 16)),
-            firstDate: DateTime.utc(2020, DateTime.september, 1),
+            firstDate: DateTime.utc(2020, widget.chosenDate.month-1, 1),
             lastDate: DateTime.now().add(const Duration(days: 365)),
           ),
           Container(height: AppSize.getWidth(context, 17),),

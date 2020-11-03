@@ -44,6 +44,7 @@ class _PromotionWidgetState extends State<PromotionWidget> {
     return BlocBuilder<PromotionWidgetBloc, PromotionWidgetState>(
       cubit: bloc,
       builder: (BuildContext context, PromotionWidgetState state) {
+
         if (state is SuccessCheckPromotionState) {
           return _body(context, state);
         } else if (state is FailCheckPromotionState) {
@@ -93,7 +94,6 @@ class _PromotionWidgetState extends State<PromotionWidget> {
               width: AVSize.getSize(context, 8),
             ),
             AVButton(
-              width: 94,
               height: 48,
               color: HaLanColor.blue,
               title: !isLoading ? 'Áp dụng' : '',
@@ -132,6 +132,7 @@ class _PromotionWidgetState extends State<PromotionWidget> {
 }
 
 String promotionMessage(PromotionObject promotionObject, int totalPrice) {
+  print('kingggggggggggggggggggggggggggggg ${promotionObject.price}');
   if ((promotionObject.price != -1 || promotionObject.percent != -1) &&
       totalPrice > promotionObject.minPriceApply.toInt()) {
     if (promotionObject.price != -1) {

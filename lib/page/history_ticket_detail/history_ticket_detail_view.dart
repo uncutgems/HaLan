@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
+import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
@@ -19,7 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 class HistoryTicketDetailPage extends StatefulWidget {
   const HistoryTicketDetailPage({Key key, this.ticketCode}) : super(key: key);
 
- final String ticketCode;
+  final String ticketCode;
 
   @override
   _HistoryTicketDetailPageState createState() =>
@@ -47,6 +48,13 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Chi tiết vé'),
+                leading: IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back,
+                  ),
+                  onPressed: () => Navigator.popUntil(
+                      context, ModalRoute.withName(RoutesName.busBookingPage)),
+                ),
               ),
             );
         } else if (state is FailGetDataTicketDetailState) {
@@ -75,10 +83,11 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
       appBar: AppBar(
         title: const Text('Chi tiết vé'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.popUntil(
+              context, ModalRoute.withName(RoutesName.busBookingPage)),
         ),
       ),
       body: Padding(
@@ -410,7 +419,8 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, RoutesName.driverLocationPage);
+                            Navigator.pushNamed(
+                                context, RoutesName.driverLocationPage);
                           },
                           child: Container(
                             child: Center(
@@ -447,6 +457,7 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                                       bottomWidget: Center(
                                         child: AVButton(
                                           color: HaLanColor.primaryColor,
+                                          height: AppSize.getWidth(context,40),
                                           title: 'Hủy',
                                           onPressed: () {
                                             Navigator.pop(context);

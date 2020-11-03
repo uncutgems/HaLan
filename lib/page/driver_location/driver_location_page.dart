@@ -67,6 +67,8 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
                   context: context,
                   content: 'Có vấn đề xảy ra vui lòng thử lại',
                   bottomWidget: AVButton(
+                    color: HaLanColor.primaryColor,
+                    height: AppSize.getWidth(context, 40),
                     title: 'Thử lại',
                     onPressed: (){
                       Navigator.pop(context);
@@ -78,9 +80,7 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
           return false;
         }
         else if (state is DriverLocationStateLoading){
-          showDialog<dynamic>(context: context,builder: (BuildContext context){
-            return const AVLoadingWidget();
-          });
+          showPopupLoading(context);
           return false;
         }
         if(prev is DriverLocationStateLoading){

@@ -18,7 +18,7 @@ class TicketDetailBloc extends Bloc<TicketDetailEvent, TicketDetailState> {
     TicketDetailEvent event,
   ) async* {
     if (event is TickBoxesTicketDetailEvent) {
-      yield TicketDetailChangeCheckBoxState(event.box_1,event.pickUp,event.dropDown,event.pointUp,event.pointDown,event.totalMoney);
+      yield TicketDetailChangeCheckBoxState(event.box,event.pickUp,event.dropDown,event.pointUp,event.pointDown,event.totalMoney);
     }
     else if (event is TicketDetailClickButtonEvent){
       final List<TicketOption> informationBySeats= <TicketOption>[];
@@ -40,9 +40,9 @@ class TicketDetailBloc extends Bloc<TicketDetailEvent, TicketDetailState> {
           email: event.email,
         );
         print('=========================================== ${ticketOption.ticketStatus}');
-        print('=========================================== ${ticketOption.pointDown.name}');
-        print('=========================================== ${ticketOption.pointUp.name}');
-        print('=========================================== ${ticketOption.seatId}');
+        print('=========================================== ${ticketOption.pointDown.address}');
+        print('=========================================== ${ticketOption.pointUp.id}');
+        print('=========================================== ${ticketOption.pointUp.pointType}');
         print('=========================================== ${ticketOption.originalPrice}');
         informationBySeats.add(ticketOption);
       }
