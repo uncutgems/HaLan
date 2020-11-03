@@ -5,6 +5,7 @@ import 'package:avwidget/avwidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:halan/base/color.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/page/splash/splash_bloc.dart';
@@ -65,6 +66,7 @@ class _SplashPageState extends State<SplashPage>
                 context: context,
                 bottomWidget: AVButton(
                   title:'Thử lại',
+                  color: HaLanColor.primaryColor,
                   onPressed: (){
                     Navigator.pop(context);
                     splashBloc.add(SplashEventGetData());

@@ -31,29 +31,10 @@ class _HomeOtpPageState extends State<HomeOtpPage>
 
   TextEditingController pinController = TextEditingController();
 
-//  TextEditingController firstPinController = TextEditingController();
-//  TextEditingController secondPinController = TextEditingController();
-//  TextEditingController thirdPinController = TextEditingController();
-//  TextEditingController forthPinController = TextEditingController();
-//  TextEditingController fifthPinController = TextEditingController();
-//  TextEditingController sixthPinController = TextEditingController();
-
-//  FocusNode firstFocusNode = FocusNode();
-//  FocusNode secondFocusNode = FocusNode();
-//  FocusNode thirdFocusNode = FocusNode();
-//  FocusNode forthFocusNode = FocusNode();
-//  FocusNode fifthFocusNode = FocusNode();
-//  FocusNode sixthFocusNode = FocusNode();
   String phoneNumber;
 
   AnimationController _controller;
 
-  String pin_1;
-  String pin_2;
-  String pin_3;
-  String pin_4;
-  String pin_5;
-  String pin_6;
 
   LoginType loginType = LoginType.call;
   final RoundedRectangleBorder listTileBorder = const RoundedRectangleBorder(
@@ -85,11 +66,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
       cubit: homeOtpBloc,
       buildWhen: (HomeOtpState prev, HomeOtpState state) {
         if (state is LoadingHomeOtpState) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AVLoadingWidget();
-              });
+          showPopupLoading(context);
           return false;
         } else if (state is DismissLoadingHomeOtpState) {
           Navigator.pop(context);
@@ -342,7 +319,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
         bottomWidget: ButtonBar(
           children: <Widget>[
             AVButton(
-              height: AppSize.getHeight(context, 28),
+              height: AppSize.getHeight(context, 40),
               title: 'Đóng',
               onPressed: () {
                 Navigator.of(context).pop();

@@ -7,8 +7,7 @@ import 'package:halan/base/color.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
-import 'package:halan/base/tool.dart';
-import 'package:halan/base/tools.dart' as tools;
+import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
 import 'package:halan/page/bus_booking/bus_booking_bloc.dart';
 import 'package:halan/page/promotion_page/promotion_page.dart';
@@ -60,13 +59,12 @@ class _BusBookingPageState extends State<BusBookingPage> {
         } else if (state is ChangeToHomeBusBookingState) {
           return mainView(
               context,
-              tools.homeStateTop(context, () {
+              homeStateTop(context, () {
                 bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
               }),
               state,
               homeAppBar(context));
         }
-
         return Container();
       },
     );
@@ -89,6 +87,26 @@ class _BusBookingPageState extends State<BusBookingPage> {
           ),
           PopUpWidget(),
           PopularRoute(),
+          Container(
+            padding: EdgeInsets.only(left:AppSize.getWidth(context, 16),top:AppSize.getWidth(context, 16),right: AppSize.getWidth(context, 16)),
+              color: HaLanColor.primaryColor,
+              child: Center(
+                  child: Text(
+                'Copyright © 2020 Du Lịch Hà Lan.',
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: HaLanColor.white,
+                    fontSize: AppSize.getFontSize(context, 14),),
+              ),),),
+          Container(
+            padding: EdgeInsets.only(bottom:AppSize.getWidth(context, 16),left: AppSize.getWidth(context, 16),right: AppSize.getWidth(context, 16)),
+            color: HaLanColor.primaryColor,
+            child: Center(
+              child: Text(
+                'All rights reserved. Developed by AN VUI JSC',
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: HaLanColor.white,
+                    fontSize: AppSize.getFontSize(context, 14),),
+              ),),),
         ],
       ),
       drawer: state is ChangeToHomeBusBookingState ? _drawer(context) : null,
@@ -101,153 +119,134 @@ class _BusBookingPageState extends State<BusBookingPage> {
       padding: EdgeInsets.only(
           left: AppSize.getWidth(context, 16),
           right: AppSize.getWidth(context, 16)),
-      child: Column(
-        children: <Widget>[
-          pickLocation(
-              context,
-              1,
-              const Icon(
-                Icons.location_on,
-                color: HaLanColor.gray80,
-                size: 25,
-              ),
-              'Điểm khởi hành', () async {
-            selectedPoints = await Navigator.pushNamed(
-                    context, RoutesName.selectPlacePage,
-                    arguments: <String, dynamic>{Constant.scenario: 1})
-                as List<Point>;
-            bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
-          }, points, chosenDate),
-          Container(
-            height: AppSize.getWidth(context, 16),
-          ),
-          pickLocation(
-              context,
-              2,
-              const Icon(
-                Icons.location_on,
-                color: HaLanColor.gray80,
-                size: 25,
-              ),
-              'Điểm đến', () async {
-            selectedPoints = await Navigator.pushNamed(
-                    context, RoutesName.selectPlacePage,
-                    arguments: <String, dynamic>{Constant.scenario: 2})
-                as List<Point>;
-            print('++++++++++++++++++++++++++++++');
-            print(selectedPoints.first.name);
-            bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
-          }, points, chosenDate),
-          Container(
-            height: AppSize.getWidth(context, 16),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: pickLocation(
+      child: Stack(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: <Widget>[
+                pickLocation(
                     context,
-                    3,
+                    1,
                     const Icon(
-                      Icons.calendar_today,
+                      Icons.location_on,
                       color: HaLanColor.gray80,
                       size: 25,
                     ),
-                    'Ngày khởi hành', () async {
-                  dateTime = await Navigator.pushNamed(
-                      context, RoutesName.calendarPage,
-                      arguments: <String, dynamic>{
-                        Constant.dateTime: DateTime.now()
-                      }) as DateTime;
-                  print('----------------------');
-                  print(dateTime.day);
+                    'Điểm khởi hành', () async {
+                  selectedPoints = await Navigator.pushNamed(
+                          context, RoutesName.selectPlacePage,
+                          arguments: <String, dynamic>{Constant.scenario: 1})
+                      as List<Point>;
                   bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
                 }, points, chosenDate),
-              ),
-              Container(
-                width: AppSize.getWidth(context, 16),
-              ),
-              Expanded(
-                child: AVButton(
-                  color: HaLanColor.primaryColor,
-                  height: AppSize.getHeight(context, 40),
-                  title: 'Tìm chuyến',
-                  trailingIcon: const Icon(
-                    Icons.search,
-                    size: 25,
-                    color: HaLanColor.white,
-                  ),
-                  onPressed: selectedPoints.isNotEmpty
-                      ? () {
-                          Navigator.pushNamed(context, RoutesName.busesListPage,
-                              arguments: <String, dynamic>{
-                                Constant.startPoint: selectedPoints.first,
-                                Constant.endPoint: selectedPoints.last,
-                                Constant.dateTime: dateTime
-                              });
+                Container(
+                  height: AppSize.getWidth(context, 16),
+                ),
+                pickLocation(
+                    context,
+                    2,
+                    const Icon(
+                      Icons.location_on,
+                      color: HaLanColor.gray80,
+                      size: 25,
+                    ),
+                    'Điểm đến', () async {
+                  selectedPoints = await Navigator.pushNamed(
+                          context, RoutesName.selectPlacePage,
+                          arguments: <String, dynamic>{Constant.scenario: 2})
+                      as List<Point>;
+//                  print('++++++++++++++++++++++++++++++');
+//                  print(selectedPoints.first.name);
+                  bloc.add(GetDataBusBookingEvent(dateTime, selectedPoints));
+                }, points, chosenDate),
+                Container(
+                  height: AppSize.getWidth(context, 16),
+                ),
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: pickLocation(
+                          context,
+                          3,
+                          const Icon(
+                            Icons.calendar_today,
+                            color: HaLanColor.gray80,
+                            size: 25,
+                          ),
+                          'Ngày khởi hành', () async {
+                        dateTime = await Navigator.pushNamed(
+                            context, RoutesName.calendarPage,
+                            arguments: <String, dynamic>{
+                              Constant.dateTime: DateTime.now()
+                            }) as DateTime;
+                        print('----------------------');
+                        print(dateTime.day);
+                        bloc.add(
+                            GetDataBusBookingEvent(dateTime, selectedPoints));
+                      }, points, chosenDate),
+                    ),
+                    Container(
+                      width: AppSize.getWidth(context, 16),
+                    ),
+                    Expanded(
+                      child: AVButton(
+                        color: HaLanColor.primaryColor,
+                        height: AppSize.getHeight(context, 40),
+                        title: 'Tìm chuyến',
+                        trailingIcon: const Icon(
+                          Icons.search,
+                          size: 25,
+                          color: HaLanColor.white,
+                        ),
+                        onPressed: selectedPoints.isNotEmpty
+                            ? () {
+                                Navigator.pushNamed(
+                                    context, RoutesName.busesListPage,
+                                    arguments: <String, dynamic>{
+                                      Constant.startPoint: selectedPoints.first,
+                                      Constant.endPoint: selectedPoints.last,
+                                      Constant.dateTime: dateTime
+                                    });
 //                    bloc.add(ChangeToHomeBusBookingEvent());
-                        }
-                      : null,
+                              }
+                            : null,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget pickLocation(BuildContext context, int type, Widget icon, String title,
-      VoidCallback onTap, List<Point> points, DateTime chosenDate) {
-    String text = '';
-    if (type == 1) {
-      if (points.isNotEmpty) {
-        text = points.first.name;
-      } else {
-        text = 'Chọn điểm khởi hành';
-      }
-    } else if (type == 2) {
-      if (points.isNotEmpty) {
-        text = points.last.name;
-      } else {
-        text = 'Chọn điểm đón';
-      }
-    } else if (type == 3) {
-      text = convertTime('dd/MM/yyyy', dateTime.millisecondsSinceEpoch, false);
-    }
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: HaLanColor.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          children: <Widget>[
-            Container(width: AppSize.getWidth(context, 8)),
-            icon ??
-                const Icon(
-                  Icons.location_on,
-                  color: HaLanColor.iconColor,
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: MediaQuery.of(context).size.width / 2 -
+                      AppSize.getWidth(context, 16),
+                  top: AppSize.getWidth(context, 30)),
+              child: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: HaLanColor.blue),
+                child: IconButton(
+                  icon: const ImageIcon(AssetImage('assets/reverse.png')),
+                  onPressed: selectedPoints.isEmpty
+                      ? null
+                      : () {
+                          selectedPoints = <Point>[
+                            selectedPoints[1],
+                            selectedPoints[0]
+                          ];
+                          bloc.add(
+                              GetDataBusBookingEvent(dateTime, selectedPoints));
+                        },
+                  color: HaLanColor.white,
                 ),
-            Container(width: AppSize.getWidth(context, 8)),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    title,
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(
-                        color: HaLanColor.disableColor,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Text(text),
-                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -276,47 +275,6 @@ class _BusBookingPageState extends State<BusBookingPage> {
             .copyWith(fontWeight: FontWeight.w600),
       ),
       centerTitle: true,
-//      actions: <Widget>[
-//        Padding(
-//          padding: EdgeInsets.only(right: AppSize.getWidth(context, 16)),
-//          child: Row(
-//            children: <Widget>[
-//              Stack(
-//                children: <Widget>[
-//                  SvgPicture.asset(
-//                    'assets/bell.svg',
-//                    height: AppSize.getWidth(context, 25),
-//                  ),
-//                  Positioned(
-//                    right: 0,
-//                    child: Stack(
-//                      children: <Widget>[
-//                        SvgPicture.asset(
-//                          'assets/red_circle.svg',
-//                          height: AppSize.getWidth(context, 13),
-//                          width: AppSize.getWidth(context, 13),
-//                        ),
-//                        Positioned(
-//                          top: 2,
-//                          right: 3,
-//                          child: Text('24',
-//                              style: Theme.of(context)
-//                                  .textTheme
-//                                  .bodyText1
-//                                  .copyWith(color: AVColor.white)
-//                                  .copyWith(
-//                                      fontSize: AppSize.getFontSize(context, 6))
-//                                  .copyWith(fontWeight: FontWeight.w600)),
-//                        ),
-//                      ],
-//                    ),
-//                  ),
-//                ],
-//              ),
-//            ],
-//          ),
-//        ),
-//      ],
     );
   }
 
@@ -403,7 +361,8 @@ class _BusBookingPageState extends State<BusBookingPage> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push<dynamic>(context, SwipeRoute(page: PromotionPage()));
+                Navigator.push<dynamic>(
+                    context, SwipeRoute(page: PromotionPage()));
               },
               child: customListTile(
                 context,
@@ -455,7 +414,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
             ),
             if (prefs.getString(Constant.token) != null)
               Padding(
-                padding:  EdgeInsets.only(top:AppSize.getWidth(context, 16)),
+                padding: EdgeInsets.only(top: AppSize.getWidth(context, 16)),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pushNamed(context, RoutesName.historyHomePage);
@@ -496,24 +455,6 @@ class _BusBookingPageState extends State<BusBookingPage> {
               .copyWith(fontWeight: FontWeight.w600)),
       centerTitle: true,
       backgroundColor: AVColor.halanBackground,
-      actions: <Widget>[
-        Row(
-          children: <Widget>[
-            IconButton(
-                icon: SvgPicture.asset(
-                  'assets/bell.svg',
-                  height: AppSize.getWidth(context, 19),
-                  width: AppSize.getWidth(context, 16),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, RoutesName.notificationPage);
-                }),
-            Container(
-              width: AppSize.getWidth(context, 8),
-            ),
-          ],
-        ),
-      ],
     );
   }
 
