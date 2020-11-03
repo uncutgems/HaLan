@@ -78,9 +78,7 @@ class _DriverLocationPageState extends State<DriverLocationPage> {
           return false;
         }
         else if (state is DriverLocationStateLoading){
-          showDialog<dynamic>(context: context,builder: (BuildContext context){
-            return const AVLoadingWidget();
-          });
+          showPopupLoading(context);
           return false;
         }
         if(prev is DriverLocationStateLoading){

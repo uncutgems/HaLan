@@ -48,11 +48,7 @@ class _SelectPlacePageState extends State<SelectPlacePage> {
       cubit: bloc,
       buildWhen: (SelectPlaceState prev, SelectPlaceState state) {
         if (state is SelectPlaceStateLoading) {
-          showDialog<dynamic>(
-              context: context,
-              builder: (BuildContext context) {
-                return const AVLoadingWidget();
-              });
+          showPopupLoading(context);
           return false;
         } else if (state is SelectPlaceStateDismissLoading) {
           Navigator.pop(context);
