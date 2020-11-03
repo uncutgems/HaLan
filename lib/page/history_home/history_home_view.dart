@@ -99,7 +99,7 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
       onTap: () {
         Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,
             arguments: <String, dynamic>{
-              Constant.tickets: ticket.ticketCode
+              Constant.ticketCode: ticket.ticketCode
             });
       },
       child: Container(
