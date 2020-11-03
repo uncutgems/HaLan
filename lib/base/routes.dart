@@ -22,4 +22,5 @@ class RoutesName {
   static const String personalProfile = 'personalProfile';
   static const String editProfile = 'editProfile';
   static const String driverLocationPage = 'driverLocationPage';
+  static const String notificationPage = 'notificationPage';
 }

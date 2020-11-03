@@ -20,7 +20,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     NotificationEvent event,
   ) async* {
     if (event is CallNotificationAPI){
-      yield LoadingNotification();
+      // yield LoadingNotification();
       final List<NotificationEntity> displayList = await _notificationRepository.showNotification(event.page, event.count);
       notifications = displayList;
       yield ShowNotifications(notifications);

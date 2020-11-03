@@ -505,7 +505,9 @@ class _BusBookingPageState extends State<BusBookingPage> {
                   height: AppSize.getWidth(context, 19),
                   width: AppSize.getWidth(context, 16),
                 ),
-                onPressed: () {}),
+                onPressed: () {
+                  Navigator.pushNamed(context, RoutesName.notificationPage);
+                }),
             Container(
               width: AppSize.getWidth(context, 8),
             ),
