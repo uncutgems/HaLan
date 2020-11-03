@@ -646,6 +646,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
             bottomWidget: Center(
               child: AVButton(
                 height: AppSize.getWidth(context, 40),
+                color: HaLanColor.primaryColor,
                 title: 'Thử lại',
                 onPressed: () {
                   Navigator.pop(context);
