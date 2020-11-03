@@ -42,6 +42,8 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
         }
       } on APIException catch (e) {
         yield FailToUploadEditProfileState(e.message());
+      } on Exception catch (e){
+        yield FailToUploadEditProfileState('Không thể tải ảnh lên, vui lòng thử lại sau');
       }
     }
     if (event is ChangeAvatarEditProfileEvent) {
