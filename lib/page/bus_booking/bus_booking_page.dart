@@ -95,7 +95,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 'Copyright © 2020 Du Lịch Hà Lan.',
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: HaLanColor.white,
-                    fontSize: AppSize.getFontSize(context, 14)),
+                    fontSize: AppSize.getFontSize(context, 14),),
               ),),),
           Container(
             padding: EdgeInsets.only(bottom:AppSize.getWidth(context, 16),left: AppSize.getWidth(context, 16),right: AppSize.getWidth(context, 16)),
@@ -105,7 +105,7 @@ class _BusBookingPageState extends State<BusBookingPage> {
                 'All rights reserved. Developed by AN VUI JSC',
                 style: Theme.of(context).textTheme.bodyText2.copyWith(
                     color: HaLanColor.white,
-                    fontSize: AppSize.getFontSize(context, 14)),
+                    fontSize: AppSize.getFontSize(context, 14),),
               ),),),
         ],
       ),
