@@ -547,3 +547,104 @@ Point setUpPointType(String text,Point point,{String homeAddress,Point transship
   }
   return point;
 }
+Widget searchBox({
+  @required BuildContext context,
+  @required String title,
+  @required String content,
+  @required VoidCallback onTap,
+  Color color,
+  Widget icon,
+}) {
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      height: 48,
+      decoration: BoxDecoration(
+        color: HaLanColor.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: <Widget>[
+          Container(width: AppSize.getWidth(context, 8)),
+          icon ??
+              Icon(
+                Icons.location_on,
+                color: color ?? HaLanColor.iconColor,
+              ),
+          Container(width: AppSize.getWidth(context, 8)),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .copyWith(color: color ?? HaLanColor.disableColor,fontWeight: FontWeight.w600),
+                ),
+                Text(content),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+Widget pickLocation(BuildContext context, int type, Widget icon, String title,
+    VoidCallback onTap, List<Point> points, DateTime chosenDate) {
+  String text = '';
+  if (type == 1) {
+    if (points.isNotEmpty) {
+      text = points.first.name;
+    } else {
+      text = 'Chọn điểm khởi hành';
+    }
+  } else if (type == 2) {
+    if (points.isNotEmpty) {
+      text = points.last.name;
+    } else {
+      text = 'Chọn điểm đón';
+    }
+  } else if (type == 3) {
+    text = convertTime('dd/MM/yyyy', chosenDate.millisecondsSinceEpoch, false);
+  }
+  return GestureDetector(
+    onTap: onTap,
+    child: Container(
+      height: 48,
+      decoration: BoxDecoration(
+        color: HaLanColor.white,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        children: <Widget>[
+          Container(width: AppSize.getWidth(context, 8)),
+          icon ??
+              const Icon(
+                Icons.location_on,
+                color: HaLanColor.iconColor,
+              ),
+          Container(width: AppSize.getWidth(context, 8)),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.bodyText2.copyWith(
+                      color: HaLanColor.disableColor,
+                      fontWeight: FontWeight.w600),
+                ),
+                Text(text,maxLines: 1,),
+              ],
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}

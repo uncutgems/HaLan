@@ -31,19 +31,6 @@ class _HomeOtpPageState extends State<HomeOtpPage>
 
   TextEditingController pinController = TextEditingController();
 
-//  TextEditingController firstPinController = TextEditingController();
-//  TextEditingController secondPinController = TextEditingController();
-//  TextEditingController thirdPinController = TextEditingController();
-//  TextEditingController forthPinController = TextEditingController();
-//  TextEditingController fifthPinController = TextEditingController();
-//  TextEditingController sixthPinController = TextEditingController();
-
-//  FocusNode firstFocusNode = FocusNode();
-//  FocusNode secondFocusNode = FocusNode();
-//  FocusNode thirdFocusNode = FocusNode();
-//  FocusNode forthFocusNode = FocusNode();
-//  FocusNode fifthFocusNode = FocusNode();
-//  FocusNode sixthFocusNode = FocusNode();
   String phoneNumber;
 
   AnimationController _controller;
