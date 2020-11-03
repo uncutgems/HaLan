@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/av_button_widget.dart';
 import 'package:avwidget/size_tool.dart';
@@ -86,12 +88,14 @@ class _TicketPaymentWidgetState extends State<TicketPaymentWidget> {
                     ? () {
                         prefs.setBool(Constant.haveChoseSeat, true);
                         if (prefs.getString(Constant.userId) != null) {
+                          prefs.setString(Constant.trip, jsonEncode(widget.trip));
                           Navigator.pushNamed(
                               context, RoutesName.ticketDetailPage, arguments: <String, dynamic>{
                                 Constant.trip: trip,
                             Constant.listSeat: state.listSeat,
                             Constant.totalPrice: state.totalPrice
                           });
+                          print('van ôiiiiiiiiiiiiiiiiiiiiiiii');
                         } else {
                           showDialog<dynamic>(
                               context: context,

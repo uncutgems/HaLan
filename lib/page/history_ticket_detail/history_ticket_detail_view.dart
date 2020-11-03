@@ -19,7 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 class HistoryTicketDetailPage extends StatefulWidget {
   const HistoryTicketDetailPage({Key key, this.ticketCode}) : super(key: key);
 
- final String ticketCode;
+  final String ticketCode;
 
   @override
   _HistoryTicketDetailPageState createState() =>
@@ -47,6 +47,13 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
             return Scaffold(
               appBar: AppBar(
                 title: const Text('Chi tiết vé'),
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back,
+                  ),
+                  onPressed: () => Navigator.popUntil(
+                      context, ModalRoute.withName(RoutesName.busBookingPage)),
+                ),
               ),
             );
         } else if (state is FailGetDataTicketDetailState) {
@@ -75,10 +82,11 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
       appBar: AppBar(
         title: const Text('Chi tiết vé'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () => Navigator.popUntil(
+              context, ModalRoute.withName(RoutesName.busBookingPage)),
         ),
       ),
       body: Padding(
@@ -410,7 +418,8 @@ class _HistoryTicketDetailPageState extends State<HistoryTicketDetailPage> {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            //TODO: Nối sang màn hình vị trí tài
+                            Navigator.pushNamed(
+                                context, RoutesName.driverLocationPage);
                           },
                           child: Container(
                             child: Center(

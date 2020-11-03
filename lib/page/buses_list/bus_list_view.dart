@@ -61,7 +61,11 @@ class _BusesListWidgetState extends State<BusesListWidget> {
                 child: FailWidget(
               message: state.error,
               onPressed: () {
-                bloc.add(GetDataBusListEvent());
+                bloc.add(GetDataBusListEvent(
+                  endPoint: widget.endPoint.id,
+                  startPoint: widget.startPoint.id,
+                  date: DateTime.now()
+                ));
               },
             )),
           );

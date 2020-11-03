@@ -7,12 +7,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/config.dart';
 import 'package:halan/base/constant.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/main.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/page/home_otp/home_otp_bloc.dart';
 import 'package:halan/widget/count_down_widget/count_down.dart';
+import 'package:halan/widget/ping_code_text_field.dart';
 
 class HomeOtpPage extends StatefulWidget {
   const HomeOtpPage({Key key, this.phoneNumber}) : super(key: key);
@@ -27,19 +29,8 @@ class _HomeOtpPageState extends State<HomeOtpPage>
     with SingleTickerProviderStateMixin {
   HomeOtpBloc homeOtpBloc = HomeOtpBloc();
 
-  TextEditingController firstPinController = TextEditingController();
-  TextEditingController secondPinController = TextEditingController();
-  TextEditingController thirdPinController = TextEditingController();
-  TextEditingController forthPinController = TextEditingController();
-  TextEditingController fifthPinController = TextEditingController();
-  TextEditingController sixthPinController = TextEditingController();
+  TextEditingController pinController = TextEditingController();
 
-  FocusNode firstFocusNode = FocusNode();
-  FocusNode secondFocusNode = FocusNode();
-  FocusNode thirdFocusNode = FocusNode();
-  FocusNode forthFocusNode = FocusNode();
-  FocusNode fifthFocusNode = FocusNode();
-  FocusNode sixthFocusNode = FocusNode();
   String phoneNumber;
 
   AnimationController _controller;
@@ -51,6 +42,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
   String pin_5;
   String pin_6;
 
+  LoginType loginType = LoginType.call;
   final RoundedRectangleBorder listTileBorder = const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(
       Radius.circular(12),
@@ -69,6 +61,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
   @override
   void dispose() {
     homeOtpBloc.close();
+    pinController.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -96,9 +89,8 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           } else {
             Navigator.popUntil(
                 context, ModalRoute.withName(RoutesName.busBookingPage));
-            Navigator.popAndPushNamed(context, RoutesName.busBookingPage,arguments: <String,dynamic>{
-              Constant.refreshPage:true
-            });
+            Navigator.popAndPushNamed(context, RoutesName.busBookingPage,
+                arguments: <String, dynamic>{Constant.refreshPage: true});
             return false;
           }
         } else if (state is FailToLoginHomeOtpState) {
@@ -176,91 +168,8 @@ class _HomeOtpPageState extends State<HomeOtpPage>
               Container(
                 height: AppSize.getHeight(context, 16),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  customTextFormField(
-                    firstPinController,
-                    firstFocusNode,
-                    () {
-                      FocusScope.of(context).requestFocus(secondFocusNode);
-                    },
-                    (String pin) {
-                      if (pin.length == 1) {
-                        FocusScope.of(context).requestFocus(secondFocusNode);
-                        pin_1 = pin;
-                      } else if (pin.isEmpty) {
-                        FocusScope.of(context).requestFocus(firstFocusNode);
-                      }
-                    },
-                  ),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(secondPinController, secondFocusNode, () {
-                    FocusScope.of(context).requestFocus(thirdFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(thirdFocusNode);
-                      pin_2 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(firstFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(thirdPinController, thirdFocusNode, () {
-                    FocusScope.of(context).requestFocus(forthFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(forthFocusNode);
-                      pin_3 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(secondFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(forthPinController, forthFocusNode, () {
-                    FocusScope.of(context).requestFocus(fifthFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(fifthFocusNode);
-                      pin_4 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(thirdFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(fifthPinController, fifthFocusNode, () {
-                    FocusScope.of(context).requestFocus(sixthFocusNode);
-                  }, (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(sixthFocusNode);
-                      pin_5 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(forthFocusNode);
-                    }
-                  }),
-                  Container(
-                    width: AppSize.getWidth(context, 8),
-                  ),
-                  customTextFormField(sixthPinController, sixthFocusNode,
-                      () => FocusScope.of(context).requestFocus(FocusNode()),
-                      (String pin) {
-                    if (pin.length == 1) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      pin_6 = pin;
-                    } else if (pin.isEmpty) {
-                      FocusScope.of(context).requestFocus(fifthFocusNode);
-                    }
-                  }),
-                ],
-              ),
+              if (loginType == LoginType.call) callOTP(context),
+              if (loginType == LoginType.sendMessage) messageOTP(context),
               Container(
                 height: AppSize.getHeight(context, 16),
               ),
@@ -268,30 +177,13 @@ class _HomeOtpPageState extends State<HomeOtpPage>
                 width: AppSize.getWidth(context, 343),
                 title: 'Đăng nhập',
                 color: AVColor.orange100,
-                onPressed: checkPinCode(
-                        fifthPinController.text,
-                        secondPinController.text,
-                        thirdPinController.text,
-                        forthPinController.text,
-                        fifthPinController.text,
-                        sixthPinController.text)
+                onPressed: checkPinCode()
                     ? () {
                         phoneNumber = widget.phoneNumber;
-
-                        print(firstPinController.text +
-                            secondPinController.text +
-                            thirdPinController.text +
-                            forthPinController.text +
-                            fifthPinController.text +
-                            sixthPinController.text);
+                        print(pinController.text);
                         homeOtpBloc.add(ClickLogInButtonHomeOtpEvent(
                             phoneNumber,
-                            firstPinController.text +
-                                secondPinController.text +
-                                thirdPinController.text +
-                                forthPinController.text +
-                                fifthPinController.text +
-                                sixthPinController.text));
+                           pinController.text));
                       }
                     : null,
               ),
@@ -322,24 +214,64 @@ class _HomeOtpPageState extends State<HomeOtpPage>
     );
   }
 
-  bool checkPinCode(String pin1, String pin2, String pin3, String pin4,
-      String pin5, String pin6) {
-    if (pin1.isEmpty ||
-        pin1 == null ||
-        pin2.isEmpty ||
-        pin2 == null ||
-        pin3.isEmpty ||
-        pin3 == null ||
-        pin4.isEmpty ||
-        pin4 == null ||
-        pin5.isEmpty ||
-        pin5 == null ||
-        pin6.isEmpty ||
-        pin6 == null) {
-      return false;
-    } else {
-      return true;
+ bool checkPinCode(){
+    if(loginType ==LoginType.call){
+      if(pinController.text.length==4){
+        return true;
+      }
+      else{
+        return false;
+      }
     }
+    else if(loginType==LoginType.sendMessage){
+      if(pinController.text.length==6){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    return false;
+ }
+
+  Widget messageOTP(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Expanded(
+        child: PinCodeTextField(
+        height: 100,
+        controller: pinController,
+        defaultBorderColor: HaLanColor.blue,
+        maxLength: 6,
+        textColor: HaLanColor.black,
+          pinBoxDecoration: (Color color){
+            return BoxDecoration(color: HaLanColor.white,
+                borderRadius: BorderRadius.circular(AppSize.getWidth(context, 8)),
+                border: Border.all(
+                  color: HaLanColor.primaryColor,
+                  width: 2.0,));
+          },
+    ),
+      ),
+    ]);
+  }
+
+  Widget callOTP(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      PinCodeTextField(
+        height: 100,
+        controller: pinController,
+        textSize: AppSize.getFontSize(context, 30),
+        maxLength: 4,
+        textColor: HaLanColor.black,
+        pinBoxDecoration: (Color color){
+          return BoxDecoration(color: HaLanColor.white,
+          borderRadius: BorderRadius.circular(AppSize.getWidth(context, 8)),
+          border: Border.all(
+            color: HaLanColor.primaryColor,
+            width: 2.0,));
+        },
+      ),
+    ]);
   }
 
   Widget customTextFormField(
@@ -371,7 +303,7 @@ class _HomeOtpPageState extends State<HomeOtpPage>
           focusNode: focusNode,
           controller: textEditingController,
           textAlign: TextAlign.center,
-          cursorColor: HaLanColor.white,
+          cursorColor: HaLanColor.black,
           inputFormatters: <TextInputFormatter>[
             LengthLimitingTextInputFormatter(1),
           ],

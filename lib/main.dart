@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:halan/base/routes.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/model/entity.dart';
+import 'package:halan/model/enum.dart';
 import 'package:halan/page/bus_booking/bus_booking_page.dart';
 import 'package:halan/page/buses_list/buses_list_home_view.dart';
 import 'package:halan/page/default_page.dart';
@@ -40,6 +43,12 @@ Future<void> main() async {
 
   runApp(MyApp());
   prefs = await SharedPreferences.getInstance();
+  if(Platform.isIOS){
+    prefs.setInt(Constant.platform,PlatformType.iOS);
+  }
+  else if(Platform.isAndroid ){
+    prefs.setInt(Constant.platform,PlatformType.android);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -72,6 +81,7 @@ MaterialPageRoute<dynamic> routeSettings(
   if(data!=null){
     refreshPage = data[Constant.refreshPage] as bool;
   }
+
   switch (settings.name) {
     case RoutesName.splashPage:
       return MaterialPageRoute<dynamic>(
@@ -207,7 +217,7 @@ MaterialPageRoute<dynamic> routeSettings(
     case RoutesName.driverLocationPage:
       return MaterialPageRoute<dynamic>(
         builder: (BuildContext context) => DriverLocationPage(
-          trip: data[Constant.trip] as Trip,
+
         ),
         settings: const RouteSettings(name: RoutesName.driverLocationPage),
       );
