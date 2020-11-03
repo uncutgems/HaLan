@@ -87,6 +87,26 @@ class _BusBookingPageState extends State<BusBookingPage> {
           ),
           PopUpWidget(),
           PopularRoute(),
+          Container(
+            padding: EdgeInsets.only(left:AppSize.getWidth(context, 16),top:AppSize.getWidth(context, 16),right: AppSize.getWidth(context, 16)),
+              color: HaLanColor.primaryColor,
+              child: Center(
+                  child: Text(
+                'Copyright © 2020 Du Lịch Hà Lan.',
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: HaLanColor.white,
+                    fontSize: AppSize.getFontSize(context, 14)),
+              ),),),
+          Container(
+            padding: EdgeInsets.only(bottom:AppSize.getWidth(context, 16),left: AppSize.getWidth(context, 16),right: AppSize.getWidth(context, 16)),
+            color: HaLanColor.primaryColor,
+            child: Center(
+              child: Text(
+                'All rights reserved. Developed by AN VUI JSC',
+                style: Theme.of(context).textTheme.bodyText2.copyWith(
+                    color: HaLanColor.white,
+                    fontSize: AppSize.getFontSize(context, 14)),
+              ),),),
         ],
       ),
       drawer: state is ChangeToHomeBusBookingState ? _drawer(context) : null,
@@ -211,10 +231,16 @@ class _BusBookingPageState extends State<BusBookingPage> {
                     color: HaLanColor.blue),
                 child: IconButton(
                   icon: const ImageIcon(AssetImage('assets/reverse.png')),
-                  onPressed: selectedPoints.isEmpty ? null : () {
-                    selectedPoints = <Point>[selectedPoints[1],selectedPoints[0]];
-                    bloc.add(GetDataBusBookingEvent(dateTime,selectedPoints));
-                  },
+                  onPressed: selectedPoints.isEmpty
+                      ? null
+                      : () {
+                          selectedPoints = <Point>[
+                            selectedPoints[1],
+                            selectedPoints[0]
+                          ];
+                          bloc.add(
+                              GetDataBusBookingEvent(dateTime, selectedPoints));
+                        },
                   color: HaLanColor.white,
                 ),
               ),
