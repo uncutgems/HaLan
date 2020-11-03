@@ -99,7 +99,7 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
       onTap: () {
         Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,
             arguments: <String, dynamic>{
-              Constant.tickets: <Ticket>[ticket]
+              Constant.tickets: ticket.ticketCode
             });
       },
       child: Container(
@@ -220,7 +220,8 @@ class _HistoryHomePageState extends State<HistoryHomePage> {
                 children: <Widget>[
                   Expanded(
                     child: AVButton(
-                      height: AVSize.getSize(context, 32),
+                      color: HaLanColor.primaryColor,
+                      height: AVSize.getSize(context, 40),
                       title: 'Đăng nhập',
                       onPressed: () {
                         Navigator.pushNamed(context, RoutesName.homeSignInPage);

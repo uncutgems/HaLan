@@ -52,7 +52,7 @@ void showMessage(
     @required String message,
     List<Widget> actions}) {
   actions ??= <Widget>[];
-  actions.add(AVButton(title: 'Đóng', onPressed: () => Navigator.pop(context)));
+  actions.add(AVButton(color: HaLanColor.primaryColor,title: 'Đóng', onPressed: () => Navigator.pop(context)));
   showDialog<dynamic>(
     context: context,
     builder: (BuildContext context) {
