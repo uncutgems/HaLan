@@ -40,3 +40,19 @@ class TransportType{
   static const int road=2;
   static const int transshipment=3;
 }
+
+class NotificationType {
+  static const int createTicketSuccess = 100;
+  static const int vehicleComing = 101;
+  static const int comingGetOffPointSoon = 102;
+  static const int onTheTrip = 104;
+  static const int sendThanksToGuest = 105;
+  static const int assistantPickUp = 212;
+  static const int createTicketFailed = 1001;
+  static const int cancelTicketSuccess = 1002;
+  static const int paymentSuccessfully = 6;
+  static const int paymentFail = 7;
+  static const int systemNotification = 1;
+  static const int newSchedule = 200;
+  static const int cancelTicket = 304;
+}

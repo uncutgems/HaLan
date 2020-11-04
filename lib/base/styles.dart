@@ -41,6 +41,7 @@ final AppBarTheme appBarTheme = AppBarTheme(
   color: HaLanColor.backgroundColor,
   brightness: Brightness.light,
   actionsIconTheme: iconThemeData,
+
   textTheme: textTheme.copyWith(
       headline6: textTheme.headline6),
 );

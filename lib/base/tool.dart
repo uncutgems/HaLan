@@ -235,3 +235,36 @@ String currencyFormat(int param, String unit) {
   result = result.replaceAll(',', '.');
   return result + unit;
 }
+
+String readNotificationType(int notificationCode) {
+  if (notificationCode == 100){
+    return 'Tạo vé thành công';
+  }
+  else if (notificationCode == 101){
+    return 'Phương tiện sắp tới';
+  }else if (notificationCode == 102){
+    return 'Sắp tới điểm trả';
+  }else if (notificationCode == 104){
+    return 'Đang di chuyển';
+  }else if (notificationCode == 105){
+    return 'Cảm ơn quý khách';
+  }else if (notificationCode == 212){
+    return 'Gì đó';
+  }else if (notificationCode == 1001){
+    return 'Tạo vé thất bại';
+  }else if (notificationCode == 1002){
+    return 'Hủy vé thành công';
+  }else if (notificationCode == 6){
+    return 'Thanh toán thành công';
+  }else if (notificationCode == 7){
+    return 'Thanh toán thất bại';
+  }else if (notificationCode == 1){
+    return 'Thông báo hệ thống';
+  }else if (notificationCode == 200){
+    return 'Lịch mới';
+  }else if (notificationCode == 304){
+    return 'Hủy vé';
+  }
+
+  return 'Thông báo';
+}

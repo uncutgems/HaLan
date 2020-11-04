@@ -17,13 +17,14 @@ class ShowMoreNotifications extends NotificationState{
   final List<NotificationEntity> notifications;
 }
 
-class SeeNotification extends NotificationState{
-  SeeNotification(this.checked);
 
-  final bool checked;
+class LoadingNotifications extends NotificationState{}
+
+class LoadingMoreNotification extends NotificationState{
+  LoadingMoreNotification(this.notifications);
+
+  final List<NotificationEntity> notifications;
 }
-
-class LoadingNotification extends NotificationState{}
 
 class FailedToLoadNotification extends NotificationState{
   FailedToLoadNotification(this.message);

@@ -16,9 +16,3 @@ class CallMoreNotification extends NotificationEvent{
   final int page;
   final int count;
 }
-
-class CheckNotification extends NotificationEvent{
-  CheckNotification(this.checked);
-
-  final bool checked;
-}

@@ -88,7 +88,7 @@ Future<AVResponse> callPOST({
   _headers[Constant.contentType] = 'application/json';
   _headers[Constant.headerDOBODY6969] =
       prefs.getString(Constant.token).toString();
- _headers[Constant.headerDOBODY6969] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDQzOTI2MDcsImp0aSI6IlVTMEhwMXR3VTJ3MUJUMGEifQ.gQ53wV0rCgQUg2xoeBkjAm9sIQU0a_1h-EWHM0P0n1U';
+ _headers[Constant.headerDOBODY6969] = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDQ0ODM3MTcsImp0aSI6IlVTMEhwMXR3VTJ3MUJUMGEifQ.ARjeM5j6rmkv_VLMKzH2jJM0JBkei2jzv_42dEtDSl8eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUQzA4WjFxSEhaQnhsTkx0IiwiaXNzIjoiYW52dWkiLCJleHAiOjE2MDQ1NjA2ODcsImp0aSI6IlVTMEhwMXR3VTJ3MUJUMGEifQ.7XdrnjbbSUr9C5321xfR4sJ90t6z7NQn0Np6t27Mqoo';
 
   if (body is List) {
     for (final dynamic item in body) {
