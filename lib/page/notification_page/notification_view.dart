@@ -8,6 +8,7 @@ import 'package:halan/base/color.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
 import 'package:halan/base/tool.dart';
+import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
 
 import 'notification_bloc.dart';
@@ -53,7 +54,11 @@ class _NotificationPageState extends State<NotificationPage> {
       body: BlocBuilder<NotificationBloc, NotificationState>(
         cubit: notificationBloc,
         buildWhen: (NotificationState previous, NotificationState current){
-          return false;
+          if (current is FailedToLoadNotification){
+            showMessage(context: context, message: current.message);
+            return false;
+          }
+          return true;
         },
         builder: (BuildContext context, NotificationState state) {
           if (state is ShowNotifications) {
