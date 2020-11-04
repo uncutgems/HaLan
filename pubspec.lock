@@ -252,7 +252,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "3.0.1+2"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -309,7 +309,7 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.33"
+    version: "1.0.5"
   google_maps_flutter_platform_interface:
     dependency: transitive
     description:

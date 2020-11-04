@@ -126,6 +126,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: _drawer(context),
       body: ListView(
+        physics: const ClampingScrollPhysics(),
         children: <Widget>[
          homeStateTop(context,(){Navigator.pushNamed(context, RoutesName.busBookingPage);}),
           PopUpWidget(),
