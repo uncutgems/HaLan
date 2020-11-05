@@ -1,13 +1,14 @@
-import 'package:avwidget/av_alert_dialog_widget.dart';
 import 'package:avwidget/popup_loading_widget.dart';
 import 'package:avwidget/size_tool.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:halan/base/color.dart';
+import 'package:halan/base/constant.dart';
+import 'package:halan/base/routes.dart';
 import 'package:halan/base/size.dart';
 import 'package:halan/base/styles.dart';
-import 'package:halan/base/tool.dart';
+import 'package:halan/base/tool.dart' as tool;
 import 'package:halan/base/tools.dart';
 import 'package:halan/model/entity.dart';
 
@@ -53,8 +54,8 @@ class _NotificationPageState extends State<NotificationPage> {
       ),
       body: BlocBuilder<NotificationBloc, NotificationState>(
         cubit: notificationBloc,
-        buildWhen: (NotificationState previous, NotificationState current){
-          if (current is FailedToLoadNotification){
+        buildWhen: (NotificationState previous, NotificationState current) {
+          if (current is FailedToLoadNotification) {
             showMessage(context: context, message: current.message);
             return false;
           }
@@ -75,6 +76,9 @@ class _NotificationPageState extends State<NotificationPage> {
           if (state is LoadingMoreNotification) {
             return _someNotification(context, state.notifications);
           }
+          if (state is OpenANotification) {
+            return _someNotification(context, state.notifications);
+          }
           return const Center(child: AVLoadingWidget());
         },
       ),
@@ -83,17 +87,17 @@ class _NotificationPageState extends State<NotificationPage> {
 
   Widget _someNotification(
       BuildContext context, List<NotificationEntity> notificationList) {
-    return Column(children: <Widget>[
-      Expanded(
-          child: ListView.builder(
-              controller: _scrollController,
-              itemCount: notificationBloc.notifications.length,
-              itemBuilder: (BuildContext context, int index) {
-                final NotificationEntity notificationEntity =
-                    notificationList[index];
-                return _notificationBlock(notificationEntity);
-              })),
-    ]);
+    return Container(
+        padding: EdgeInsets.fromLTRB(
+            AVSize.getSize(context, 8), 0, AVSize.getSize(context, 8), 0),
+        child: ListView.builder(
+            controller: _scrollController,
+            itemCount: notificationBloc.notifications.length,
+            itemBuilder: (BuildContext context, int index) {
+              final NotificationEntity notificationEntity =
+                  notificationList[index];
+              return _notificationBlock(notificationEntity);
+            }));
   }
 
   void _scrollListener() {
@@ -106,17 +110,30 @@ class _NotificationPageState extends State<NotificationPage> {
   }
 
   Widget _notificationBlock(NotificationEntity notificationEntity) {
-    // if (notificationEntity == null){
-    //   return Container(
-    //     height: 50.0,
-    //     color: Colors.transparent,
-    //     child: const Center(
-    //       child: AVLoadingWidget(),
-    //     ),
-    //   );
-    // }
+    if (notificationEntity == null) {
+      return Container(
+        height: 50.0,
+        color: Colors.transparent,
+        child: const Center(
+          child: AVLoadingWidget(),
+        ),
+      );
+    }
     return GestureDetector(
-      onTap: () {},
+      onTap: () async {
+        if (notificationEntity.notificationCode == 100) {
+          final String ticketCode = notificationEntity.objectId.split('|')[1];
+          final bool refresh = await Navigator.pushNamed(context, RoutesName.editProfile) as bool;
+          if(refresh) {
+            Navigator.pushNamed(context, RoutesName.historyTicketDetailPage,
+                arguments: <String, dynamic>{Constant.ticketCode: ticketCode});
+            notificationBloc.add(ClickOnANotification(
+                notificationBloc.notifications,
+                notificationBloc.notifications.indexOf(notificationEntity)));
+          }
+
+        }
+      },
       child: Padding(
         padding: EdgeInsets.all(AppSize.getWidth(context, 4)),
         child: Material(
@@ -135,7 +152,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      readNotificationType(
+                      tool.readNotificationType(
                           notificationEntity.notificationCode),
                       style: textTheme.subtitle2
                           .copyWith(fontWeight: FontWeight.w600),
@@ -148,7 +165,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   ],
                 ),
                 Container(
-                  height: 4,
+                  height: AVSize.getSize(context, 4),
                 ),
                 Text(
                   notificationEntity.notificationContent,

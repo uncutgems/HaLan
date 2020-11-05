@@ -31,3 +31,10 @@ class FailedToLoadNotification extends NotificationState{
 
   final String message;
 }
+
+class OpenANotification extends NotificationState{
+  OpenANotification(this.notifications, this.notificationPosition);
+
+  final List<NotificationEntity> notifications;
+  final int notificationPosition;
+}

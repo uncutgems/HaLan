@@ -27,6 +27,8 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       yield* _mapCallNotificationAPIToState(event);
     } else if (event is CallMoreNotification) {
       yield* _mapCallMoreNotification(event);
+    } else if (event is ClickOnANotification) {
+      yield* _mapOpenANotification(event);
     }
   }
 
@@ -37,6 +39,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       final List<NotificationEntity> displayList = await _notificationRepository
           .showNotification(event.page, event.count);
       notifications = displayList;
+
       // notifications.add(null);
       yield ShowNotifications(notifications);
     } on APIException catch (e) {
@@ -55,6 +58,19 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       notifications.addAll(displayList);
       notifications.add(null);
       yield ShowMoreNotifications(notifications);
+    } on APIException catch (e) {
+      yield FailedToLoadNotification(e.message());
+    }
+  }
+
+  Stream<NotificationState> _mapOpenANotification(
+      ClickOnANotification event) async* {
+    try {
+      notifications[event.notificationPosition].copyWith(isRead: true);
+      final NotificationEntity notificationEntity =
+          await _notificationRepository.readNotification(
+              notifications[event.notificationPosition].notificationId);
+      yield OpenANotification(notifications, event.notificationPosition);
     } on APIException catch (e) {
       yield FailedToLoadNotification(e.message());
     }

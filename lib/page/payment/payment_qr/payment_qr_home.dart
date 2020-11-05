@@ -140,7 +140,7 @@ class _PaymentQRHomePageState extends State<PaymentQRHomePage> {
     RenderRepaintBoundary boundary = previewContainer.currentContext
         .findRenderObject() as RenderRepaintBoundary;
 
-    if (boundary.debugNeedsPaint) {
+    if (boundary.debugNeedsPaint != null) {
       print('Waiting for boundary to be painted.');
       await Future<void>.delayed(const Duration(milliseconds: 20));
       boundary = previewContainer.currentContext.findRenderObject()

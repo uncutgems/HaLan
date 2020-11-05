@@ -239,8 +239,7 @@ String currencyFormat(int param, String unit) {
 String readNotificationType(int notificationCode) {
   if (notificationCode == 100){
     return 'Tạo vé thành công';
-  }
-  else if (notificationCode == 101){
+  } else if (notificationCode == 101){
     return 'Phương tiện sắp tới';
   }else if (notificationCode == 102){
     return 'Sắp tới điểm trả';

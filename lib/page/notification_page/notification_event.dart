@@ -16,3 +16,10 @@ class CallMoreNotification extends NotificationEvent{
   final int page;
   final int count;
 }
+
+class ClickOnANotification extends NotificationEvent{
+  ClickOnANotification(this.notifications, this.notificationPosition);
+
+  final List<NotificationEntity> notifications;
+  final int notificationPosition;
+}
